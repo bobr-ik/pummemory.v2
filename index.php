@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ПУМ</title>
+	<link rel="stylesheet" href="./src/leaflet/leaflet.css"/> <!-- LEAFLET STYLES -->
+	<link rel="stylesheet" type="text/css" href="./CSS/style.css"> <!-- OUR STYLES -->
+	<link rel="stylesheet" type="text/css" href="./CSS/map.css"> <!-- OUR STYLES -->
+	<?php /* <link rel="stylesheet" type="text/css" href="./CSS/preloader.css"> <!-- OUR STYLES --> */ ?>
+	<link rel="stylesheet" type="text/css" href="./CSS/search-box.css"> <!-- OUR STYLES -->
+	<link rel="stylesheet" type="text/css" href="./CSS/timeline.css"> <!-- OUR STYLES -->
+	<link rel="stylesheet" type="text/css" href="./CSS/social-bar.css"> <!-- OUR STYLES -->
+	<script src="src/leaflet/leaflet.js"></script> <!-- LEAFLET CODE -->
+	<script src="src/leaflet/leaflet-providers.js"></script> <!-- LEAFLET MAP LIB -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> <!-- FONT AWESOME LIB -->
+	<script src="./src/jquery.min.js"></script> <!-- JQUERY -->
+	<script src="./src/data.js" charset="UTF-8" type="text/javascript"></script> <!-- OUR DATA -->
+	<script> let year = 1940 </script>
+</head>
+<body>
+   <?php
+
+		$year = ( (bool) $_GET['year'] && (int) $_GET['year']>=1940 && (int) $_GET['year']<=1945 ) ? (int) $_GET['year'] : 1940; //get year
+
+		//connect to db
+		$mysqli = new mysqli ("localhost:3306", "pummemory_pummemory", "zzGH908!", "pummemory_persons"); //connect to DB
+		$mysqli -> query ("SET NAMES 'utf8'"); //settings of DB
+		$table = $mysqli -> query ("SELECT * FROM `table 11`"); //get table from DB
+
+
+		//print result
+		function print_res( $res, $year ) { 
+			if($year==1940) {
+				$loc = "COL 30";
+			} else {
+				$loc = "COL " . ($year - 1940 + 24); //get position in this year
+			}
+			
+			echo('<script>let data = [');
+			while ( ($row = $res->fetch_assoc()) != false ) {
+				if( $row['id']!="1" ) {
+					echo('addPerson("' . $row['COL 3'] . '","' . $row[$loc] . '","' . $row['COL 6'] . '","' . $row['id'] . '"),');
+				}
+			}
+			echo("]; year = " . $year . "</script>");
+		}
+	
+    
+    	//close connection
+    	$mysqli -> close (); //close connection
+   	
+    	//qork with data
+    	print_res( $table, $year ); //change table in JS code
+
+	?>
+	<?php /*  <div id="preloader"> <!-- Preloader -->
+		<div class="logo"> <!-- Icon of mai -->
+			<img class="outline" src="./src/mai/outline.svg"/>
+			<img class="zero-back" src="./src/mai/background-hover.svg"/>
+			<div class="back-frame">
+				<img class="background" src="./src/mai/background.svg"/>
+			</div>
+			<img class="pict" src="./src/mai/logo.svg"/>
+		</div>
+		<div class="prompt">
+			<p>Если вашего участника войны нет на карте, то поробуйте ввести его ФИО в поиске</p>
+		</div>
+	</div> */ ?>
+
+	<div class="social-bar">
+		<a target="_blank" href="https://vk.com/mai_preduniversariy" class="facebook"><i class="fab fa-vk"></i></a> 
+		<a target="_blank" href="https://www.instagram.com/mai_preduniversariy/?igshid=1wx0wyn2zg9hg" class="instagram"><i class="fab fa-instagram"></i></a> 
+		<a target="_blank" href="#" class="tg"><i class="fab fa-telegram-plane"></i></a> 
+		<a target="_blank" href="https://www.facebook.com/%D0%9F%D1%80%D0%B5%D0%B4%D1%83%D0%BD%D0%B8%D0%B2%D0%B5%D1%80%D1%81%D0%B0%D1%80%D0%B8%D0%B9-%D0%9C%D0%90%D0%98-101422051284797" class="facebook"><i class="fab fa-facebook-f"></i></i></a>
+		<a target="_blank" href="https://preduniversariy-mai.mskobr.ru/#/" class="google"><i class="fab fa-google"></i></a> 
+	</div>
+
+	
+	<?php /* <script src="./JS/preloader.js"></script> <!-- Code to preloader --> */ ?>
+	<script src="./JS/functions.js"></script>
+	<div id="main"> <!-- Main group -->
+		<div id="map"></div>
+		<div id="timeline"> <!-- Years below -->
+			<div class="container">
+  				<ul>
+  					<li class="zero 1940"><a href="?year=1940">1940</a></li><!--
+ 				 --><li class="one 1941"><a href="?year=1941">1941</a></li><!--
+ 				 --><li class="two 1942"><a href="?year=1942">1942</a></li><!--
+ 				 --><li class="three 1943"><a href="?year=1943">1943</a></li><!--
+ 				 --><li class="four 1944"><a href="?year=1944">1944</a></li><!--
+ 				 --><li class="five 1945"><a href="?year=1945">1945</a></li>
+    				<hr class="curs" />
+  				</ul>
+			</div>
+		</div>
+		<script src="./JS/map.js"></script>
+		<div class="nav-bar"> <!-- SEARCH -->
+			<div class="search-box">
+				<input class="search-txt" type="text" placeholder="поиск...">
+				<button class="search-btn" href="#">
+					<i class="fas fa-search icon"></i>
+				</button>
+			</div>
+			<div class="hints">
+				<ul>
+				</ul>
+			</div>
+			<script src="./JS/search.js"></script>
+			<script src="./JS/bubble_click.js"></script>
+		</div>
+	</div>
+
+	<!-- INCLUDE CODE -->
+	<script>
+		//cosmetics
+	    let c = $("."+String(year))[0].getAttribute("class")
+        $("."+String(year))[0].setAttribute("class",c+" choosed")
+	</script>
+	<script src="./JS/code.js"></script>
+</body>
+</html>

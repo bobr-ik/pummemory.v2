@@ -1,0 +1,51 @@
+body,html {
+	margin:0;
+	padding: 0;
+	overflow: hidden ;
+	font: 300 100% 'Helvetica Neue', Helvetica, Arial;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.fil0 {fill:#444444}
+.fil1 {fill:#FEFEFE}
+
+#preloader {
+  width: 100%;
+  height: 100%;
+  background: #262626;
+  z-index: 5001;
+  position: absolute;
+}
+
+#preloader .mai {
+  width:50%;
+  height:50%;
+  position:absolute;
+  top:50%; left: 50% ;
+  transform: translate(-50%,-50%);
+}
+
+
+
+#main {
+	width: 100vw ;
+	height: 100vh ;
+	position: relative;
+}
+
+#main #map {
+	position: absolute;	
+	width:100%;
+	height:100%;
+	background: black;
+}
+
+#main #timeline {
+	position: absolute;
+	width:100%;
+	height: 80px ;
+	z-index:5000;
+}

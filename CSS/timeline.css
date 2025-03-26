@@ -1,0 +1,89 @@
+#timeline {
+	position: absolute;
+	bottom:0;
+}
+
+
+.container {
+  position:absolute;
+  bottom:0;
+  left: 50% ;
+  width: 80% ;
+  transform: translateX(-50%);
+}
+
+.container ul li {
+  display: inline;
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 5px solid grey ;
+  transition: .3s ease-in-out;
+}
+
+.container ul li a {
+  display: inline-block;
+  width: 16%;
+  margin-bottom: .5rem ;
+  margin: 0;
+  text-decoration: none;
+  color: grey;
+  font-size: 2rem ;
+  transition: .3s ease-in-out;
+}
+
+.container ul li:hover, .container .choosed {
+  padding-bottom: 18px;
+  border-bottom: 7px solid white ;
+}
+
+.container ul li:hover a, .container .choosed a {
+  color:white;
+  font-size: 2.5rem ;
+}
+
+
+.container .zero:hover ~ .curs {
+  margin-left: 8%;
+  opacity: 1 ;
+}
+
+.container .one:hover ~ .curs {
+  margin-left: 24%;
+  opacity: 1 ;
+}
+
+.container .two:hover ~ .curs {
+  margin-left: 40%;
+  opacity: 1;
+}
+
+.container .three:hover ~ .curs {
+  margin-left: 56%;
+  opacity: 1 ;
+}
+
+.container .four:hover ~ .curs {
+  margin-left: 72%;
+  opacity: 1 ;
+}
+
+.container .five:hover ~ .curs {
+  margin-left: 88% ;
+  opacity: 1 ;
+}
+
+
+.curs {
+  height: .5rem;
+  width: .5em;
+  margin: 0;
+  background: white;
+  border: none;
+  position: relative ;
+  top: 13px ;
+  opacity: 0 ;
+  margin-left: 47.5%;
+  transition: .3s ease-in-out;
+  transform: translate( -50%,-50% ) rotate( 45deg ) ;
+}
+

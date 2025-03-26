@@ -1,0 +1,102 @@
+.leaflet-marker-pane .leaflet-marker-icon {
+}
+
+.leaflet-popup-pane .leaflet-popup {
+	bottom: 0px !important;
+	left: 20px  !important;
+}
+
+.leaflet-popup-pane .leaflet-popup-tip-container {
+	opacity:0;
+}
+
+.leaflet-popup-content-wrapper {
+	border-radius: 0px;
+	background:#9e9e9e4d;
+	width:200px;
+	height:330px;
+	padding: 0;
+}
+
+.leaflet-fade-anim .leaflet-popup {
+  transition: 0;
+}
+
+.leaflet-popup-close-button {display:none;}
+
+.leaflet-popup-content {
+	position:absolute;
+	margin: 0;
+	padding:0;
+	width:100%;
+	height:100%;
+	overflow: hidden;
+}
+
+.leaflet-popup-content .content {
+    width: 200px;
+    height: 330px;
+}
+
+.hide {
+	display:none;
+}
+
+.leaflet-popup-content .image {
+    width: 200px;
+    height: 190px;
+    position: relative;
+    text-align:center;
+}
+
+.leaflet-popup-content .image img {
+	height:calc(100% - 50px);
+	margin: 20px 0px ;
+}
+
+.leaflet-popup-content .info {
+    width: 200px;
+    height: 90px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color:white;
+}
+
+.leaflet-popup-content .goTo {
+	background: #262626;
+    width: 200px;
+    height: 50px;
+}
+
+.leaflet-popup-content .goTo .hov_line {
+	position:absolute;
+	width:0%;
+	height:50px;
+	background:white;
+	transition: .5s;
+}
+
+.leaflet-popup-content .goTo:hover .hov_line {
+	width:100%;
+}
+
+.leaflet-popup-content .goTo:hover {
+	cursor: pointer ;
+}
+
+.leaflet-popup-content .goTo:hover span {
+	color:#262626;
+}
+
+.leaflet-popup-content .goTo span {
+	position:absolute;
+	width:100%;
+	text-align:center;
+	font-size:15px;
+	font-weight: bold;
+	margin-top: 15px ;
+	color:white;
+}
+
+.leaflet-control-zoom, .leaflet-control-attribution {display: none !important;}

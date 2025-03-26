@@ -1,0 +1,23 @@
+.social-bar {
+	position: absolute;
+	z-index: 9800;
+	top: 50vh ;
+	transform: translateY(-50%) ;
+	border-left: none;
+    background: #353535a8;
+    transition: 2s ;
+    overflow:hidden;
+}
+
+.social-bar a {
+	display: block;
+	padding: 10px ;
+	font-size: 20px ;
+	color: white ;
+	background: none;
+	transition: .2s ;
+}
+
+.social-bar a:hover {
+	background: #80808052 ;
+}
