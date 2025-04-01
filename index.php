@@ -23,6 +23,7 @@
 		$year = ( (bool) $_GET['year'] && (int) $_GET['year']>=1940 && (int) $_GET['year']<=1945 ) ? (int) $_GET['year'] : 1940; //get year
 
 		//connect to db
+		// test
 		$mysqli = new mysqli ("localhost:3306", "pummemory_pummemory", "zzGH908!", "pummemory_persons"); //connect to DB
 		$mysqli -> query ("SET NAMES 'utf8'"); //settings of DB
 		$table = $mysqli -> query ("SELECT * FROM `table 11`"); //get table from DB
