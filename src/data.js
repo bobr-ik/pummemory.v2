@@ -1,4 +1,4 @@
-function addPerson( fio,location,photo,id ) {
+function addPerson( fio, location, photo, id ) {
 	fio = fio.split(" ")
 	return {
 		name       : fio[0],
