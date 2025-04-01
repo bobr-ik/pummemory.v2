@@ -28,7 +28,8 @@ function addMarker( info={} ) {
 	if( info.location==false ) info.location = [0,0];
 	
 	//create marker
-	let marker = L.marker( [info.location[0] + Math.random()*2-1, info.location[1] + Math.random()*2-1],{icon:icon} );
+	let marker = L.marker([info.location[0], info.location[1]], { icon: icon });
+	console.log(info.location)
 	marker.addTo(map);
 
 	//connect with shadow
