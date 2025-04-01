@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="./src/leaflet/leaflet.css"/> <!-- LEAFLET STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/style.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/map.css"> <!-- OUR STYLES -->
-	<?php /* <link rel="stylesheet" type="text/css" href="./CSS/preloader.css"> <!-- OUR STYLES --> */ ?>
+	<link rel="stylesheet" type="text/css" href="./CSS/preloader.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/search-box.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/timeline.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/social-bar.css"> <!-- OUR STYLES -->
@@ -18,54 +18,10 @@
 	<script> let year = 1940 </script>
 </head>
 <body>
-   <?php
-
-		$year = ( (bool) $_GET['year'] && (int) $_GET['year']>=1940 && (int) $_GET['year']<=1945 ) ? (int) $_GET['year'] : 1940; //get year
-
-		//connect to db
-		$mysqli = new mysqli ("localhost:3306", "pummemory_pummemory", "zzGH908!", "pummemory_persons"); //connect to DB
-		$mysqli -> query ("SET NAMES 'utf8'"); //settings of DB
-		$table = $mysqli -> query ("SELECT * FROM `table 11`"); //get table from DB
-
-
-		//print result
-		function print_res( $res, $year ) { 
-			if($year==1940) {
-				$loc = "COL 30";
-			} else {
-				$loc = "COL " . ($year - 1940 + 24); //get position in this year
-			}
-			
-			echo('<script>let data = [');
-			while ( ($row = $res->fetch_assoc()) != false ) {
-				if( $row['id']!="1" ) {
-					echo('addPerson("' . $row['COL 3'] . '","' . $row[$loc] . '","' . $row['COL 6'] . '","' . $row['id'] . '"),');
-				}
-			}
-			echo("]; year = " . $year . "</script>");
-		}
-	
-    
-    	//close connection
-    	$mysqli -> close (); //close connection
-   	
-    	//qork with data
-    	print_res( $table, $year ); //change table in JS code
-
-	?>
-	<?php /*  <div id="preloader"> <!-- Preloader -->
-		<div class="logo"> <!-- Icon of mai -->
-			<img class="outline" src="./src/mai/outline.svg"/>
-			<img class="zero-back" src="./src/mai/background-hover.svg"/>
-			<div class="back-frame">
-				<img class="background" src="./src/mai/background.svg"/>
-			</div>
-			<img class="pict" src="./src/mai/logo.svg"/>
-		</div>
-		<div class="prompt">
-			<p>Если вашего участника войны нет на карте, то поробуйте ввести его ФИО в поиске</p>
-		</div>
-	</div> */ ?>
+	<script>
+		const url_params = new URLSearchParams(window.location.search)
+		year = Math.min(Math.max(parseInt(url_params.get('year'), 10), 1940), 1945)
+	</script>
 
 	<div class="social-bar">
 		<a target="_blank" href="https://vk.com/mai_preduniversariy" class="facebook"><i class="fab fa-vk"></i></a> 
@@ -76,7 +32,6 @@
 	</div>
 
 	
-	<?php /* <script src="./JS/preloader.js"></script> <!-- Code to preloader --> */ ?>
 	<script src="./JS/functions.js"></script>
 	<div id="main"> <!-- Main group -->
 		<div id="map"></div>
@@ -110,9 +65,7 @@
 		</div>
 	</div>
 
-	<!-- INCLUDE CODE -->
 	<script>
-		//cosmetics
 	    let c = $("."+String(year))[0].getAttribute("class")
         $("."+String(year))[0].setAttribute("class",c+" choosed")
 	</script>
