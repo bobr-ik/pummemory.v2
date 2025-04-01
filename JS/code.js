@@ -12,7 +12,7 @@ for( let i in images ) {
 	img.src = images[i];
 	img.onload = function() {
 		loaded_images++;
-		setProgress( loaded_images/images.length*100 );
+		// setProgress( loaded_images/images.length*100 );
 		console.log( loaded_images/images.length*100 );
 	}
 }

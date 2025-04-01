@@ -15,13 +15,15 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> <!-- FONT AWESOME LIB -->
 	<script src="./src/jquery.min.js"></script> <!-- JQUERY -->
 	<script src="./src/data.js" charset="UTF-8" type="text/javascript"></script> <!-- OUR DATA -->
-	<script src="./JS/preloader.js"></script>
+	<!-- <script src="./JS/preloader.js"></script> -->
 	<script> let year = 1940 </script>
 </head>
 <body>
 	<script>
 		const url_params = new URLSearchParams(window.location.search)
-		year = Math.min(Math.max(parseInt(url_params.get('year'), 10), 1940), 1945)
+		year_from_url = url_params.get('year')
+
+		year = year_from_url ? Math.min(Math.max(parseInt(year_from_url, 10), 1940), 1945) : 1940
 		data = [
 			{
 				name       : 'a',
@@ -36,19 +38,7 @@
 		
 	</script>
 
-	<div id="preloader"> <!-- Preloader -->
-		<div class="logo"> <!-- Icon of mai -->
-			<img class="outline" src="./src/mai/outline.svg"/>
-			<img class="zero-back" src="./src/mai/background-hover.svg"/>
-			<div class="back-frame">
-				<img class="background" src="./src/mai/background.svg"/>
-			</div>
-			<img class="pict" src="./src/mai/logo.svg"/>
-		</div>
-		<div class="prompt">
-			<p>Если вашего участника войны нет на карте, то поробуйте ввести его ФИО в поиске</p>
-		</div>
-	</div>
+	
 
 	<div class="social-bar">
 		<a target="_blank" href="https://vk.com/mai_preduniversariy" class="facebook"><i class="fab fa-vk"></i></a> 
