@@ -15,12 +15,25 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> <!-- FONT AWESOME LIB -->
 	<script src="./src/jquery.min.js"></script> <!-- JQUERY -->
 	<script src="./src/data.js" charset="UTF-8" type="text/javascript"></script> <!-- OUR DATA -->
+	<script src="./JS/preloader.js"></script>
 	<script> let year = 1940 </script>
 </head>
 <body>
 	<script>
 		const url_params = new URLSearchParams(window.location.search)
 		year = Math.min(Math.max(parseInt(url_params.get('year'), 10), 1940), 1945)
+		data = [
+			{
+				name       : 'a',
+				surname    : 'b',
+				patronymic : 'c',
+				location   : '55.7539, 37.6208',
+				img_url    : './src/photo.jpg',
+				visible    : true,
+				id         : 1,
+			}
+		]
+		
 	</script>
 
 	<div class="social-bar">
