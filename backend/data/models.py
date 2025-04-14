@@ -35,7 +35,7 @@ class Person(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str_256]
     desc: Mapped[Optional[Text]] = mapped_column(default = "")
-    time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now())
+    time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
     rewards: Mapped[Optional[list["Rewards"]]] = relationship("Rewards", secondary=person_rewards, back_populates="ppl_got", default = [])
     info: Mapped[list['Info']] = relationship(back_populates="pers")
 
