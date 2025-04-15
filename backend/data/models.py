@@ -54,22 +54,14 @@ class Info(Base):
     year: Mapped[Year] = mapped_column(Enum(Year))
     pers: Mapped[list["Person"]] = relationship(back_populates="info")
     place: Mapped[Optional[Coordinates]] = mapped_column(JSONB, default=None)
-    desc: Mapped[Optional[Text]] = mapped_column(default = "")
-    photos: Mapped[Optional[list["InfoPhotos"]]] = relationship(back_populates="year")
-
-
-class InfoPhotos(Base):
-    __tablename__ = "info_photos"
-    year_id: Mapped[int] = mapped_column(ForeignKey("info.id"), primary_key=True)
-    photo_id: Mapped[int] = mapped_column(ForeignKey("photos.id"), primary_key=True)
-    year: Mapped['Info'] = relationship(back_populates="photos")
-    photo: Mapped['Photos'] = relationship(back_populates="info")
+    desc: Mapped[Optional[Text]] = mapped_column(default="")
+    photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="year")
     
-class Photos(Base):
+class Photo(Base):
     __tablename__ = "photos"
     id: Mapped[int] = mapped_column(primary_key=True)
     year: Mapped[Year] = mapped_column(Enum(Year))  # Указан правильный тип Enum для Year
     url: Mapped[str_256]
     pers_id: Mapped[int] = mapped_column(ForeignKey("person.id"))
-    info: Mapped['InfoPhotos'] = relationship(back_populates="photo")
+    info: Mapped['Info'] = relationship(back_populates="photo")
 
