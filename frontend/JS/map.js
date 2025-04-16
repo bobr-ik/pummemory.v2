@@ -6,9 +6,31 @@ let sets = {
 let map = L.map('map',{
 	center   : [50.380049, 20.606890],
 	zoom     : 4,
-	maxZoom  : 10,
+	maxZoom  : 100,
 	minZoom  : 4,
 })
+
+let markerCluster = L.markerClusterGroup({
+	iconCreateFunction: function(cluster) {
+		let count = cluster.getChildCount();
+
+		let size = 'small';
+		if (count >= 4) size = 'medium';
+		if (count >= 6) size = 'large';
+
+		return L.divIcon({
+			html: `<span>${count}</span>`,
+			className: 'custom-cluster custom-cluster-' + size,
+			iconSize: L.point(40, 40)
+		});
+	},
+	showCoverageOnHover: false,
+	spiderfyOnMaxZoom: true,
+	disableClusteringAtZoom: 10,
+});
+
+
+map.addLayer(markerCluster);
 
 L.tileLayer.provider('CartoDB.DarkMatter').addTo(map);
 
@@ -30,7 +52,7 @@ function addMarker( info={} ) {
 	//create marker
 	let marker = L.marker([info.location[0], info.location[1]], { icon: icon });
 	console.log(info.location)
-	marker.addTo(map);
+	markerCluster.addLayer(marker);
 
 	//connect with shadow
 	if(marker._icon) marker._icon.shadow = marker._shadow;
