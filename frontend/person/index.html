@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>Истории с Войны</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="icon/12.png" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js" integrity="sha256-HkXXtFRaflZ7gjmpjGQBENGnq8NIno4SDNq/3DbkMgo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="person.css">
+</head>
+
+<body>
+    <button onclick="topFunction()" id="myBtn" class="icofont fa fa-angle-up" title="Перенестить на верхушку страницы"></button>
+    
+    <div class="header">
+        <button class="button" id="button1" onclick="back_button()">Назад</button>
+    </div>
+
+    <div class="wrapper">
+        <div class="footer">
+            <button class="accordion" id="Bee">Биография <span id="buttonName"></span></button>
+            <div class="panel">
+                <h5><br /><span id="biographyText"></span><br /><br /><span id="medalsText"></span></h5>
+
+                <div class="slider">
+                    <div class="slider__wrapper">
+                        <div class="slider__items" id="biographySlider">
+                            <!-- Images will be inserted here by JavaScript -->
+                        </div>
+                    </div>
+                    <a class="slider__control slider__control_prev" href="#" role="button"></a>
+                    <a class="slider__control slider__control_next" href="#" role="button"></a>
+                </div>
+            </div>
+
+            <button class="accordion" id="Bee">Фотографии, связанные с <span id="yearTitle"></span> годом</button>
+            <div class="panel">
+                <div class="slider1">
+                    <div class="slider__wrapper1">
+                        <div class="slider__items1" id="yearSlider">
+                            <!-- Images will be inserted here by JavaScript -->
+                        </div>
+                    </div>
+                    <a class="slider__control1 slider__control_prev1" href="#" role="button"></a>
+                    <a class="slider__control1 slider__control_next1" href="#" role="button"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h3 id="noc">История из <span id="yearDisplay"></span> года</h3>
+            <h5><br /><span id="yearStory"></span></h5>
+            <h6 id="user"><br /><span id="authorName"></span></h6>
+            <br />
+            <nav class="text-center" aria-label="Последние новости">
+                <ul class="pagination justify-content-center">
+                    <li><a id="br2" href="?year=1940&id=1">1940</a></li>
+                    <li><a id="br3" href="?year=1941&id=1">1941</a></li>
+                    <li><a id="br4" href="?year=1942&id=1">1942</a></li>
+                    <li><a id="br5" href="?year=1943&id=1">1943</a></li>
+                    <li><a id="br6" href="?year=1944&id=1">1944</a></li>
+                    <li><a id="br7" href="?year=1945&id=1">1945</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+
+    <footer id="subfooter" class="">
+        <div class="container-fluid">
+            <div id="subfooter-inside" class="clearfix">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="subfooter-area">
+                            <div class="region region-footer">
+                                <div id="block-footer" class="block block-block-content">
+                                    <div class="content1">
+                                        <br />
+                                        <div id="footerchic" class="clearfix text-formatted field" style="color: #ffffff;">
+                                            © 2019 – 2021&nbsp;Сайт сделан при поддержке <a target="_blank" href="https://traektoria.mai.ru/">Технопарка МАИ</a>
+                                            совместно с <a target="_blank" href="https://preduniversariy.mai.ru/">Предуниверсарием МАИ</a><br />
+                                            Время, данное на создание сайта спонсированно <a target="_blank" href="https://www.google.com/covid19/">COVID 19</a><br />
+                                            <a class="text-muted" rel="nofollow" href="https://www.google.com/">Обратная связь</a>
+                                        </div>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Static data replacement for database
+    const personData = {
+        id: 1,
+        name: "Иван Иванов",
+        biography: "Иван Иванович Иванов родился в 1920 году... (полная биография здесь)",
+        medals: "Медаль «За отвагу», Орден Красной Звезды",
+        images: [
+            "path/to/image1.jpg",
+            "path/to/image2.jpg",
+            "path/to/image3.jpg"
+        ],
+        years: {
+            "1940": {
+                story: "В 1940 году Иван Иванов был призван в армию...",
+                images: ["path/to/1940_image1.jpg", "path/to/1940_image2.jpg"]
+            },
+            "1941": {
+                story: "В 1941 году Иван участвовал в обороне Москвы...",
+                images: ["path/to/1941_image1.jpg"]
+            },
+            "1942": {
+                story: "В 1942 году Иван был ранен в бою под Сталинградом...",
+                images: ["path/to/1942_image1.jpg", "path/to/1942_image2.jpg"]
+            },
+            "1943": {
+                story: "После госпиталя в 1943 году вернулся на фронт...",
+                images: ["path/to/1943_image1.jpg"]
+            },
+            "1944": {
+                story: "В 1944 году участвовал в операции «Багратион»...",
+                images: ["path/to/1944_image1.jpg"]
+            },
+            "1945": {
+                story: "День Победы встретил в Берлине...",
+                images: ["path/to/1945_image1.jpg", "path/to/1945_image2.jpg", "path/to/1945_image3.jpg"]
+            }
+        },
+        author: "Петр Петров"
+    };
+
+    // Get URL parameters
+    function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            id: params.get('id') || 1,
+            year: params.get('year') || '1941'
+        };
+    }
+
+    // Initialize page with data
+    function initPage() {
+        const { year } = getUrlParams();
+        
+        // Set person data
+        document.getElementById('buttonName').textContent = personData.name;
+        document.getElementById('biographyText').textContent = personData.biography;
+        document.getElementById('medalsText').textContent = personData.medals ? `Награды: ${personData.medals}` : '';
+        document.getElementById('authorName').textContent = personData.author;
+        
+        // Set year-specific data
+        document.getElementById('yearTitle').textContent = year;
+        document.getElementById('yearDisplay').textContent = year;
+        document.getElementById('yearStory').textContent = personData.years[year].story;
+        
+        // Highlight current year in pagination
+        document.querySelectorAll('.pagination a').forEach(link => {
+            link.classList.remove('active');
+            if (link.textContent === year) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Load biography images
+        const bioSlider = document.getElementById('biographySlider');
+        if (personData.images.length > 0) {
+            personData.images.forEach(img => {
+                bioSlider.innerHTML += `<div class='slider__item'><img class='img-fluid' src='${img}'></div>`;
+            });
+        } else {
+            bioSlider.innerHTML = "<h2 align='center'>У составителя статьи нет фотографий</h2>";
+        }
+        
+        // Load year images
+        const yearSlider = document.getElementById('yearSlider');
+        if (personData.years[year].images.length > 0) {
+            personData.years[year].images.forEach(img => {
+                yearSlider.innerHTML += `<div class='slider__item1'><img class='img-fluid1' src='${img}'></div>`;
+            });
+        } else {
+            yearSlider.innerHTML = "<h2 align='center'>У составителя статьи нет фотографий на этот год</h2>";
+        }
+        
+        // Initialize sliders
+        initSlider('.slider');
+        initSlider('.slider1');
+    }
+
+    // Initialize slider
+    function initSlider(selector) {
+        const slider = document.querySelector(selector);
+        const wrapper = slider.querySelector(`${selector}__wrapper`);
+        const items = slider.querySelectorAll(`${selector}__item`);
+        const controls = slider.querySelectorAll(`${selector}__control`);
+        
+        let currentPosition = 0;
+        let transformValue = 0;
+        const transformStep = 100;
+        
+        // Add indicators
+        const indicatorsContainer = document.createElement('ol');
+        indicatorsContainer.classList.add(`${selector.replace('.', '')}__indicators`);
+        
+        items.forEach((item, index) => {
+            const indicator = document.createElement('li');
+            if (index === 0) indicator.classList.add('active');
+            indicator.setAttribute(`data-slide-to${selector === '.slider1' ? '1' : ''}`, index);
+            indicatorsContainer.appendChild(indicator);
+        });
+        
+        slider.appendChild(indicatorsContainer);
+        const indicatorItems = slider.querySelectorAll(`${selector.replace('.', '')}__indicators > li`);
+        
+        // Navigation functions
+        function move(direction) {
+            if (direction === 'next') {
+                currentPosition++;
+                transformValue -= transformStep;
+            } else {
+                currentPosition--;
+                transformValue += transformStep;
+            }
+            
+            wrapper.style.transform = `translateX(${transformValue}%)`;
+            updateIndicators(direction);
+        }
+        
+        function updateIndicators(direction) {
+            const activeIndicator = slider.querySelector(`${selector.replace('.', '')}__indicators > li.active`);
+            let nextIndicator;
+            
+            if (direction === 'next') {
+                nextIndicator = activeIndicator.nextElementSibling || 
+                               slider.querySelector(`${selector.replace('.', '')}__indicators > li:first-child`);
+            } else {
+                nextIndicator = activeIndicator.previousElementSibling || 
+                               slider.querySelector(`${selector.replace('.', '')}__indicators > li:last-child`);
+            }
+            
+            activeIndicator.classList.remove('active');
+            nextIndicator.classList.add('active');
+        }
+        
+        // Event listeners
+        controls.forEach(control => {
+            control.addEventListener('click', (e) => {
+                e.preventDefault();
+                move(control.classList.contains(`${selector.replace('.', '')}__control_next`) ? 'next' : 'prev');
+            });
+        });
+        
+        // Touch support
+        let startX = 0;
+        slider.addEventListener('touchstart', (e) => {
+            startX = e.changedTouches[0].clientX;
+        });
+        
+        slider.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            const deltaX = endX - startX;
+            
+            if (deltaX > 50) {
+                move('prev');
+            } else if (deltaX < -50) {
+                move('next');
+            }
+        });
+    }
+
+    // Back button function
+    function back_button() {
+        const { year } = getUrlParams();
+        window.location = `../?year=${year}`;
+    }
+
+    // Scroll to top function
+    window.onscroll = function() {
+        scrollFunction()
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
+        }
+    }
+
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+
+    // Accordion functionality
+    document.querySelectorAll(".accordion").forEach(acc => {
+        acc.addEventListener("click", function() {
+            this.classList.toggle("active");
+            const panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    });
+
+    // Initialize the page when loaded
+    document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
