@@ -29,6 +29,16 @@ let markerCluster = L.markerClusterGroup({
 	disableClusteringAtZoom: 10,
 });
 
+markerCluster.on('clusterclick', function (a) {
+	// Отменить автоматический зум
+	a.originalEvent.preventDefault();
+
+	// Получить координаты кластера
+	let latlng = a.layer.getLatLng();
+
+	// Установить нужный зум (например, 6 вместо max)
+	map.setView(latlng, 6); // можно подставить любое число (например, 6, 7, 8 и т.д.)
+});
 
 map.addLayer(markerCluster);
 
