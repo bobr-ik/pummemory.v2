@@ -7,15 +7,15 @@ let loaded_images = 0;
 
 
 //load images
-for( let i in images ) {
-	let img = new Image;
-	img.src = images[i];
-	img.onload = function() {
-		loaded_images++;
-		// setProgress( loaded_images/images.length*100 );
-		console.log( loaded_images/images.length*100 );
-	}
-}
+// for( let i in images ) {
+// 	let img = new Image;
+// 	img.src = images[i];
+// 	img.onload = function() {
+// 		loaded_images++;
+// 		// setProgress( loaded_images/images.length*100 );
+// 		console.log( loaded_images/images.length*100 );
+// 	}
+// }
 
 //generate markers
 for( let i = 0; i < data.length; i++ ) {

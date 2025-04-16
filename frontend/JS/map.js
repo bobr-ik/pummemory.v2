@@ -5,9 +5,9 @@ let sets = {
 
 let map = L.map('map',{
 	center   : [50.380049, 20.606890],
-	zoom     : 6,
+	zoom     : 4,
 	maxZoom  : 10,
-	minZoom  : 6,
+	minZoom  : 4,
 })
 
 L.tileLayer.provider('CartoDB.DarkMatter').addTo(map);
