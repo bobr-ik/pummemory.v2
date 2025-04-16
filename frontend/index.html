@@ -14,7 +14,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> <!-- FONT AWESOME LIB -->
 	<script src="./src/jquery.min.js"></script> <!-- JQUERY -->
 	<script src="./src/data.js" charset="UTF-8" type="text/javascript"></script> <!-- OUR DATA -->
-	<script> let year = 1940 </script>
 </head>
 <body>
 	<script>
@@ -62,7 +61,6 @@
 			</div>
 		</div>
 		<script src="./JS/map.js"></script>
-
 		<div class="nav-bar"> <!-- SEARCH -->
 			<div class="search-box">
 				<input class="search-txt" type="text" placeholder="поиск...">
@@ -79,6 +77,11 @@
 		</div>
 	</div>
 
+	<script>
+	    let c = $("."+String(year))[0].getAttribute("class")
+        $("."+String(year))[0].setAttribute("class",c+" choosed")
+	</script>
+	
 	<script src="./JS/code.js"></script>
 </body>
 </html>

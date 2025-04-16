@@ -1,21 +1,9 @@
 //create background map
 let mark_list     = [];
 let mark_list_2   = {};
-let images        = data.map( (x) => x.img_url );
 let li_names      = $('.hints ul li').map(function(x,y) {return y.innerText});
 let loaded_images = 0;
 
-
-//load images
-// for( let i in images ) {
-// 	let img = new Image;
-// 	img.src = images[i];
-// 	img.onload = function() {
-// 		loaded_images++;
-// 		// setProgress( loaded_images/images.length*100 );
-// 		console.log( loaded_images/images.length*100 );
-// 	}
-// }
 
 //generate markers
 for( let i = 0; i < data.length; i++ ) {
