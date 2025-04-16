@@ -15,8 +15,8 @@ let markerCluster = L.markerClusterGroup({
 		let count = cluster.getChildCount();
 
 		let size = 'small';
-		if (count >= 4) size = 'medium';
-		if (count >= 6) size = 'large';
+		if (count >= 3) size = 'medium';
+		if (count >= 5) size = 'large';
 
 		return L.divIcon({
 			html: `<span>${count}</span>`,
@@ -56,13 +56,16 @@ function addMarker( info={} ) {
 		shadowSize   : [60,60],
 		shadowAnchor : [30,30],
 	})
+	if (info.location != false) {
+		info.location = info.location.split(" ").map(Number);
+	}
 
-	if( info.location==false ) info.location = [0,0];
+	if (info.location == false) info.location = [0, 0];
+	
 	
 	//create marker
 	let marker = L.marker([info.location[0], info.location[1]], { icon: icon });
 	console.log(info.location)
-	markerCluster.addLayer(marker);
 
 	//connect with shadow
 	if(marker._icon) marker._icon.shadow = marker._shadow;
@@ -105,7 +108,9 @@ function addMarker( info={} ) {
 	marker.y        = info.location[1];
 	marker.location = info.location;
 	marker.link     = sets.URL + '?id='+info.id+'&year='+year+'';
-	mark_list_2[ [info.name,info.surname,info.patronymic].join('_') ] = marker;
+	mark_list_2[[info.name, info.surname, info.patronymic].join('_')] = marker;
+	markerCluster.addLayer(marker);
+	
 
 	return marker
 }
