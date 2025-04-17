@@ -37,5 +37,5 @@ async function usePopup() {
 }
 
 function closePopup() {
-    
+    document.getElementById('main-popup').classList.toggle('close');
 }
