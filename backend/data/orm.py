@@ -8,6 +8,8 @@ from sqlalchemy.orm import joinedload, selectinload, contains_eager
 from data.models import *
 import jwt
 from data.config import settings
+import asyncio
+import asyncmy
 
 def create_token(data):
     now = datetime.datetime.now()
@@ -18,7 +20,7 @@ def create_token(data):
     algorithm="HS256")
     return token, now
 
-class Orm:
+class Orm:   
     @staticmethod
     async def create_all():
         async with async_engine.begin() as conn:

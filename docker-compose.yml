@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Путь к конфигурации для проксирования
+    depends_on:
+      - backend
+    networks:
+      - dev
+  
+  db:
+    image: mysql:8.0
+    container_name: db
+    restart: always
+    environment: #TODO up to .env
+      MYSQL_ROOT_PASSWORD: '123456789Dak'
+      MYSQL_DATABASE: 'pummemory_test'
+      MYSQL_USER: 'dak'
+      MYSQL_PASSWORD: '123456789Dak'
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - dev
+
+  backend:
+    build: ./backend
+    ports:
+      - "127.0.0.1:8000:8000"
+    networks:
+      - dev
+
+    
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:8001:8001"
+    networks:
+      - dev
+
+networks:
+  dev:
+    driver: bridge
+
+volumes:
+  mysql-data:
