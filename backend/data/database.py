@@ -2,12 +2,12 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 from sqlalchemy.orm import Session, DeclarativeBase, sessionmaker
 from sqlalchemy import URL, create_engine, text, String
 # from sqlalchemy.ext.declarative import declarative_base
-from config import settings
+from data.config import settings
 # import asyncio
 from typing import Annotated
 
 async_engine = create_async_engine( #асинзронный движок
-    url=settings.DATABASE_URL_asyncpg,
+    url=settings.db_url,
     echo=True,
     pool_size=5,
     max_overflow=10,
