@@ -4,7 +4,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.security import OAuth2PasswordBearer
 import uvicorn
-import asyncio
+import asyncio, asyncmy
 from contextlib import asynccontextmanager
 
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -18,6 +18,21 @@ from fastapi.middleware.cors import CORSMiddleware
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    while True:
+            try:
+                conn = await asyncmy.connect(
+                    host="db",
+                    user="dak",
+                    password="123456789Dak",
+                    database="pummemory_test",
+                    port=3306
+                )
+                await conn.ensure_closed()
+                print("MySQL is ready!")
+                break
+            except Exception as e:
+                print("Waiting for MySQL to be ready...", str(e))
+                await asyncio.sleep(1)
     await Orm.create_all()
     yield    
 

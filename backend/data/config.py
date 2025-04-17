@@ -12,9 +12,8 @@ class Settings(BaseSettings):
     
     @property
     def db_url(self):
+        # f"postgresql+asyncpg://{self.POSTGRES_USERNAME}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DATABASE}"
         return f"mysql+asyncmy://{self.user}:{self.password}@{self.host}:{self.port}/{self.db}"
-    
-
     class Config:
         env_file = f'{os.path.join(os.path.dirname(__file__), ".env")}'
 
