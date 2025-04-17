@@ -19,21 +19,23 @@ document.querySelectorAll('#main-form input').forEach((input, index, inputs) => 
     });
 });
 
+let data = {};
 function sendForm() {
     let form = document.getElementById("main-form");
     let inputs = form.querySelectorAll("input");
-    let data = {};
     for (let i = 0; i < inputs.length; i++) {
         data[inputs[i].getAttribute("placeholder")] = inputs[i].value;
     }
     console.log(data);
-    form.reset();
 }
 
 async function usePopup() {
     document.getElementById('main-popup').classList.toggle('close');
-    response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
-    data = await response.json();
+    // response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
+    // data = await response.json();
+    
+    const link = document.getElementById('link');
+    link.innerHTML = data;
 }
 
 function closePopup() {
