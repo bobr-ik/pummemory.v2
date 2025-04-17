@@ -134,3 +134,13 @@
 	width: 60px !important;
 	height: 60px !important;
 }
+
+.leaflet-marker-shadow {
+	opacity: 0 !important;
+	transition: 0.8s;
+}
+
+.shadow-visible {
+	opacity: 1 !important;
+	transition: 0.8s;
+}

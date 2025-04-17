@@ -40,6 +40,30 @@ markerCluster.on('clusterclick', function (a) {
 	map.setView(latlng, 6); // можно подставить любое число (например, 6, 7, 8 и т.д.)
 });
 
+
+markerCluster.on('animationend', function () {
+	markerCluster.eachLayer(marker => {
+		// Убедимся, что это маркер, а не кластер
+		if (marker instanceof L.Marker && marker._icon && marker._shadow) {
+			marker._shadow.style.opacity = '0';
+			marker._shadow.style.transition = '.8s';
+
+			// Сбросим старые обработчики
+			marker._icon.onmouseenter = null;
+			marker._icon.onmouseleave = null;
+
+			// Добавим новые
+			marker._icon.addEventListener("mouseenter", () => {
+				marker._shadow.classList.add('shadow-visible');
+			});
+			marker._icon.addEventListener("mouseleave", () => {
+				marker._shadow.classList.remove('shadow-visible');
+			});
+		}
+	});
+});
+
+
 map.addLayer(markerCluster);
 
 L.tileLayer.provider('CartoDB.DarkMatter').addTo(map);
@@ -66,23 +90,25 @@ function addMarker( info={} ) {
 	//create marker
 	let marker = L.marker([info.location[0], info.location[1]], { icon: icon });
 	console.log(info.location)
+	
 
 	//connect with shadow
 	if(marker._icon) marker._icon.shadow = marker._shadow;
 
 	marker.bindPopup('<div class="content"><div class="image"><img src="'+info.img_url+'"/></div><div class="info">'+info.name+'<br/>'+info.surname+'</div><div class="goTo"><a href="'+sets.URL+'?id='+info.id+'&year='+year+'"><div class="hov_line"></div><span>ПЕРЕЙТИ</span></div></a></div>');
 
-	//remove shadow
-	if(marker._shadow) {
-		marker._shadow.style.opacity    = '0';
-		marker._shadow.style.transition = '.8s';
-	}
 
 	//hover function
-	$( marker._icon ).hover(
-		function() { this.shadow.style.opacity = '1' },
-		function() { this.shadow.style.opacity = '0' }
-	)
+	setTimeout(() => {
+		if (marker._icon && marker._shadow) {
+			marker._icon.addEventListener("mouseenter", () => {
+				marker._shadow.classList.add('shadow-visible');
+			});
+			marker._icon.addEventListener("mouseleave", () => {
+				marker._shadow.classList.remove('shadow-visible');
+			});
+		}
+	}, 0);
 
 	//open function
 	marker.custom_openPopup = marker.openPopup;
@@ -109,8 +135,9 @@ function addMarker( info={} ) {
 	marker.location = info.location;
 	marker.link     = sets.URL + '?id='+info.id+'&year='+year+'';
 	mark_list_2[[info.name, info.surname, info.patronymic].join('_')] = marker;
+
+
 	markerCluster.addLayer(marker);
-	
 
 	return marker
 }
