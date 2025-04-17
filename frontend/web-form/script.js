@@ -35,3 +35,7 @@ async function usePopup() {
     response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
     data = await response.json();
 }
+
+function closePopup() {
+    
+}
