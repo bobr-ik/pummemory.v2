@@ -62,7 +62,6 @@ class Info(Base):
 class Photo(Base):
     __tablename__ = "photos"
     id: Mapped[int] = mapped_column(primary_key=True)
-    year: Mapped[Year] = mapped_column(Enum(Year))  # Указан правильный тип Enum для Year
     url: Mapped[str_256]
     info: Mapped['Info'] = relationship(back_populates="photos")
     info_id: Mapped[int] = mapped_column(ForeignKey("info.id"))
