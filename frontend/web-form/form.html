@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление</title>
+    <link rel="stylesheet" href="style/general.css">
+</head>
+<body>
+    <div style="position: relative; 
+                width: 100vw; 
+                height: 100vh;
+                background-color: rgb(200, 200, 200);">
+        <div class="year-button-block">
+
+        </div>
+        <div class="main-content">
+            <div class="form-main-block">
+                <form id="main-form">
+                    <input class="form-input" type="text" placeholder="Имя">
+                    <input class="form-input" type="text" placeholder="Фамилия">
+                </form>
+                <button class="form-button" onClick="sendForm()">Отправить</button>
+            </div>
+            <div id="person-photo"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.year-button-block {
+    position: absolute;
+    width: 40vw;
+    height: 6vh;
+    left: 50vw;
+    top: calc(1vh + 10px);
+
+    background-color: red;
+    border-radius: 10px;
+}
+
+.main-content {
+    position: relative;
+    width: 96vw;
+    height: 92vh;
+    left: 2vw;  
+    top: 7vh;
+
+    border-radius: 20px;
+    background-color: white;
+}
+
+.form-main-block {
+    position: relative;
+    width: 30%;
+    height: 40%;
+    left: 18vw;
+    top: 1vh;
+}
+
+#main-form {
+    position: absolute;
+    width: 100%;
+    top: 3px;
+    height: calc(100% - 6px);
+
+    outline: 3px solid rgb(200, 200, 200);
+    border-radius: 5px;
+}
+
+.form-input {
+    width: 80%;
+    height: 5vh;
+    border-radius: 5px;
+    border: 3px solid rgb(200, 200, 200);
+    margin: 5px 10px;
+
+    padding-left: 10px;
+    font-size: 2vh;
+
+    &:focus {
+        outline: none;
+        background-color: rgb(235, 235, 235);
+        transition: background-color 0.2s;
+    }
+}
+
+.form-button {
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    height: 15%;
+    bottom: 1vh;
+
+    border-radius: 10px;
+    border: 3px solid rgb(160, 160, 160);
+    font-size: 2vh;
+
+    background-color: rgb(200, 200, 200);
+
+    &:hover {
+        cursor: pointer;
+        transform: translate(0, -1px);
+        box-shadow: 5px 5px 5px rgb(220, 220, 220);
+        transition: all 0.2s;
+    }
+
+    &:active {
+        transform: translate(0, 1px);
+        box-shadow: none;
+        transition: all 0.2s;
+    }
+}
+
+#person-photo {
+    position: absolute;
+    width: calc(17vw - 10px);
+    height: 40%;
+    top: 1vh;
+    left: 1vw;
+
+    background-position: center;
+}
