@@ -58,11 +58,11 @@ class Info(Base):
     place: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None)
     desc: Mapped[Optional[str]] = mapped_column(Text, default="")
     photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="year")
-    
+
+
 class Photo(Base):
     __tablename__ = "photos"
     id: Mapped[int] = mapped_column(primary_key=True)
-    year: Mapped[Year] = mapped_column(Enum(Year))  # Указан правильный тип Enum для Year
     url: Mapped[str_256]
     info: Mapped['Info'] = relationship(back_populates="photos")
     info_id: Mapped[int] = mapped_column(ForeignKey("info.id"))
@@ -70,7 +70,6 @@ class Photo(Base):
 
 class Tokens(Base):
     __tablename__ = 'tokens'
-
     _token: Mapped[str_256] = mapped_column("token", primary_key=True)
     is_active: Mapped[bool] = mapped_column(default=True)
     is_admin: Mapped[bool] = mapped_column(default=False)
@@ -83,7 +82,7 @@ class Tokens(Base):
     @token.setter
     def token(self, value: str):
         hashed = bcrypt.hashpw(value.encode('utf-8'), bcrypt.gensalt())
-        self._token = hashed.decode('utf-8')  # <--- fix здесь
+        self._token = hashed.decode('utf-8')
 
     def check_token(self, raw_token: str):
         return bcrypt.checkpw(raw_token.encode('utf-8'), self._token.encode('utf-8'))
