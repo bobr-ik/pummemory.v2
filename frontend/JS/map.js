@@ -4,8 +4,8 @@ let sets = {
 
 
 let map = L.map('map',{
-	center   : [50.380049, 20.606890],
-	zoom     : 4,
+	center   : [50.881176, 30.371177],
+	zoom     : 5,
 	maxZoom  : 100,
 	minZoom  : 4,
 })
@@ -29,17 +29,21 @@ let markerCluster = L.markerClusterGroup({
 	disableClusteringAtZoom: 10,
 });
 
-markerCluster.on('clusterclick', function (a) {
-	// Отменить автоматический зум
-	a.originalEvent.preventDefault();
+// markerCluster.on('clusterclick', function (a) {
+//     a.originalEvent.preventDefault();
 
-	// Получить координаты кластера
-	let latlng = a.layer.getLatLng();
+//     let latlng = a.layer.getLatLng();
 
-	// Установить нужный зум (например, 6 вместо max)
-	map.setView(latlng, 6); // можно подставить любое число (например, 6, 7, 8 и т.д.)
-});
-
+//     if (map.getZoom() !== 6) {
+//         // Просто приблизить до 6
+//         map.setView(latlng, 6);
+//     } else {
+//         // Отложить активацию "паучка" на следующий тик
+//         setTimeout(function() {
+//             a.layer.spiderfy();
+//         }, 0);
+//     }
+// });
 
 markerCluster.on('animationend', function () {
 	markerCluster.eachLayer(marker => {
