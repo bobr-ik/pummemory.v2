@@ -40,8 +40,9 @@ async def validation_exception_handler(request, exc):
 }, status_code=400)
 
 @app.post('/create_token')
-async def create_token(data: Token):
+async def create_token():
     res = await Orm.create_token()
+    return res
 
 @app.get('/check_token')
 async def check_token(token: str):

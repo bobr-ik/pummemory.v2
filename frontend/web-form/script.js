@@ -30,6 +30,8 @@ function sendForm() {
     form.reset();
 }
 
-function usePopup() {
+async function usePopup() {
     document.getElementById('main-popup').classList.toggle('close');
+    response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
+    data = await response.json();
 }
