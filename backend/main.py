@@ -9,9 +9,11 @@ from contextlib import asynccontextmanager
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from data.orm import Orm
-from app.models import Token 
+from models import Token
+from fastapi.middleware.cors import CORSMiddleware
 
 # from config import settings
+
 
 
 @asynccontextmanager
@@ -20,6 +22,14 @@ async def lifespan(app: FastAPI):
     yield    
 
 app = FastAPI(lifespan=lifespan, root_path='/api')
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Разрешает все домены, можно указать список доменов, например: ["http://localhost:3000"]
+    allow_credentials=True,
+    allow_methods=["*"],  # Разрешены все методы HTTP
+    allow_headers=["*"],  # Разрешены все заголовки
+)
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):

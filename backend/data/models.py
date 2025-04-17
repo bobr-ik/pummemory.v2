@@ -69,20 +69,25 @@ import bcrypt
 
 class Tokens(Base):
     __tablename__ = 'tokens'
-    __token: Mapped[str_256] = mapped_column(primary_key=True)
+
+    _token: Mapped[str_256] = mapped_column("token", primary_key=True)
     is_active: Mapped[bool] = mapped_column(default=True)
     is_admin: Mapped[bool] = mapped_column(default=False)
     gen_time: Mapped[str_256]
-    
-    
-    @__token.setter
+
+    @property
+    def token(self):
+        raise AttributeError("Токен нельзя прочитать напрямую.")
+
+    @token.setter
     def token(self, value: str):
         hashed = bcrypt.hashpw(value.encode('utf-8'), bcrypt.gensalt())
-        self.__token = hashed.decode('utf-8')
-        
-        
-    def check_password(self, password):
-        return bcrypt.checkpw(password.encode('utf-8'), self.password_hash)
+        self._token = hashed.decode('utf-8')  # <--- fix здесь
+
+    def check_token(self, raw_token: str):
+        return bcrypt.checkpw(raw_token.encode('utf-8'), self._token.encode('utf-8'))
+
+
     
     
     
