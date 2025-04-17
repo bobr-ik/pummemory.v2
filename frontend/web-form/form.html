@@ -5,24 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавление</title>
     <link rel="stylesheet" href="style/general.css">
+    <link rel="stylesheet" href="style/popup.css">
 </head>
 <body>
     <div style="position: relative; 
                 width: 100vw; 
                 height: 100vh;
                 background-color: rgb(200, 200, 200);">
+
         <div class="year-button-block">
 
         </div>
+
         <div class="main-content">
             <div class="form-main-block">
                 <form id="main-form">
-                    <input class="form-input" type="text" placeholder="Имя">
                     <input class="form-input" type="text" placeholder="Фамилия">
+                    <input class="form-input" type="text" placeholder="Имя">
+                    <input class="form-input" type="text" placeholder="Отчество">
                 </form>
-                <button class="form-button" onClick="sendForm()">Отправить</button>
             </div>
             <div id="person-photo"></div>
+
+            <div class="button-block">
+                <button class="button-style" onClick="usePopup()">Поделиться формой</button>
+                <button class="button-style" onClick="sendForm()">Отправить информацию</button>
+            </div>
+        </div>
+
+        <div id="main-popup" class="close">
+            <div class="popup-content">
+                <button class="close-button" onClick="usePopup()">X</button>
+                <div class="popup-qr"></div>
+                <div class="link-block">
+                    <div class="link"></div>
+                    <div class="copy-button"></div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>

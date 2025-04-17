@@ -4,7 +4,7 @@ addEventListener("load", () => addPhoto());
 
 function addPhoto() {
     let photo = document.getElementById("person-photo");
-    photo.style.backgroundImage = `url(${person_photo})`;
+    photo.style.backgroundImage = `url('${person_photo}')`;
 }
 
 document.querySelectorAll('#main-form input').forEach((input, index, inputs) => {
@@ -28,4 +28,8 @@ function sendForm() {
     }
     console.log(data);
     form.reset();
+}
+
+function usePopup() {
+    document.getElementById('main-popup').classList.toggle('close');
 }
