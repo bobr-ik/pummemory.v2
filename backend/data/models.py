@@ -57,7 +57,7 @@ class Info(Base):
     pers: Mapped["Person"] = relationship(back_populates="info")
     place: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None)
     desc: Mapped[Optional[str]] = mapped_column(Text, default="")
-    photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="year")
+    photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="info")
 
 
 class Photo(Base):
@@ -70,10 +70,13 @@ class Photo(Base):
 
 class Tokens(Base):
     __tablename__ = 'tokens'
-    _token: Mapped[str_256] = mapped_column("token", primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    _token: Mapped[str_256] = mapped_column(default='')
     is_active: Mapped[bool] = mapped_column(default=True)
     is_admin: Mapped[bool] = mapped_column(default=False)
     gen_time: Mapped[str_256]
+    
+    
 
     @validates('_token')
     def hash_token(self, key, value):
