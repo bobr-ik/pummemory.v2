@@ -19,26 +19,34 @@
 
         <div class="main-content">
             <div class="form-main-block">
+                <div class="form-title">
+                    <div>Основная информация</div>
+                </div>
                 <form id="main-form">
-                    <input class="form-input" type="text" placeholder="Фамилия">
-                    <input class="form-input" type="text" placeholder="Имя">
-                    <input class="form-input" type="text" placeholder="Отчество">
+                    <input class="form-input" type="text" id="secondName" onChange="saveStaticInfo('secondName')" placeholder="Фамилия">
+                    <input class="form-input" type="text" id="firstName" onChange="saveStaticInfo('firstName')" placeholder="Имя">
+                    <input class="form-input" type="text" id="thirdName" onChange="saveStaticInfo('thirdName')" placeholder="Отчество">
                 </form>
+                <button id="photo-button" class="button-style">Загурзить фотографию</button>
+                <input type="file" id="photo-input" />
             </div>
             <div id="person-photo"></div>
+            <div class="general-description">
+
+            </div>
 
             <div class="button-block">
-                <button class="button-style" onClick="usePopup()">Поделиться формой</button>
-                <button class="button-style" onClick="sendForm()">Отправить информацию</button>
+                <button class="button-style" onclick="usePopup()">Поделиться формой</button>
+                <button class="button-style" onclick="sendAllInfo()">Отправить информацию</button>
             </div>
         </div>
 
         <div id="main-popup" class="close">
             <div class="popup-content">
-                <button class="close-button" onClick="closePopup()">X</button>
+                <button class="close-button" onclick="closePopup()">X</button>
                 <div class="popup-qr"></div>
                 <div class="link-block">
-                    <div class="link"></div>
+                    <div id="link"></div>
                     <div class="copy-button"></div>
                 </div>
             </div>

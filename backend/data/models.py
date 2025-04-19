@@ -57,12 +57,12 @@ class Info(Base):
     pers: Mapped["Person"] = relationship(back_populates="info")
     place: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None)
     desc: Mapped[Optional[str]] = mapped_column(Text, default="")
-    photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="year")
-    
+    photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="info")
+
+
 class Photo(Base):
     __tablename__ = "photos"
     id: Mapped[int] = mapped_column(primary_key=True)
-    year: Mapped[Year] = mapped_column(Enum(Year))  # Указан правильный тип Enum для Year
     url: Mapped[str_256]
     info: Mapped['Info'] = relationship(back_populates="photos")
     info_id: Mapped[int] = mapped_column(ForeignKey("info.id"))
@@ -70,8 +70,8 @@ class Photo(Base):
 
 class Tokens(Base):
     __tablename__ = 'tokens'
-
-    _token: Mapped[str_256] = mapped_column("token", primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    _token: Mapped[str_256] = mapped_column(default='')
     is_active: Mapped[bool] = mapped_column(default=True)
     is_admin: Mapped[bool] = mapped_column(default=False)
     gen_time: Mapped[str_256]

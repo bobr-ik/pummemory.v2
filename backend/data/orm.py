@@ -49,3 +49,9 @@ class Orm:
             session.add(token_obj)
             await session.commit()
         return token_str
+    
+    @staticmethod
+    async def insert_person():
+        async with async_session_factory() as session:
+            pass
+            
