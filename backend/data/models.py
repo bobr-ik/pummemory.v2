@@ -76,8 +76,12 @@ class Tokens(Base):
     is_admin: Mapped[bool] = mapped_column(default=False)
     gen_time: Mapped[str_256]
 
-    @validates('_token')
-    def hash_token(self, key, value):
+    @property
+    def token(self):
+        raise AttributeError("Токен нельзя прочитать напрямую.")
+
+    @token.setter
+    def token(self, value: str):
         hashed = bcrypt.hashpw(value.encode('utf-8'), bcrypt.gensalt())
         self._token = hashed.decode('utf-8')  # <--- fix здесь
 

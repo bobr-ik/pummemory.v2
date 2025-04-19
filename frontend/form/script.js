@@ -1,6 +1,8 @@
 let GeneralDict = new Map()
 GeneralDict.isInfoAdd = false
 
+const URLParams = new Map()
+
 if (!("GeneralDict" in localStorage)) {
     saveInfo("GeneralDict", GeneralDict);
 }
@@ -14,6 +16,21 @@ function getInfo(key) {
     const jsonString = localStorage.getItem(key);
     return JSON.parse(jsonString);
 }
+
+addEventListener("load", () => { //func Начальная функция проверки пользователя и работы с аргументами
+    const location = window.location.pathname;
+    const parametrs = new URLSearchParams(window.location.search); //* В url нужно передавать токен и год: ?person=...&year=...
+
+    for (const [key, value] of parametrs.entries()) {
+        URLParams[key] = value;
+    }
+
+    console.log(URLParams)
+    
+    if (URLParams.person === 'MarkToken') {
+        document.getElementById('share-button').dataset.view = 'true';
+    }
+});
 
 addEventListener("load", () => {
     GeneralDict = getInfo("GeneralDict")
@@ -67,6 +84,7 @@ async function usePopup() {
     // response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
     // data = await response.json();
     
+    data = 'Ультра супер классный единоразовый токен';
     const link = document.getElementById('link');
     link.innerHTML = data;
 }
