@@ -55,7 +55,7 @@ class Info(Base):
     year: Mapped[Year] = mapped_column(Enum(Year))
     pers_id: Mapped[int] = mapped_column(ForeignKey("person.id"))
     pers: Mapped["Person"] = relationship(back_populates="info")
-    place: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None)
+    place: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None) #TODO может не сработать тк туплы криво передаются
     desc: Mapped[Optional[str]] = mapped_column(Text, default="")
     photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="info")
 
@@ -87,9 +87,3 @@ class Tokens(Base):
     def check_token(self, raw_token: str):
         return bcrypt.checkpw(raw_token.encode('utf-8'), self._token.encode('utf-8'))
 
-
-    
-    
-    
-    
-    
