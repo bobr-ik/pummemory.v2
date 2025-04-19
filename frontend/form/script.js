@@ -25,10 +25,15 @@ addEventListener("load", () => { //func Начальная функция про
         URLParams[key] = value;
     }
 
-    console.log(URLParams)
-    
     if (URLParams.person === 'MarkToken') {
         document.getElementById('share-button').dataset.view = 'true';
+    }
+
+    const yearBlock = document.getElementById('year-button-block');
+    for (let year of yearBlock.children) {
+        if (year.textContent === URLParams.year) {
+            year.classList.add('active-year');
+        }
     }
 });
 
@@ -50,6 +55,11 @@ addEventListener("load", () => {
         });
     }
 })
+
+function changeYear(year) {
+    const path = `${window.location.pathname}?person=${URLParams.person}&year=${year}`;
+    window.location.href = path;
+}
 
 addEventListener("load", () => addPhoto(GeneralDict.photo));
 
