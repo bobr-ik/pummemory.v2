@@ -28,18 +28,14 @@ class Photo(BaseModel):
 
 class Points(BaseModel):
      name: str = Field(..., min_length = 3, max_length=60, example = "Иванов Иван Иванович")
-     location: str
-     img_url: HttpUrl
+     location: list[float]
+     img_url: HttpUrl = Field(..., max_length=500, example = "https://example.com/avatar.jpg")
      id: int
-     
-     @field_validator("location")
-     def location_must_split_to_2_parts(cls, value: str) -> str:
-        assert len(value.split()) == 2, "location must split to 2 parts"
-        return value
+
     
 class User_info(BaseModel):
      name: str = Field(..., min_length = 3, max_length=60, example = "Иванов Иван Иванович")
      biography: Optional[str] = Field(..., max_length=500, example = "Описание")
-     avatar: Optional[str] = Field(..., max_length=500, example = "https://example.com/avatar.jpg")
+     avatar: Optional[HttpUrl] = Field(..., max_length=500, example = "https://example.com/avatar.jpg")
      rewards: Optional[list['Reward']]
      years: Optional[list['Info']]
