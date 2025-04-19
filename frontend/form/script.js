@@ -1,10 +1,17 @@
 let GeneralDict = new Map()
 GeneralDict.isInfoAdd = false
 
+let YearDict = new Map()
+YearDict.isInfoAdd = false
+
 const URLParams = new Map()
 
 if (!("GeneralDict" in localStorage)) {
     saveInfo("GeneralDict", GeneralDict);
+}
+
+if (!("YearDict" in localStorage)) {
+    saveInfo("YearDict", YearDict);
 }
 
 function saveInfo(key, value) {
@@ -39,11 +46,15 @@ addEventListener("load", () => { //func Начальная функция про
 
 addEventListener("load", () => {
     GeneralDict = getInfo("GeneralDict")
+    YearDict = getInfo("YearDict")
+
     if (!(GeneralDict.isInfoAdd)) {
         GeneralDict.photo = "media/person.jpg"
         GeneralDict.secondName = undefined
         GeneralDict.firstName = undefined
         GeneralDict.thirdName = undefined
+        GeneralDict.generalBiography = undefined
+        GeneralDict.yearBiography = undefined
     } 
     else {
         addPhoto(GeneralDict.photo)
@@ -53,6 +64,19 @@ addEventListener("load", () => {
             const nameDict = {secondName: 'Фамилия', firstName: 'Имя', thirdName: 'Отчество'}
             GeneralDict[nameList[index]] === undefined ? input.placeholder = nameDict[nameList[index]] : input.value = GeneralDict[nameList[index]]
         });
+
+        const textarea = document.getElementById('generalBiography')
+        GeneralDict['generalBiography'] === undefined ? textarea.placeholder = 'Общее описание' : textarea.value = GeneralDict['generalBiography']
+    }
+
+    if (!(YearDict.isInfoAdd)) {
+        for (let year = 1940; year <= 1945; year++) {
+            YearDict[year] = undefined
+        }
+    }
+    else {
+        const textarea = document.getElementById('yearBiography')
+        YearDict[URLParams.year] === undefined ? textarea.placeholder = `Описаниe года` : textarea.value = YearDict[URLParams.year]
     }
 })
 
@@ -85,8 +109,15 @@ function saveStaticInfo(key) {
     GeneralDict[key] = info.value;
 
     GeneralDict.isInfoAdd = true
-    console.log(GeneralDict)
     saveInfo("GeneralDict", GeneralDict);
+}
+
+function saveYearInfo() {
+    const info = document.getElementById('yearBiography');
+    YearDict[URLParams.year] = info.value;
+
+    YearDict.isInfoAdd = true
+    saveInfo("YearDict", YearDict);
 }
 
 async function usePopup() {
@@ -128,7 +159,8 @@ pht_input.addEventListener('change', () => {
 });
 
 
-function sendAllInfo() {
+function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
     saveInfo('GeneralDict', {})
+    saveInfo('YearDict', {})
     location.reload()
 }
