@@ -70,7 +70,11 @@ markerCluster.on('animationend', function () {
 
 map.addLayer(markerCluster);
 
-L.tileLayer.provider('CartoDB.DarkMatter').addTo(map);
+// L.tileLayer.provider('CartoDB.DarkMatter').addTo(map);
+L.tileLayer.provider('Stadia.AlidadeSmoothDark').addTo(map);
+// L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=jFVHTIg2WK3xJlt5wfqJ7F41zVI76aPnnsvSD3Pm4pjbR1J2mpnmUEMyUFjWKQY8', {}).addTo(map);
+        
+
 
 function addMarker( info={} ) {
 	//create icon
