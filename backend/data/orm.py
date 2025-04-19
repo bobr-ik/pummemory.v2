@@ -29,14 +29,14 @@ class Orm:
             await conn.run_sync(Base.metadata.create_all)
             
             
-    @staticmethod
-    async def create_token(data: str = ''.join([str(random.randint(0, 100)) for _ in range(30)])):
-        token, now = create_token(data)
-        print(token)
-        async with async_session_factory() as session:
-            session.add(Tokens(_token=token, is_active=True, gen_time=str(now)))
-            await session.commit()
-        return token
+    # @staticmethod
+    # async def create_token(data: str = ''.join([str(random.randint(0, 100)) for _ in range(30)])):
+    #     token, now = create_token(data)
+    #     print(token)
+    #     async with async_session_factory() as session:
+    #         session.add(Tokens(_token=token, is_active=True, gen_time=str(now)))
+    #         await session.commit()
+    #     return token
     
     @staticmethod
     async def create_token(data: str = ''.join([str(random.randint(0, 100)) for _ in range(30)])):
@@ -49,3 +49,16 @@ class Orm:
             session.add(token_obj)
             await session.commit()
         return token_str
+    
+    @staticmethod
+    async def check_token_validity(token: str):
+        async with async_session_factory() as session:
+            res = await session.execute(select(Tokens).where(Tokens.check_token(token)))
+            res = res.scalars().first()
+            return True if res else False
+    
+    @staticmethod
+    async def insert_person():
+        async with async_session_factory() as session:
+            pass
+            
