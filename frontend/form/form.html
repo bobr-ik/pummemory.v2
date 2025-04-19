@@ -7,48 +7,53 @@
     <link rel="stylesheet" href="style/general.css">
     <link rel="stylesheet" href="style/popup.css">
 </head>
-<body>
-    <div style="position: relative; 
-                width: 100vw; 
-                height: 100vh;
-                background-color: rgb(200, 200, 200);">
+<body style="position: relative; 
+            width: 100vw; 
+            height: 100vh;
+            background-color: rgb(200, 200, 200);">
 
-        <div class="year-button-block">
+    <div class="year-button-block">
 
+    </div>
+
+    <div class="main-content">
+        <div class="form-main-block">
+            <div class="form-title">
+                <div>Основная информация</div>
+            </div>
+            <form id="main-form">
+                <input class="form-input" type="text" id="secondName" onChange="saveStaticInfo('secondName')" placeholder="Фамилия">
+                <input class="form-input" type="text" id="firstName" onChange="saveStaticInfo('firstName')" placeholder="Имя">
+                <input class="form-input" type="text" id="thirdName" onChange="saveStaticInfo('thirdName')" placeholder="Отчество">
+            </form>
+            <button id="photo-button" class="button-style">Загурзить фотографию</button>
+            <input type="file" id="photo-input" />
+        </div>
+        <div id="person-photo"></div>
+
+        <div class="description-title general-title">Общее описание</div>
+        <div class="description general-description">
+            <textarea></textarea>
         </div>
 
-        <div class="main-content">
-            <div class="form-main-block">
-                <div class="form-title">
-                    <div>Основная информация</div>
-                </div>
-                <form id="main-form">
-                    <input class="form-input" type="text" id="secondName" onChange="saveStaticInfo('secondName')" placeholder="Фамилия">
-                    <input class="form-input" type="text" id="firstName" onChange="saveStaticInfo('firstName')" placeholder="Имя">
-                    <input class="form-input" type="text" id="thirdName" onChange="saveStaticInfo('thirdName')" placeholder="Отчество">
-                </form>
-                <button id="photo-button" class="button-style">Загурзить фотографию</button>
-                <input type="file" id="photo-input" />
-            </div>
-            <div id="person-photo"></div>
-            <div class="general-description">
-
-            </div>
-
-            <div class="button-block">
-                <button class="button-style" onclick="usePopup()">Поделиться формой</button>
-                <button class="button-style" onclick="sendAllInfo()">Отправить информацию</button>
-            </div>
+        <div class="description-title year-title">Описание года</div>
+        <div class="description year-description">
+            <textarea></textarea>
         </div>
 
-        <div id="main-popup" class="close">
-            <div class="popup-content">
-                <button class="close-button" onclick="closePopup()">X</button>
-                <div class="popup-qr"></div>
-                <div class="link-block">
-                    <div id="link"></div>
-                    <div class="copy-button"></div>
-                </div>
+        <div class="button-block">
+            <button class="button-style" data-view="false" id="share-button" onclick="usePopup()">Поделиться формой</button>
+            <button class="button-style" onclick="sendAllInfo()">Отправить информацию</button>
+        </div>
+    </div>
+
+    <div id="main-popup" class="close">
+        <div class="popup-content">
+            <button class="close-button" onclick="closePopup()">X</button>
+            <div class="popup-qr"></div>
+            <div class="link-block">
+                <div id="link"></div>
+                <div class="copy-button"></div>
             </div>
         </div>
     </div>
