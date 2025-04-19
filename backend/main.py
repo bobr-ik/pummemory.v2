@@ -12,6 +12,8 @@ from data.orm import Orm
 from models import Token
 from fastapi.middleware.cors import CORSMiddleware
 
+from data.models import Year
+from models import *
 # from config import settings
 
 
@@ -63,7 +65,24 @@ async def create_token():
 async def check_token(token: str):
     res = await Orm.check_token_validity(token)
     return JSONResponse(status_code=200, content=res)
-    
+
+@app.get('/get_points')
+async def get_points(year: Year) -> Points:
+    pass
+#Принимает год
+#имя фамилия отчество одним полем - name, координаты - location - cтрока черех пробел , строка, путь к изображению - аве - img_url, айдишник - id
+
+@app.get('/user_info')
+async def get_user_info(id: int) -> User_info:
+    #фио - name, описание - buiography, avatar - фото профиля, rewards - медали, years : [{year: enum story: images:list[str] location:}] 
+    pass
+
+@app.post('/insert_person')
+async def insert_person(person: Person):
+    pass
+
+
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
