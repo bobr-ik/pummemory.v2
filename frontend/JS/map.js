@@ -1,5 +1,5 @@
 let sets = {
-	URL : 'person/',
+	URL : 'person/index2.html',
 }
 
 
