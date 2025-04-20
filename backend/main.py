@@ -9,11 +9,10 @@ from contextlib import asynccontextmanager
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from data.orm import Orm
-from models import Token
 from fastapi.middleware.cors import CORSMiddleware
 
 from data.models import Year
-from models import *
+from app.models import *
 # from config import settings
 
 import base64
