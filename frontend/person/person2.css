@@ -140,11 +140,12 @@ body{
                 p{
                     align-self: flex-end;
                     justify-self: flex-end;
-                    max-width: 150px;
+                    max-width: 100px;
+                    font-size: 0.9rem;
                 }
                 img{
-                    width: 100px;
-                    height: 100px;
+                    width: 75px;
+                    height: 75px;
                     object-fit: cover;
                     object-position: bottom;
                 }
