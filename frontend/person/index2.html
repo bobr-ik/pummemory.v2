@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PUM</title>
+    <!-- <link rel="stylesheet" href="../src/leaflet/leaflet.css"/> -->
     <link rel="stylesheet" href="person2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="icon/12.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	
 </head>
 <body>
     <!-- <button 
@@ -16,21 +21,23 @@
         id="myBtn" 
         class="icofont fa fa-angle-up" 
         title="Перенестить на верхушку страницы">
-    </button>
+    </button> -->
     
     <div class="header">
         <button class="button" id="button1" onclick="back_button()">Назад</button>
-    </div> -->
+    </div>
 
 
     <div class="main_content">
         <div class="section_1">
-            <div class="photo_div" id="avatar"></div>
-            <div class="name" id="name">Иванов Иван Иванович</div>
+            <img src="../src/frame3.jpg" alt="" class="frame">
+            <img class="avatar" id="avatar" src="../src/photo.jpg">
+            <img class="new_frame" src="../src/new_frame.png" alt="">
+            
         </div>
 
         <div class="section_2">
-            <h1>Биография</h1>
+            <div class="name" id="name">Иванов Иван Иванович</div>
             <div class="biography" id="biography"></div>
             <ul class="rewards" id="rewards">
             </ul>
@@ -38,19 +45,20 @@
 
         <div class="section_3">
             <div class="timeline" id="timeline"></div>
-            <div class="description_by_years">
-                <div class="map_div" id="map"></div>
+            <div class="description_by_years" id="description_by_years">
+                <div class="map" id="map"></div>
+
                 <div class="description_div">
-                    <h1>Описание</h1>
-                    <p class="description" id="year_description"></p>
                     <div class="slider">
                         <div class="slider_wrapper">
                             <div class="slider_items" id="photo_slider">
+                                <!-- Здесь будут добавляться изображения -->
                             </div>
                         </div>
-                        <button class="slider_control slider_control_prev"></button>
-                        <button class="slider_control slider_control_next"></button>
+                        <button class="slider_control slider_control_prev" id="prevBtn"><</button>
+                        <button class="slider_control slider_control_next" id="nextBtn">></button>
                     </div>
+                    <p class="description" id="year_description"></p>
                 </div>
             </div>
         </div>

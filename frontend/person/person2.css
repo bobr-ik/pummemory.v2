@@ -1,56 +1,263 @@
+@font-face {
+    font-family: 'Anonymous';
+    src: url('../src/AnonymousPro-Regular.ttf');
+}
+
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Anonymous';
 }
 
+html{
+    scrollbar-width: none;
+}
 
-@font-face {
-    font-family: 'Bebas Neue Thin';
-    src: url('BebasNeue-Thin.eot');
-    src: url('BebasNeue-Thin.eot?#iefix') format('embedded-opentype'),
-        url('BebasNeue-Thin.woff') format('woff'),
-        url('BebasNeue-Thin.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+body{
+    background-image: url('../src/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#button1{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    cursor: pointer;
+    border: none;
+    background-image: url('../src/year_button.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    user-select: none;
+    padding: 5px 10px;
+    font-family: inherit;
+    font-weight: bold;
 }
 
 .main_content{
     display: grid;
-    grid-template-columns: 2fr 2fr;
+    grid-template-columns:min-content auto;
+    /* padding: 0 40px; */
 
     .section_1{
-        padding: 50px;
-        width: 100%;
-        height: 100vh;
+        padding: 20px;
+        width: fit-content;
+        height: calc(100vh);
+        overflow: hidden;
         
 
-        display: flex;
-        flex-direction: column;
+        /* display: flex;
+        flex-direction: column; */
+        position: relative;
 
-        .photo_div{
+        .avatar{
+            margin: 20px 80px;
             position: relative;
-            width: 100%;
-            max-width: 500px;
+            height: calc(100% - 80px);
+            width: auto;
             flex: 1;
-            background-color: aqua;
+            z-index: 1;
+
         }
+        .frame{
+            position: absolute;
+            left: -40px;
+            top: 0;
+            height: calc(100vh);
+            width: calc(100% + 40px);
+            background-color: rgba(255, 255, 255, 0); 
+        }
+        .new_frame{
+            position: absolute;
+            left: 0px;
+            bottom: 0;
+            width: calc(100% + 40px);
+            background-color: rgba(255, 255, 255, 0);
+            object-fit: cover;
+            object-position: bottom;
+            z-index: 2;
+        }
+    }
+
+    .section_2{
+        padding: 60px;
+        padding-top: 20px;
+
         .name{
             font-size: 3rem;
             font-weight: bold;
-            font-family: 'Bebas Neue Thin';
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            max-width: 500px;
+            color: #262626;
+        }
+
+        .biography{
+            padding-top: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align:justify;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            color: #262626;
+        }
+    }
+   
+
+    .section_3{
+        grid-column: 1 / 3;
+
+        .timeline{
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            color: #262626;
+            width: 100%;
+
+            .year_button{
+                flex-grow: 1;
+                border: none;
+                border: #262626 1px solid;
+                cursor: pointer;
+                background-image: url('../src/year_button.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: white;
+                user-select: none;
+
+                &:focus{
+                    outline: none;
+                }
+            }
+        }
+
+        .description_by_years{
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            min-height: calc(100vh - 2rem - 18px);
+            
+            .map{
+                width: 100%;
+                height: calc(100vh - 2rem - 18px);
+                background-image: url(../src/frame3.jpg);
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+
+            .description{
+                padding: 20px;
+                font-size: 1.1rem;
+                font-weight: 700;
+                text-align:justify;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                color: #262626;
+            }
+            /* Основные стили для слайдера */
+            .slider {
+                position: relative;
+                width: 40%;
+                margin: 20px;
+                max-width: 600px; /* или любая желаемая ширина */
+                overflow: hidden;
+                float: right;
+            }
+
+            .slider_wrapper {
+                display: flex;
+                transition: transform 0.5s ease-in-out; /* Плавный переход */
+            }
+
+            .slider_items {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+                gap: 10px; /* Пробелы между изображениями */
+            }
+
+            .slider img {
+                max-width: 100%;
+                max-height: 80vh;
+                height: 200vh;
+                object-fit: cover; /* Изображения будут покрывать блок */
+            }
+
+            .slider_control {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0, 0, 0, 0.5);
+                color: white;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+                z-index: 1;
+                opacity: 0.7;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .slider_control:hover {
+                opacity: 1;
+            }
+
+            .slider_control_prev {
+                left: 10px;
+            }
+
+            .slider_control_next {
+                right: 10px;
+            }
+
+            /* Скрытие кнопки, если слайдер на первом или последнем элементе */
+            .slider_control_hidden {
+                display: none;
+            }
+
         }
     }
 
-    .section_2{
-        padding: 50px;
+}
 
+.active{
+    border: white 1px solid !important;
+    font-weight: 900 !important;
+}
+
+
+
+@media screen and (max-width: 600px) {
+    .main_content{
+        grid-template-columns: 1fr;
     }
 
+    .main_content .section_3{
+        grid-column: 1 / 2;
+    }
+
+    .main_content .section_3 .description_by_years{
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.leaflet-control-container{
+    display: none !important;
 }
