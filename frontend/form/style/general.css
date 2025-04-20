@@ -3,15 +3,16 @@
     padding: 0;
 }
 
-.year-button-block {
+#year-button-block {
     position: absolute;
-    width: 40vw;
+    width: 42vw;
     height: 6vh;
-    left: 51vw;
+    left: 52vw;
     top: calc(1vh + 10px);
 
-    background-color: red;
     border-radius: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 .main-content {
@@ -86,7 +87,7 @@
 
 .description-title {
     position: absolute;
-    width: 43vw;
+    width: 42vw;
     height: auto;
 
     font-size: x-large;
@@ -106,12 +107,12 @@
 
 .year-title {
     top: 1vh;
-    left: calc(47.5vw - 6px);
+    left: 50vw;
 }
 
 .description {
     position: absolute;
-    width: 43vw;
+    width: 42vw;
 }
 
 .general-description {
@@ -123,7 +124,7 @@
 .year-description {
     height: 20%;
     top: 5vh;
-    left: calc(47.5vw - 6px);
+    left: calc(50vw - 6px);
 }
 
 textarea {
@@ -151,7 +152,49 @@ textarea {
     }
 }
 
+/* ================================================ Блок карты */
+
+.map-block {
+    position: absolute;
+    width: calc(44vw + 6px);
+    height: 55vh;
+    left: 49vw;
+    top: calc(10vh + 20%);
+    background-color: rgba(120, 120, 120, 0.5);
+}
+
 /* ================================================ Блок стилей кнопок */
+
+.year-button {
+    width: calc(7vw - 3px);
+    height: 100%;
+
+    border-radius: 10px;
+    border: 3px solid rgb(160, 160, 160);
+    background-color: rgb(200, 200, 200);
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 600;
+    font-size: 2vh;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(220, 220, 220);
+
+        transition: all 0.2s;
+    }
+}
+
+.active-year {
+    transform: translate(0, -5px);
+    box-shadow: -3px 0px 3px rgba(0, 0, 0, 0.2), 3px 0px 3px rgba(0, 0, 0, 0.2);
+    background-color: rgb(220, 220, 220);
+}
 
 #photo-button {
     position: absolute;

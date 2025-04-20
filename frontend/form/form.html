@@ -12,8 +12,17 @@
             height: 100vh;
             background-color: rgb(200, 200, 200);">
 
-    <div class="year-button-block">
+    <div id="year-button-block">
+        <!-- ? <div class="year-button" onclick="changeYear('before')">до 1940</div> --> 
 
+        <div class="year-button" onclick="changeYear('1940')">1940</div>
+        <div class="year-button" onclick="changeYear('1941')">1941</div>
+        <div class="year-button" onclick="changeYear('1942')">1942</div>
+        <div class="year-button" onclick="changeYear('1943')">1943</div>
+        <div class="year-button" onclick="changeYear('1944')">1944</div>
+        <div class="year-button" onclick="changeYear('1945')">1945</div>
+
+        <!-- ? <div class="year-button" onclick="changeYear('after')">после 1945</div> -->
     </div>
 
     <div class="main-content">
@@ -32,14 +41,16 @@
         <div id="person-photo"></div>
 
         <div class="description-title general-title">Общее описание</div>
-        <div class="description general-description">
-            <textarea></textarea>
+        <div class="description general-description" onChange="saveStaticInfo('generalBiography')">
+            <textarea id="generalBiography" placeholder="Общее описание"></textarea>
         </div>
 
         <div class="description-title year-title">Описание года</div>
-        <div class="description year-description">
-            <textarea></textarea>
+        <div class="description year-description" onChange="saveYearInfo()">
+            <textarea id="yearBiography" placeholder="Описание года"></textarea>
         </div>
+
+        <div class="map-block"></div>
 
         <div class="button-block">
             <button class="button-style" data-view="false" id="share-button" onclick="usePopup()">Поделиться формой</button>
