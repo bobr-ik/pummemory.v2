@@ -16,6 +16,21 @@ from data.models import Year
 from models import *
 # from config import settings
 
+import base64
+from data.config import settings
+import requests
+
+
+async def save_images(image: Photo):
+    image_base64 = base64.b64encode(image).decode("utf-8")
+    url = "https://api.imgbb.com/1/upload"
+    payload = {
+        'key': api_key,
+        'image': image_base64,
+    }
+    resp = requests.post(url, data=payload)
+    image.url = resp.json().data.url
+    image.img_del = resp.json().data.delete_url
 
 
 @asynccontextmanager
@@ -38,6 +53,8 @@ async def lifespan(app: FastAPI):
     await Orm.create_all()
     yield    
 
+
+api_key = settings.API_KEY
 app = FastAPI(lifespan=lifespan, root_path='/api')
 
 app.add_middleware(
@@ -48,6 +65,7 @@ app.add_middleware(
     allow_headers=["*"],  # Разрешены все заголовки
 )
 
+
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
     print(exc)
@@ -56,32 +74,41 @@ async def validation_exception_handler(request, exc):
   "message": "Ошибка в данных запроса."
 }, status_code=400)
 
+
 @app.post('/create_token')
 async def create_token():
     res = await Orm.create_token()
     return res
+
 
 @app.get('/check_token')
 async def check_token(token: str):
     res = await Orm.check_token_validity(token)
     return JSONResponse(status_code=200, content=res)
 
+
 @app.get('/get_points')
 async def get_points(year: Year) -> Points:
-    pass
-#Принимает год
-#имя фамилия отчество одним полем - name, координаты - location - cтрока черех пробел , строка, путь к изображению - аве - img_url, айдишник - id
+    #Принимает год
+    #имя фамилия отчество одним полем - name, координаты - location - cтрока черех пробел , строка, путь к изображению - аве - img_url, айдишник - id
+    res = await Orm.get_points(year)
+    return res
+
 
 @app.get('/user_info')
 async def get_user_info(id: int) -> User_info:
     #фио - name, описание - buiography, avatar - фото профиля, rewards - медали, years : [{year: enum story: images:list[str] location:}] 
-    pass
+    pers = await Orm.get_person(id)
+    return pers
+
 
 @app.post('/insert_person')
 async def insert_person(person: Person):
-    pass
-
-
+    avatar = await save_images(person.avatar)
+    person.avatar = avatar
+    for year in person.info:
+        year.images = [await save_images(image) for image in year.images]
+    await Orm.insert_person(person)
 
 
 if __name__ == "__main__":

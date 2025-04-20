@@ -9,6 +9,7 @@ class Token(BaseModel):
 class Person(BaseModel):
     name: str = Field(..., min_length = 3, max_length=60, example = "Иванов Иван Иванович")
     desc: Optional[str] = Field(..., max_length=500, example = "Описание")
+    avatar: bytes|HttpUrl
     rewards: Optional[list['Reward']]
     info: Optional[list['Info']]
     
@@ -17,13 +18,15 @@ class Reward(BaseModel):
     desc: Optional[str] = Field(..., max_length=500, example = "Описание подвига")
 
 class Info(BaseModel):
+    id: Optional[str]
     year: Year
     place: Coordinates
     story: Optional[str] = Field(..., max_length=500, example = "История")
     images: Optional[list['Photo']]
     
 class Photo(BaseModel):
-    url: bytes
+    url: bytes|HttpUrl
+    img_del: Optional[HttpUrl]
 
 
 class Points(BaseModel):

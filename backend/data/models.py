@@ -1,3 +1,4 @@
+import uuid
 from sqlalchemy import Boolean, Column, Table, Integer, String, MetaData, ForeignKey, and_, func, JSON, ARRAY, UniqueConstraint, Date, or_
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 from sqlalchemy.dialects.mysql import JSON
@@ -33,7 +34,7 @@ class Coordinates(TypedDict):
 
 class Person(Base):
     __tablename__ = "person"
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     name: Mapped[str_256]
     desc: Mapped[Optional[str]] = mapped_column(Text, default = "")
     time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
@@ -64,6 +65,7 @@ class Photo(Base):
     __tablename__ = "photos"
     id: Mapped[int] = mapped_column(primary_key=True)
     url: Mapped[str_256]
+    url_delete: Mapped[str_256]
     info: Mapped['Info'] = relationship(back_populates="photos")
     info_id: Mapped[int] = mapped_column(ForeignKey("info.id"))
 
