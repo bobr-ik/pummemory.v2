@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     db: str
     port: str
     secret: str
+    API_KEY: str
     
     @property
     def db_url(self):

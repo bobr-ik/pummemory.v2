@@ -1,3 +1,4 @@
+import uuid
 from sqlalchemy import Boolean, Column, Table, Integer, String, MetaData, ForeignKey, and_, func, JSON, ARRAY, UniqueConstraint, Date, or_
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 from sqlalchemy.dialects.mysql import JSON
@@ -33,7 +34,7 @@ class Coordinates(TypedDict):
 
 class Person(Base):
     __tablename__ = "person"
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     name: Mapped[str_256]
     desc: Mapped[Optional[str]] = mapped_column(Text, default = "")
     time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
@@ -55,7 +56,7 @@ class Info(Base):
     year: Mapped[Year] = mapped_column(Enum(Year))
     pers_id: Mapped[int] = mapped_column(ForeignKey("person.id"))
     pers: Mapped["Person"] = relationship(back_populates="info")
-    place: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None)
+    place: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None) #TODO может не сработать тк туплы криво передаются
     desc: Mapped[Optional[str]] = mapped_column(Text, default="")
     photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="info")
 
@@ -64,6 +65,7 @@ class Photo(Base):
     __tablename__ = "photos"
     id: Mapped[int] = mapped_column(primary_key=True)
     url: Mapped[str_256]
+    url_delete: Mapped[str_256]
     info: Mapped['Info'] = relationship(back_populates="photos")
     info_id: Mapped[int] = mapped_column(ForeignKey("info.id"))
 
@@ -75,22 +77,15 @@ class Tokens(Base):
     is_active: Mapped[bool] = mapped_column(default=True)
     is_admin: Mapped[bool] = mapped_column(default=False)
     gen_time: Mapped[str_256]
+    
+    
 
-    @property
-    def token(self):
-        raise AttributeError("Токен нельзя прочитать напрямую.")
-
-    @token.setter
-    def token(self, value: str):
+    @validates('_token')
+    def hash_token(self, key, value):
         hashed = bcrypt.hashpw(value.encode('utf-8'), bcrypt.gensalt())
-        self._token = hashed.decode('utf-8')  # <--- fix здесь
+        return hashed.decode('utf-8')
+
 
     def check_token(self, raw_token: str):
         return bcrypt.checkpw(raw_token.encode('utf-8'), self._token.encode('utf-8'))
 
-
-    
-    
-    
-    
-    

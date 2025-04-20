@@ -1,8 +1,17 @@
 let GeneralDict = new Map()
 GeneralDict.isInfoAdd = false
 
+let YearDict = new Map()
+YearDict.isInfoAdd = false
+
+const URLParams = new Map()
+
 if (!("GeneralDict" in localStorage)) {
     saveInfo("GeneralDict", GeneralDict);
+}
+
+if (!("YearDict" in localStorage)) {
+    saveInfo("YearDict", YearDict);
 }
 
 function saveInfo(key, value) {
@@ -15,13 +24,37 @@ function getInfo(key) {
     return JSON.parse(jsonString);
 }
 
+addEventListener("load", () => { //func Начальная функция проверки пользователя и работы с аргументами
+    const location = window.location.pathname;
+    const parametrs = new URLSearchParams(window.location.search); //* В url нужно передавать токен и год: ?person=...&year=...
+
+    for (const [key, value] of parametrs.entries()) {
+        URLParams[key] = value;
+    }
+
+    if (URLParams.person === 'MarkToken') {
+        document.getElementById('share-button').dataset.view = 'true';
+    }
+
+    const yearBlock = document.getElementById('year-button-block');
+    for (let year of yearBlock.children) {
+        if (year.textContent === URLParams.year) {
+            year.classList.add('active-year');
+        }
+    }
+});
+
 addEventListener("load", () => {
     GeneralDict = getInfo("GeneralDict")
+    YearDict = getInfo("YearDict")
+
     if (!(GeneralDict.isInfoAdd)) {
         GeneralDict.photo = "media/person.jpg"
         GeneralDict.secondName = undefined
         GeneralDict.firstName = undefined
         GeneralDict.thirdName = undefined
+        GeneralDict.generalBiography = undefined
+        GeneralDict.yearBiography = undefined
     } 
     else {
         addPhoto(GeneralDict.photo)
@@ -31,8 +64,26 @@ addEventListener("load", () => {
             const nameDict = {secondName: 'Фамилия', firstName: 'Имя', thirdName: 'Отчество'}
             GeneralDict[nameList[index]] === undefined ? input.placeholder = nameDict[nameList[index]] : input.value = GeneralDict[nameList[index]]
         });
+
+        const textarea = document.getElementById('generalBiography')
+        GeneralDict['generalBiography'] === undefined ? textarea.placeholder = 'Общее описание' : textarea.value = GeneralDict['generalBiography']
+    }
+
+    if (!(YearDict.isInfoAdd)) {
+        for (let year = 1940; year <= 1945; year++) {
+            YearDict[year] = undefined
+        }
+    }
+    else {
+        const textarea = document.getElementById('yearBiography')
+        YearDict[URLParams.year] === undefined ? textarea.placeholder = `Описаниe года` : textarea.value = YearDict[URLParams.year]
     }
 })
+
+function changeYear(year) {
+    const path = `${window.location.pathname}?person=${URLParams.person}&year=${year}`;
+    window.location.href = path;
+}
 
 addEventListener("load", () => addPhoto(GeneralDict.photo));
 
@@ -58,8 +109,15 @@ function saveStaticInfo(key) {
     GeneralDict[key] = info.value;
 
     GeneralDict.isInfoAdd = true
-    console.log(GeneralDict)
     saveInfo("GeneralDict", GeneralDict);
+}
+
+function saveYearInfo() {
+    const info = document.getElementById('yearBiography');
+    YearDict[URLParams.year] = info.value;
+
+    YearDict.isInfoAdd = true
+    saveInfo("YearDict", YearDict);
 }
 
 async function usePopup() {
@@ -67,6 +125,7 @@ async function usePopup() {
     // response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
     // data = await response.json();
     
+    data = 'Ультра супер классный единоразовый токен';
     const link = document.getElementById('link');
     link.innerHTML = data;
 }
@@ -100,7 +159,8 @@ pht_input.addEventListener('change', () => {
 });
 
 
-function sendAllInfo() {
+function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
     saveInfo('GeneralDict', {})
+    saveInfo('YearDict', {})
     location.reload()
 }
