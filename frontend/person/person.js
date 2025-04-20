@@ -16,7 +16,32 @@ const personData = {
     id: 1,
     name: "Иванов Иван Иванович",
     biography: "Георгий Васильевич поступил в распоряжение Коломенского артиллерийского учебного лагеря. В нём под руководством полковника Коваленко и подполковника Остроухова с 17 декабря 1943 года по 5 июня 1944 года шло формирование 1972 истребительного противотанкового полка. За время боевых действий полком было уничтожено 46 танков, около 200 пулемётов и свыше 2000 солдат противника. \nВ этом полку прадед служил в должности наводчика орудия, а также бесперебойно обеспечивал связь в качестве телефониста I батареи.",
-    rewards: "Медаль «За отвагу», Орден Красной Звезды",
+    rewards: [
+        {
+            name: "Орден Отечественной Войны",
+            image: "../src/reward.jpg"
+        },
+        {
+            name: "Орден Красной Звезды",
+            image: "../src/reward2.jpg"
+        },
+        {
+            name: "Орден Суворова",
+            image: "../src/reward1.jpg"
+        },
+        {
+            name: "Орден Отечественной Войны",
+            image: "../src/reward.jpg"
+        },
+        {
+            name: "Орден Красной Звезды",
+            image: "../src/reward2.jpg"
+        },
+        {
+            name: "Орден Суворова",
+            image: "../src/reward1.jpg"
+        }
+    ],
     avatar: "../src/photo.jpg",
     years: [
         {
@@ -216,7 +241,13 @@ function initPage() {
     name_elem.textContent = personData.name;
     avatar_elem.src = personData.avatar;
     biography_elem.textContent = personData.biography;
-    rewards_elem.textContent = personData.rewards;
+
+    personData.rewards.forEach(reward => {
+        const reward_elem = document.createElement('div');
+        reward_elem.classList.add('reward');
+        reward_elem.innerHTML = `<img src="${reward.image}" alt="${reward.name}"> <p class="reward_name">${reward.name}</p>`;
+        rewards_elem.appendChild(reward_elem);
+    });
 
     const map = createMap();  
     year_buttons = []
