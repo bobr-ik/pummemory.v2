@@ -118,6 +118,7 @@ body{
         .description_by_years{
             display: grid;
             grid-template-columns: 1fr 2fr;
+            min-height: calc(100vh - 2rem - 18px);
             
             .map{
                 width: 100%;
