@@ -28,6 +28,7 @@ class Orm:
             print('create_all')
             await conn.run_sync(Base.metadata.drop_all)
             await conn.run_sync(Base.metadata.create_all)
+            await Orm.insert_or_upd_rewards()
             
             
     # @staticmethod
@@ -51,6 +52,7 @@ class Orm:
             await session.commit()
         return token_str
     
+    
     @staticmethod
     async def check_token_validity(token: str):
         async with async_session_factory() as session:
@@ -67,7 +69,7 @@ class Orm:
             if res:
                 return res
             else:
-                query = insert(Rewards).values(title=reward.title, desc=reward.desc)
+                query = insert(Rewards).values(title=reward.title)
                 await session.execute(query)
                 await session.flush()
                 res = await session.execute(select(Rewards).where(Rewards.title == reward.title))
@@ -88,7 +90,8 @@ class Orm:
             await session.add(Person(id=us_id, name=person.name, desc=person.desc, time_added=datetime.datetime.now(), rewards=rew, info=info_list))
             await session.commit()
             return us_id
-        
+    
+    
     @staticmethod
     async def get_person(id: str):
         async with async_session_factory() as session:
@@ -133,3 +136,28 @@ class Orm:
                 } for info in res
                 ]
             return ans
+        
+        
+    @staticmethod
+    async def insert_or_upd_rewards():
+        async with async_session_factory() as session:
+            rew = await session.execute(select(Rewards))
+            rew = rew.scalars().all()
+            if rew:
+                return
+            with open('backend/data/medals.txt', encoding='utf-8') as f:
+                for line in f.readlines():
+                    line = line.split('-')
+                    line[1] = line[1].replace('\n', '')
+                    print(line)
+                    
+                    session.add(Rewards(title=line[1], img_url=line[0]))
+            await session.commit()
+            
+    
+    @staticmethod
+    async def get_rewards():
+        async with async_session_factory() as session:
+            rew = await session.execute(select(Rewards))
+            rew = rew.scalars().all()
+            return rew    

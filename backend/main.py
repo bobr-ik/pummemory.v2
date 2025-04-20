@@ -34,21 +34,21 @@ async def save_images(image: Photo):
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    while True:
-            try:
-                conn = await asyncmy.connect(
-                    host="db",
-                    user="dak",
-                    password="123456789Dak",
-                    database="pummemory_test",
-                    port=3306
-                )
-                await conn.ensure_closed()
-                print("MySQL is ready!")
-                break
-            except Exception as e:
-                print("Waiting for MySQL to be ready...", str(e))
-                await asyncio.sleep(1)
+    # while True:
+            # try:
+            #     conn = await asyncmy.connect(
+            #         host="db",
+            #         user="dak",
+            #         password="123456789Dak",
+            #         database="pummemory_test",
+            #         port=3306
+            #     )
+            #     await conn.ensure_closed()
+            #     print("MySQL is ready!")
+            #     break
+            # except Exception as e:
+            #     print("Waiting for MySQL to be ready...", str(e))
+            #     await asyncio.sleep(1)
     await Orm.create_all()
     yield    
 
@@ -108,6 +108,11 @@ async def insert_person(person: Person):
     for year in person.info:
         year.images = [await save_images(image) for image in year.images]
     await Orm.insert_person(person)
+    
+@app.get('/get_rewards')
+async def get_rewards():
+    res = await Orm.get_rewards()
+    return res
 
 
 if __name__ == "__main__":
