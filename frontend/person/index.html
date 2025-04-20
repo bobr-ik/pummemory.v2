@@ -1,521 +1,71 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <title>Истории с Войны</title>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js" integrity="sha256-HkXXtFRaflZ7gjmpjGQBENGnq8NIno4SDNq/3DbkMgo=" crossorigin="anonymous"></script>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUM</title>
+    <!-- <link rel="stylesheet" href="../src/leaflet/leaflet.css"/> -->
+    <link rel="stylesheet" href="person.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="icon/12.png" type="image/x-icon">
-    <link rel="stylesheet" href="person.css">
-</head>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-providers@1.13.0/leaflet-providers.js"></script>
+</head>
 <body>
-    <button 
+    <!-- <button 
         onclick="topFunction()" 
         id="myBtn" 
         class="icofont fa fa-angle-up" 
         title="Перенестить на верхушку страницы">
-    </button>
+    </button> -->
     
     <div class="header">
         <button class="button" id="button1" onclick="back_button()">Назад</button>
     </div>
 
-    <div class="wrapper">
-        <div class="footer">
-            <button class="accordion" id="Bee">Биография <span id="buttonName"></span></button>
-            <div class="panel">
-                <h5><br /><span id="biographyText"></span><br/><br/><span id="medalsText"></span></h5>
 
-                <div class="slider">
-                    <div class="slider__wrapper">
-                        <div class="slider__items" id="biographySlider">
-                            <!-- Images will be inserted here by JavaScript -->
-                        </div>
-                    </div>
-                    <a class="slider__control slider__control_prev" href="#" role="button"></a>
-                    <a class="slider__control slider__control_next" href="#" role="button"></a>
-                </div>
+    <div class="main_content">
+        <div class="section_1_div">
+            <img src="../src/frame3.jpg" alt="" class="frame">
+            <div class="section_1">
+                <img class="avatar" id="avatar" src="../src/photo.jpg">
+                <img class="new_frame" src="../src/new_frame.png" alt="">
+                
             </div>
+        </div>
 
-            <button class="accordion" id="Bee">Фотографии, связанные с <span id="yearTitle"></span> годом</button>
-            <div class="panel">
-                <div class="slider1">
-                    <div class="slider__wrapper1">
-                        <div class="slider__items1" id="yearSlider">
-                            <!-- Images will be inserted here by JavaScript -->
+        <div class="section_2">
+            <div class="name" id="name">Иванов Иван Иванович</div>
+            <div class="biography" id="biography"></div>
+            <ul class="rewards" id="rewards">
+            </ul>
+        </div>
+
+        <div class="section_3">
+            <div class="timeline" id="timeline"></div>
+            <div class="description_by_years" id="description_by_years">
+                <div class="map" id="map"></div>
+
+                <div class="description_div">
+                    <div class="slider">
+                        <div class="slider_wrapper">
+                            <div class="slider_items" id="photo_slider">
+                                <!-- Здесь будут добавляться изображения -->
+                            </div>
                         </div>
+                        <button class="slider_control slider_control_prev" id="prevBtn"><</button>
+                        <button class="slider_control slider_control_next" id="nextBtn">></button>
                     </div>
-                    <a class="slider__control1 slider__control_prev1" href="#" role="button"></a>
-                    <a class="slider__control1 slider__control_next1" href="#" role="button"></a>
+                    <p class="description" id="year_description"></p>
                 </div>
             </div>
         </div>
 
-        <div class="content">
-            <h3 id="noc">История из <span id="yearDisplay"></span> года</h3>
-            <h5><br /><span id="yearStory"></span></h5>
-            <h6 id="user"><br /><span id="authorName"></span></h6>
-            <br />
-            <nav class="text-center" aria-label="Последние новости">
-                <ul class="pagination justify-content-center">
-                    <li><a id="br2" href="?year=1940&id=1">1940</a></li>
-                    <li><a id="br3" href="?year=1941&id=1">1941</a></li>
-                    <li><a id="br4" href="?year=1942&id=1">1942</a></li>
-                    <li><a id="br5" href="?year=1943&id=1">1943</a></li>
-                    <li><a id="br6" href="?year=1944&id=1">1944</a></li>
-                    <li><a id="br7" href="?year=1945&id=1">1945</a></li>
-                </ul>
-            </nav>
-        </div>
 
-        <div class="clear"></div>
-    </div>
-
-
-    <script>
-    // Static data replacement for database
-    const personData = {
-        id: 1,
-        name: "Иван Иванов",
-        biography: "Иван Иванович Иванов родился в 1920 году... (полная биография здесь)",
-        medals: "Медаль «За отвагу», Орден Красной Звезды",
-        images: [
-            "path/to/image1.jpg",
-            "path/to/image2.jpg",
-            "path/to/image3.jpg"
-        ],
-        years: {
-            "1940": {
-                story: "В 1940 году Иван Иванов был призван в армию...",
-                images: ["path/to/1940_image1.jpg", "path/to/1940_image2.jpg"]
-            },
-            "1941": {
-                story: "В 1941 году Иван участвовал в обороне Москвы...",
-                images: ["path/to/1941_image1.jpg"]
-            },
-            "1942": {
-                story: "В 1942 году Иван был ранен в бою под Сталинградом...",
-                images: ["path/to/1942_image1.jpg", "path/to/1942_image2.jpg"]
-            },
-            "1943": {
-                story: "После госпиталя в 1943 году вернулся на фронт...",
-                images: ["path/to/1943_image1.jpg"]
-            },
-            "1944": {
-                story: "В 1944 году участвовал в операции «Багратион»...",
-                images: ["path/to/1944_image1.jpg"]
-            },
-            "1945": {
-                story: "День Победы встретил в Берлине...",
-                images: ["path/to/1945_image1.jpg", "path/to/1945_image2.jpg", "path/to/1945_image3.jpg"]
-            }
-        },
-        author: "Петр Петров"
-    };
-
-    // Get URL parameters
-    function getUrlParams() {
-        const params = new URLSearchParams(window.location.search);
-        return {
-            id: params.get('id') || 1,
-            year: params.get('year') || '1941'
-        };
-    }
-
-    // Initialize page with data
-    function initPage() {
-        const { year } = getUrlParams();
-        
-        // Set person data
-        document.getElementById('buttonName').textContent = personData.name;
-        document.getElementById('biographyText').textContent = personData.biography;
-        document.getElementById('medalsText').textContent = personData.medals ? `Награды: ${personData.medals}` : '';
-        document.getElementById('authorName').textContent = personData.author;
-        
-        // Set year-specific data
-        document.getElementById('yearTitle').textContent = year;
-        document.getElementById('yearDisplay').textContent = year;
-        document.getElementById('yearStory').textContent = personData.years[year].story;
-        
-        // Highlight current year in pagination
-        document.querySelectorAll('.pagination a').forEach(link => {
-            link.classList.remove('active');
-            if (link.textContent === year) {
-                link.classList.add('active');
-            }
-        });
-        
-        // Load biography images
-        const bioSlider = document.getElementById('biographySlider');
-        if (personData.images.length > 0) {
-            personData.images.forEach(img => {
-                bioSlider.innerHTML += `<div class='slider__item'><img class='img-fluid' src='${img}'></div>`;
-            });
-        } else {
-            bioSlider.innerHTML = "<h2 align='center'>У составителя статьи нет фотографий</h2>";
-        }
-        
-        // Load year images
-        const yearSlider = document.getElementById('yearSlider');
-        if (personData.years[year].images.length > 0) {
-            personData.years[year].images.forEach(img => {
-                yearSlider.innerHTML += `<div class='slider__item1'><img class='img-fluid1' src='${img}'></div>`;
-            });
-        } else {
-            yearSlider.innerHTML = "<h2 align='center'>У составителя статьи нет фотографий на этот год</h2>";
-        }
-        
-        // Initialize sliders
-        initSlider('.slider');
-        initSlider('.slider1');
-    }
-
-    // Initialize slider
-    function initSlider(selector) {
-        const slider = document.querySelector(selector);
-        const wrapper = slider.querySelector(`${selector}__wrapper`);
-        const items = slider.querySelectorAll(`${selector}__item`);
-        const controls = slider.querySelectorAll(`${selector}__control`);
-        
-        let currentPosition = 0;
-        let transformValue = 0;
-        const transformStep = 100;
-        
-        // Add indicators
-        const indicatorsContainer = document.createElement('ol');
-        indicatorsContainer.classList.add(`${selector.replace('.', '')}__indicators`);
-        
-        items.forEach((item, index) => {
-            const indicator = document.createElement('li');
-            if (index === 0) indicator.classList.add('active');
-            indicator.setAttribute(`data-slide-to${selector === '.slider1' ? '1' : ''}`, index);
-            indicatorsContainer.appendChild(indicator);
-        });
-        
-        slider.appendChild(indicatorsContainer);
-        const indicatorItems = slider.querySelectorAll(`${selector.replace('.', '')}__indicators > li`);
-        
-        // Navigation functions
-        function move(direction) {
-            if (direction === 'next') {
-                currentPosition++;
-                transformValue -= transformStep;
-            } else {
-                currentPosition--;
-                transformValue += transformStep;
-            }
-            
-            wrapper.style.transform = `translateX(${transformValue}%)`;
-            updateIndicators(direction);
-        }
-        
-        function updateIndicators(direction) {
-            const activeIndicator = slider.querySelector(`${selector.replace('.', '')}__indicators > li.active`);
-            let nextIndicator;
-            
-            if (direction === 'next') {
-                nextIndicator = activeIndicator.nextElementSibling || 
-                               slider.querySelector(`${selector.replace('.', '')}__indicators > li:first-child`);
-            } else {
-                nextIndicator = activeIndicator.previousElementSibling || 
-                               slider.querySelector(`${selector.replace('.', '')}__indicators > li:last-child`);
-            }
-            
-            activeIndicator.classList.remove('active');
-            nextIndicator.classList.add('active');
-        }
-        
-        // Event listeners
-        controls.forEach(control => {
-            control.addEventListener('click', (e) => {
-                e.preventDefault();
-                move(control.classList.contains(`${selector.replace('.', '')}__control_next`) ? 'next' : 'prev');
-            });
-        });
-        
-        // Touch support
-        let startX = 0;
-        slider.addEventListener('touchstart', (e) => {
-            startX = e.changedTouches[0].clientX;
-        });
-        
-        slider.addEventListener('touchend', (e) => {
-            const endX = e.changedTouches[0].clientX;
-            const deltaX = endX - startX;
-            
-            if (deltaX > 50) {
-                move('prev');
-            } else if (deltaX < -50) {
-                move('next');
-            }
-        });
-    }
-
-    // Back button function
-    function back_button() {
-        const { year } = getUrlParams();
-        window.location = `../?year=${year}`;
-    }
-
-    // Scroll to top function
-    window.onscroll = function() {
-        scrollFunction()
-    };
-
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            document.getElementById("myBtn").style.display = "block";
-        } else {
-            document.getElementById("myBtn").style.display = "none";
-        }
-    }
-
-    function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-    }
-
-    // Accordion functionality
-    document.querySelectorAll(".accordion").forEach(acc => {
-        acc.addEventListener("click", function() {
-            this.classList.toggle("active");
-            const panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-        });
-    });
-
-    // Initialize the page when loaded
-    document.addEventListener('DOMContentLoaded', initPage);
-    </script>
-
-    <script>
-        var slideShow = (function () {
-    return function (selector, config) {
-      var
-      _slider = document.querySelector(selector), // основный элемент блока
-      _sliderContainer = _slider.querySelector('.slider__items1'), // контейнер для .slider-item
-      _sliderItems = _slider.querySelectorAll('.slider__item1'), // коллекция .slider-item
-      _sliderControls = _slider.querySelectorAll('.slider__control1'), // элементы управления
-      _currentPosition = 0, // позиция левого активного элемента
-      _transformValue = 0, // значение транфсофрмации .slider_wrapper
-      _transformStep = 100, // величина шага (для трансформации)
-      _itemsArray = [], // массив элементов
-      _timerId,
-      _indicatorItems,
-      _indicatorIndex = 0,
-      _indicatorIndexMax = _sliderItems.length - 1,
-      _stepTouch = 50,
-      _config = {
-
-        directionAutoplay: 'next1', // направление смены слайдов
-      };
-
-      // настройка конфигурации слайдера в зависимости от полученных ключей
-      for (var key in config) {
-        if (key in _config) {
-          _config[key] = config[key];
-        }
-      }
-
-      // наполнение массива _itemsArray
-      for (var i = 0, length = _sliderItems.length; i < length; i++) {
-        _itemsArray.push({ item: _sliderItems[i], position: i, transform: 0 });
-      }
-
-      // переменная position содержит методы с помощью которой можно получить минимальный и максимальный индекс элемента, а также соответствующему этому индексу позицию
-      var position = {
-        getItemIndex: function (mode) {
-          var index = 0;
-          for (var i = 0, length = _itemsArray.length; i < length; i++) {
-            if ((_itemsArray[i].position < _itemsArray[index].position && mode === 'min') || (_itemsArray[i].position > _itemsArray[index].position && mode === 'max')) {
-              index = i;
-            }
-          }
-          return index;
-        },
-        getItemPosition: function (mode) {
-          return _itemsArray[position.getItemIndex(mode)].position;
-        }
-      };
-
-      // функция, выполняющая смену слайда в указанном направлении
-      var _move = function (direction) {
-        var nextItem, currentIndicator = _indicatorIndex;;
-        if (direction === 'next1') {
-          _currentPosition++;
-          if (_currentPosition > position.getItemPosition('max')) {
-            nextItem = position.getItemIndex('min');
-            _itemsArray[nextItem].position = position.getItemPosition('max') + 1;
-            _itemsArray[nextItem].transform += _itemsArray.length * 100;
-            _itemsArray[nextItem].item.style.transform = 'translateX(' + _itemsArray[nextItem].transform + '%)';
-          }
-          _transformValue -= _transformStep;
-          _indicatorIndex = _indicatorIndex + 1;
-          if (_indicatorIndex > _indicatorIndexMax) {
-            _indicatorIndex = 0;
-          }
-        } else {
-          _currentPosition--;
-          if (_currentPosition < position.getItemPosition('min')) {
-            nextItem = position.getItemIndex('max');
-            _itemsArray[nextItem].position = position.getItemPosition('min');
-            _itemsArray[nextItem].transform -= _itemsArray.length * 100;
-            _itemsArray[nextItem].item.style.transform = 'translateX(' + _itemsArray[nextItem].transform + '%)';
-          }
-          _transformValue += _transformStep;
-          _indicatorIndex = _indicatorIndex - 1;
-          if (_indicatorIndex < 0) {
-            _indicatorIndex = _indicatorIndexMax;
-          }
-        }
-        _sliderContainer.style.transform = 'translateX(' + _transformValue + '%)';
-        _indicatorItems[currentIndicator].classList.remove('active');
-        _indicatorItems[_indicatorIndex].classList.add('active');
-      };
-
-      // функция, осуществляющая переход к слайду по его порядковому номеру
-      var _moveTo = function (index) {
-        var i = 0, direction = (index > _indicatorIndex) ? 'next1' : 'prev1';
-        while (index !== _indicatorIndex && i <= _indicatorIndexMax) {
-          _move(direction);
-          i++;
-        }
-      };
-
-      // функция для запуска автоматической смены слайдов через промежутки времени
-      var _startAutoplay = function () {
-        if (!_config.isAutoplay) {
-          return;
-        }
-        _stopAutoplay();
-        _timerId = setInterval(function () {
-          _move(_config.directionAutoplay);
-        }, _config.delayAutoplay);
-      };
-
-      // функция, отключающая автоматическую смену слайдов
-      var _stopAutoplay = function () {
-        clearInterval(_timerId);
-      };
-
-      // функция, добавляющая индикаторы к слайдеру
-      var _addIndicators = function () {
-        var indicatorsContainer = document.createElement('ol');
-        indicatorsContainer.classList.add('slider__indicators1');
-        for (var i = 0, length = _sliderItems.length; i < length; i++) {
-          var sliderIndicatorsItem = document.createElement('li');
-          if (i === 0) {
-            sliderIndicatorsItem.classList.add('active');
-          }
-          sliderIndicatorsItem.setAttribute("data-slide-to1", i);
-          indicatorsContainer.appendChild(sliderIndicatorsItem);
-        }
-        _slider.appendChild(indicatorsContainer);
-        _indicatorItems = _slider.querySelectorAll('.slider__indicators1 > li')
-      };
-
-      var _isTouchDevice = function () {
-        return !!('ontouchstart' in window || navigator.maxTouchPoints);
-      };
-
-      // функция, осуществляющая установку обработчиков для событий
-      var _setUpListeners = function () {
-        var _startX = 0;
-        if (_isTouchDevice()) {
-          _slider.addEventListener('touchstart', function (e) {
-            _startX = e.changedTouches[0].clientX;
-            _startAutoplay();
-          });
-          _slider.addEventListener('touchend', function (e) {
-            var
-              _endX = e.changedTouches[0].clientX,
-              _deltaX = _endX - _startX;
-            if (_deltaX > _stepTouch) {
-              _move('prev1');
-            } else if (_deltaX < -_stepTouch) {
-              _move('next1');
-            }
-            _startAutoplay();
-          });
-        } else {
-          for (var i = 0, length = _sliderControls.length; i < length; i++) {
-            _sliderControls[i].classList.add('slider__control_show1');
-          }
-        }
-        _slider.addEventListener('click', function (e) {
-          if (e.target.classList.contains('slider__control1')) {
-            e.preventDefault();
-            _move(e.target.classList.contains('slider__control_next1') ? 'next1' : 'prev1');
-            _startAutoplay();
-          } else if (e.target.getAttribute('data-slide-to1')) {
-            e.preventDefault();
-            _moveTo(parseInt(e.target.getAttribute('data-slide-to1')));
-            _startAutoplay();
-          }
-        });
-        document.addEventListener('visibilitychange', function () {
-          if (document.visibilityState === "hidden") {
-            _stopAutoplay();
-          } else {
-            _startAutoplay();
-          }
-        }, false);
-        if (_config.isPauseOnHover && _config.isAutoplay) {
-          _slider.addEventListener('mouseenter', function () {
-            _stopAutoplay();
-          });
-          _slider.addEventListener('mouseleave', function () {
-            _startAutoplay();
-          });
-        }
-      };
-
-      // добавляем индикаторы к слайдеру
-      _addIndicators();
-      // установливаем обработчики для событий
-      _setUpListeners();
-      // запускаем автоматическую смену слайдов, если установлен соответствующий ключ
-      _startAutoplay();
-
-      return {
-        // метод слайдера для перехода к следующему слайду
-        next: function () {
-          _move('next1');
-        },
-        // метод слайдера для перехода к предыдущему слайду
-        left: function () {
-          _move('prev1');
-        },
-        // метод отключающий автоматическую смену слайдов
-        stop: function () {
-          _config.isAutoplay = false;
-          _stopAutoplay();
-        },
-        // метод запускающий автоматическую смену слайдов
-        cycle: function () {
-          _config.isAutoplay = true;
-          _startAutoplay();
-        }
-      }
-    }
-  }());
-
-  slideShow('.slider1', {
-    isAutoplay: true
-  });
-    </script>
+    <script src="person.js"></script>
 </body>
 </html>
