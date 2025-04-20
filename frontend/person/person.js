@@ -9,7 +9,7 @@ function getUrlParams() {
 
 function back_button() {
     const { year_from_url } = getUrlParams();
-    window.location = `../?year=${year_from_url}`;
+    window.location = `../index.html?year=${year_from_url}`;
 }
 
 const personData = {
