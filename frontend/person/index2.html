@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="icon/12.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	
 </head>
 <body>
     <!-- <button 
@@ -25,12 +29,13 @@
 
     <div class="main_content">
         <div class="section_1">
-            <div class="photo_div" id="avatar"></div>
-            <div class="name" id="name">Иванов Иван Иванович</div>
+            <img src="../src/frame3.jpg" alt="" class="frame">
+            <img class="avatar" id="avatar" src="../src/photo.jpg">
+            
         </div>
 
         <div class="section_2">
-            <h1>Биография</h1>
+            <div class="name" id="name">Иванов Иван Иванович</div>
             <div class="biography" id="biography"></div>
             <ul class="rewards" id="rewards">
             </ul>
@@ -39,7 +44,8 @@
         <div class="section_3">
             <div class="timeline" id="timeline"></div>
             <div class="description_by_years">
-                <div class="map_div" id="map"></div>
+                <div class="map" id="map"></div>
+
                 <div class="description_div">
                     <h1>Описание</h1>
                     <p class="description" id="year_description"></p>
