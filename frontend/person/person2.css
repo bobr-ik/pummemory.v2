@@ -23,25 +23,25 @@ body{
 
 .main_content{
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns:min-content auto;
     /* padding: 0 40px; */
 
     .section_1{
         padding: 20px;
-        width: 100%;
+        width: fit-content;
         height: 100vh;
         
 
-        display: flex;
-        flex-direction: column;
+        /* display: flex;
+        flex-direction: column; */
         position: relative;
 
         .avatar{
             margin: 20px 80px;
             position: relative;
             height: calc(100% - 40px);
+            width: auto;
             flex: 1;
-            object-fit: cover;
             z-index: 1;
 
         }
@@ -98,23 +98,118 @@ body{
             color: #262626;
             width: 100%;
 
-            button{
+            .year_button{
                 flex-grow: 1;
+                border: none;
+                border: #262626 1px solid;
+                cursor: pointer;
+                background-image: url('../src/year_button.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: white;
+                user-select: none;
+
+                &:focus{
+                    outline: none;
+                }
             }
         }
 
         .description_by_years{
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 2fr;
             
             .map{
                 width: 100%;
-                height: calc(100vh - 2rem - 20px);
-                background-color: aqua;
+                height: calc(100vh - 2rem - 18px);
+                background-image: url(../src/frame3.jpg);
+                background-size: cover;
+                background-repeat: no-repeat;
             }
+
+            .description{
+                padding: 20px;
+                font-size: 1.1rem;
+                font-weight: 700;
+                text-align:justify;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                color: #262626;
+            }
+            /* Основные стили для слайдера */
+            .slider {
+                position: relative;
+                width: 40%;
+                margin: 20px;
+                max-width: 600px; /* или любая желаемая ширина */
+                overflow: hidden;
+                float: right;
+            }
+
+            .slider_wrapper {
+                display: flex;
+                transition: transform 0.5s ease-in-out; /* Плавный переход */
+            }
+
+            .slider_items {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+                gap: 10px; /* Пробелы между изображениями */
+            }
+
+            .slider img {
+                max-width: 100%;
+                max-height: 80vh;
+                height: 200vh;
+                object-fit: cover; /* Изображения будут покрывать блок */
+            }
+
+            .slider_control {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0, 0, 0, 0.5);
+                color: white;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+                z-index: 1;
+                opacity: 0.7;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .slider_control:hover {
+                opacity: 1;
+            }
+
+            .slider_control_prev {
+                left: 10px;
+            }
+
+            .slider_control_next {
+                right: 10px;
+            }
+
+            /* Скрытие кнопки, если слайдер на первом или последнем элементе */
+            .slider_control_hidden {
+                display: none;
+            }
+
         }
     }
 
+}
+
+.active{
+    border: white 1px solid !important;
+    font-weight: 900 !important;
 }
 
 
@@ -131,4 +226,9 @@ body{
     .main_content .section_3 .description_by_years{
         grid-template-columns: 1fr;
     }
+}
+
+
+.leaflet-control-container{
+    display: none !important;
 }
