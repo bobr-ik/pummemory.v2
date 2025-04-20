@@ -33,7 +33,7 @@ addEventListener("load", () => { //func Начальная функция про
     }
 
     if (URLParams.person === 'MarkToken') {
-        document.getElementById('share-button').dataset.view = 'true';
+        document.getElementById('share-button').dataset.view = true;
     }
 
     const yearBlock = document.getElementById('year-button-block');
@@ -72,6 +72,7 @@ addEventListener("load", () => {
     if (!(YearDict.isInfoAdd)) {
         for (let year = 1940; year <= 1945; year++) {
             YearDict[year] = undefined
+            YearDict[`${year}-photo`] = undefined
         }
     }
     else {
@@ -120,43 +121,83 @@ function saveYearInfo() {
     saveInfo("YearDict", YearDict);
 }
 
-async function usePopup() {
-    document.getElementById('main-popup').classList.toggle('close');
+async function useLinkPopup() {
+    document.getElementById('link-popup').classList.toggle('close');
     // response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
     // data = await response.json();
-    
+
     data = 'Ультра супер классный единоразовый токен';
     const link = document.getElementById('link');
     link.innerHTML = data;
 }
 
-function closePopup() {
-    document.getElementById('main-popup').classList.toggle('close');
+function usePhotoPopup(status = 0) {
+    if (status === 0) {
+        document.getElementById('photo-popup').classList.toggle('close');
+    }
+
+    const photoBlock = document.getElementById('photo-block');
+    if (YearDict[`${URLParams.year}-photo`] === undefined) {
+        photoBlock.innerHTML = 'На этот год фотографии отсутствуют';
+    } else {
+        photoBlock.innerHTML = '';
+        YearDict[`${URLParams.year}-photo`].forEach(adress => {
+            const photo = document.createElement('div');
+            photo.classList.add('year-photo');
+            photo.style.backgroundImage = `url('${adress}')`;
+            photoBlock.appendChild(photo);
+        });
+    }
 }
 
-const pht_button = document.getElementById('photo-button');
-const pht_input = document.getElementById('photo-input');
+function copyLink() {
+    const link = document.getElementById('link');
+    navigator.clipboard.writeText(link.innerHTML);
 
-pht_button.addEventListener('click', () => {
-    pht_input.click();
-});
+    const copyButton = document.getElementById('copy-button');
+    copyButton.innerHTML = 'copied';
+}
 
-pht_input.addEventListener('change', () => {
-    const file = pht_input.files[0];
-    
+function closePopup(id) {
+    document.getElementById(id).classList.toggle('close');
+}
+
+function useInput(id) {
+    document.getElementById(id).click();
+}
+
+function saveInputPhoto(id) {
+    const input = document.getElementById(id);
+    const file = input.files[0];
+
     if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
         
         reader.onload = function (e) {
-            GeneralDict.photo = e.target.result;
-            GeneralDict.isInfoAdd = true
-            saveInfo("GeneralDict", GeneralDict)
-            addPhoto(e.target.result)
+            adress = e.target.result
+
+            if (id === 'photo-input') {
+                GeneralDict.photo = e.target.result;
+                GeneralDict.isInfoAdd = true
+                saveInfo("GeneralDict", GeneralDict)
+                addPhoto(e.target.result)
+            } else {
+                if (YearDict[`${URLParams.year}-photo`] === undefined) {
+                    YearDict[`${URLParams.year}-photo`] = [adress];
+                    // console.log(YearDict)
+                } else {
+                    YearDict[`${URLParams.year}-photo`].push(adress);
+                }
+                console.log(YearDict)
+                YearDict.isInfoAdd = true
+                saveInfo("YearDict", YearDict)
+                usePhotoPopup(1)
+            }
         };
         
         reader.readAsDataURL(file);
     }
-});
+}
 
 
 function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
