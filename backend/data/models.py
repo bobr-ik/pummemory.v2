@@ -14,7 +14,7 @@ import bcrypt
 person_rewards = Table(
     "person_rewards",
     Base.metadata,
-    Column("person_id", Integer, ForeignKey("person.id"), primary_key=True),
+    Column("person_id", String(256), ForeignKey("person.id"), primary_key=True),
     Column("reward_id", Integer, ForeignKey("rewards.id"), primary_key=True),
 )
 
@@ -34,7 +34,7 @@ class Coordinates(TypedDict):
 
 class Person(Base):
     __tablename__ = "person"
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    id: Mapped[str_256] = mapped_column(primary_key=True)
     name: Mapped[str_256]
     desc: Mapped[Optional[str]] = mapped_column(Text, default = "")
     time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
@@ -46,7 +46,8 @@ class Rewards(Base):
     __tablename__ = "rewards"
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str_256]
-    desc: Mapped[str] = mapped_column(Text, default ="")
+    # desc: Mapped[str] = mapped_column(Text, default ="")
+    img_url: Mapped[str_256]
     ppl_got: Mapped[list["Person"]] = relationship("Person", secondary=person_rewards, back_populates="rewards")
     
 
