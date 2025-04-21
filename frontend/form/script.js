@@ -4,7 +4,7 @@ GeneralDict.isInfoAdd = false
 let YearDict = new Map()
 YearDict.isInfoAdd = false
 
-const URLParams = new Map()
+const URLParams = {}
 
 if (!("GeneralDict" in localStorage)) {
     saveInfo("GeneralDict", GeneralDict);
@@ -24,8 +24,7 @@ function getInfo(key) {
     return JSON.parse(jsonString);
 }
 
-addEventListener("load", () => { //func Начальная функция проверки пользователя и работы с аргументами
-    const location = window.location.pathname;
+addEventListener("load", () => {
     const parametrs = new URLSearchParams(window.location.search); //* В url нужно передавать токен и год: ?person=...&year=...
 
     for (const [key, value] of parametrs.entries()) {
@@ -73,6 +72,7 @@ addEventListener("load", () => {
         for (let year = 1940; year <= 1945; year++) {
             YearDict[year] = undefined
             YearDict[`${year}-photo`] = undefined
+            YearDict[`${year}-cord`] = undefined
         }
     }
     else {
@@ -209,3 +209,46 @@ function sendAllInfo() {            //* Сейчас просто отчищае
     saveInfo('YearDict', {})
     location.reload()
 }
+
+
+// ======================================= Работа с картой
+
+let map;
+let marker;
+let selectedCoords = null;
+addEventListener('load', function () { 
+    if (YearDict[`${URLParams.year}-cord`] === undefined) {
+        map = L.map('map-block').setView([55.75, 37.61], 10); // Москва, масштаб 10
+    } else {
+        map = L.map('map-block').setView([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], 10);
+        marker = L.marker([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng]).addTo(map);
+        
+    }
+
+    // Добавляем тайлы OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap',
+      maxZoom: 19,
+    }).addTo(map);
+
+    map.on('click', function (e) {  
+        const { lat, lng } = e.latlng;
+
+        // Удаляем старую метку, если есть
+        if (marker) {
+            map.removeLayer(marker);
+        }
+
+        // Ставим новую метку
+        marker = L.marker([lat, lng]).addTo(map);
+
+        const Lat = lat.toFixed(2);
+        const Lng = lng.toFixed(2);
+
+        selectedCoords = { Lat, Lng };
+        YearDict[`${URLParams.year}-cord`] = selectedCoords
+
+        YearDict.isInfoAdd = true
+        saveInfo("YearDict", YearDict)
+    });
+});

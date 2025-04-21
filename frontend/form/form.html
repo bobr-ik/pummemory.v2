@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавление</title>
     <link rel="stylesheet" href="style/general.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body style="position: relative; 
             width: 100vw; 
@@ -51,7 +52,7 @@
             <textarea id="yearBiography" placeholder="Описание года"></textarea>
         </div>
 
-        <div class="map-block"></div>
+        <div id="map-block"></div>
 
         <div class="button-block">
             <button class="button-style" onclick="usePhotoPopup()">Фотографии этото года</button>
@@ -97,6 +98,8 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
 </html>
