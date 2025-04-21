@@ -329,7 +329,14 @@ textarea {
     top: 3vh;
     border-radius: 20px;
 
+    padding: 20px 0px;
+
     background-color: white;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: 0px;
+    }
 }
 
 .link-popup {
@@ -470,7 +477,7 @@ textarea {
     position: absolute;
     top: 12%;
     left: 5%;
-    width: 80%;
+    width: 90%;
 
     font-size: large;
     font-family: 'Times New Roman', Times, serif;
