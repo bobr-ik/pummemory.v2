@@ -11,6 +11,7 @@ from data.database import str_256
 from sqlalchemy import Text, Enum
 import bcrypt
 
+
 person_rewards = Table(
     "person_rewards",
     Base.metadata,
@@ -26,6 +27,13 @@ class Year(enum.Enum):
     _1943 = "1943"
     _1944 = "1944"
     _1945 = "1945"
+
+class Status(enum.Enum):
+    new = "new"
+    pending = "pending"
+    approved = "approved"
+    cancelled = "cancelled"
+    
     
 class Coordinates(TypedDict):
     lat: float
@@ -90,4 +98,11 @@ class Tokens(Base):
 
     def check_token(self, raw_token: str):
         return bcrypt.checkpw(raw_token.encode('utf-8'), self._token.encode('utf-8'))
+    
+
+class Temporary_Person(Base):
+    __tablename__ = "temporary_person"
+    id: Mapped[str_256] = mapped_column(primary_key=True)
+    person: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[Status] = mapped_column(Enum(Status), default=Status.new)
 

@@ -305,6 +305,11 @@ class Orm:
                     session.add(pers)
                 await session.commit()
                 return us_id
+            
+    @staticmethod
+    async def get_new_ppl():
+        async with async_session_factory() as session:
+            new_ppl = await session.execute(select(Temporary_Person).where(Temporary_Person.status == Status.new))
                     
                     
                     

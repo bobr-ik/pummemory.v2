@@ -105,6 +105,7 @@ async def get_user_info(id: int) -> User_info:
 
 @app.post('/insert_person')
 async def insert_person(person: Person):
+    await Orm.insert_temporary_person(person)
     avatar = await save_images(person.avatar)
     person.avatar = avatar
     for year in person.info:
@@ -114,6 +115,12 @@ async def insert_person(person: Person):
 @app.get('/get_rewards')
 async def get_rewards():
     res = await Orm.get_rewards()
+    print(res)
+    return res
+
+@app.get('/new_ppl')
+async def get_new_ppl():
+    res = await Orm.get_new_ppl()
     print(res)
     return res
 
