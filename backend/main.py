@@ -34,21 +34,21 @@ async def save_images(image: Photo):
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # while True:
-            # try:
-            #     conn = await asyncmy.connect(
-            #         host="db",
-            #         user="dak",
-            #         password="123456789Dak",
-            #         database="pummemory_test",
-            #         port=3306
-            #     )
-            #     await conn.ensure_closed()
-            #     print("MySQL is ready!")
-            #     break
-            # except Exception as e:
-            #     print("Waiting for MySQL to be ready...", str(e))
-            #     await asyncio.sleep(1)
+    while True:
+            try:
+                conn = await asyncmy.connect(
+                    host="db",
+                    user="dak",
+                    password="200209318Dak()",
+                    database="pummemory_test",
+                    port=3306
+                )
+                await conn.ensure_closed()
+                print("MySQL is ready!")
+                break
+            except Exception as e:
+                print("Waiting for MySQL to be ready...", str(e))
+                await asyncio.sleep(1)
     await Orm.create_all()
     yield    
 
@@ -87,10 +87,12 @@ async def check_token(token: str):
 
 
 @app.get('/get_points')
-async def get_points(year: Year) -> Points:
+async def get_points(year: Year) -> list[Points]:
     #Принимает год
     #имя фамилия отчество одним полем - name, координаты - location - cтрока черех пробел , строка, путь к изображению - аве - img_url, айдишник - id
+    
     res = await Orm.get_points(year)
+    print(res)
     return res
 
 
@@ -103,6 +105,7 @@ async def get_user_info(id: int) -> User_info:
 
 @app.post('/insert_person')
 async def insert_person(person: Person):
+    await Orm.insert_temporary_person(person)
     avatar = await save_images(person.avatar)
     person.avatar = avatar
     for year in person.info:
@@ -112,6 +115,13 @@ async def insert_person(person: Person):
 @app.get('/get_rewards')
 async def get_rewards():
     res = await Orm.get_rewards()
+    print(res)
+    return res
+
+@app.get('/new_ppl')
+async def get_new_ppl():
+    res = await Orm.get_new_ppl()
+    print(res)
     return res
 
 
