@@ -215,7 +215,7 @@ function saveInputPhoto(id) {
 
 
 async function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
-    saveInfo('GeneralDict', {})
+    saveInfo('GeneralDict', {})   //! Убрать эти строчки 
     saveInfo('YearDict', {})
     location.reload()
 
