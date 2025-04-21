@@ -121,6 +121,10 @@ function saveYearInfo() {
     saveInfo("YearDict", YearDict);
 }
 
+document.getElementById('manual').addEventListener('click', () => {
+    document.getElementById('manual-popup').classList.toggle('close');
+});
+
 async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
     // response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
@@ -142,9 +146,9 @@ function usePhotoPopup(status = 0) {
     } else {
         photoBlock.innerHTML = '';
         YearDict[`${URLParams.year}-photo`].forEach(adress => {
-            const photo = document.createElement('div');
+            const photo = document.createElement('img');
             photo.classList.add('year-photo');
-            photo.style.backgroundImage = `url('${adress}')`;
+            photo.src = adress;
             photoBlock.appendChild(photo);
         });
     }
