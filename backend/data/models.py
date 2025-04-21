@@ -36,7 +36,7 @@ class Person(Base):
     __tablename__ = "person"
     id: Mapped[str_256] = mapped_column(primary_key=True)
     name: Mapped[str_256]
-    desc: Mapped[Optional[str]] = mapped_column(Text, default = "")
+    description: Mapped[Optional[str]] = mapped_column(Text, default = "")
     time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
     avatar: Mapped[Optional[list[str_256]]] = mapped_column(JSON, default = [])
     rewards: Mapped[Optional[list["Rewards"]]] = relationship("Rewards", secondary=person_rewards, back_populates="ppl_got")
@@ -47,7 +47,7 @@ class Rewards(Base):
     __tablename__ = "rewards"
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str_256]
-    # desc: Mapped[str] = mapped_column(Text, default ="")
+    # description: Mapped[str] = mapped_column(Text, default ="")
     img_url: Mapped[str_256]
     ppl_got: Mapped[list["Person"]] = relationship("Person", secondary=person_rewards, back_populates="rewards")
     
@@ -59,7 +59,7 @@ class Info(Base):
     pers_id: Mapped[int] = mapped_column(ForeignKey("person.id"))
     pers: Mapped["Person"] = relationship(back_populates="info")
     place: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None) #TODO может не сработать тк туплы криво передаются
-    desc: Mapped[Optional[str]] = mapped_column(Text, default="")
+    description: Mapped[Optional[str]] = mapped_column(Text, default="")
     photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="info")
 
 

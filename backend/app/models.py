@@ -30,10 +30,12 @@ class Photo(BaseModel):
 
 
 class Points(BaseModel):
-     name: str = Field(..., min_length = 3, max_length=60, example = "Иванов Иван Иванович")
-     location: list[float]
-     img_url: HttpUrl = Field(..., max_length=500, example = "https://example.com/avatar.jpg")
-     id: int
+     name: str = Field(..., min_length = 3, max_length=60, example = "Иванов")
+     surname: Optional[str] = Field(..., min_length = 3, max_length=60, example = "Иван")
+     patronymic: Optional[str] = Field(..., min_length = 3, max_length=60, example = "Иванович")
+     location: Optional[str]
+     img_url: Optional[HttpUrl] = Field(..., max_length=500, example = "https://example.com/avatar.jpg")
+     id: str
 
     
 class User_info(BaseModel):

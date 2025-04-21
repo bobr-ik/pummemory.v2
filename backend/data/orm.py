@@ -120,8 +120,8 @@ class Orm:
             for info in person.info:
                 info.id = us_id + str(info.year)
                 info.images = [Photo(url=photo.url, url_delete=photo.img_del, info_id=info.id) for photo in info.images]
-                info_list.append(Info(id=info.id, year=info.year, place=info.place, desc=info.story, pers_id=us_id, photos=info.images))
-            await session.add(Person(id=us_id, name=person.name, desc=person.desc, time_added=datetime.datetime.now(), rewards=rew, info=info_list))
+                info_list.append(Info(id=info.id, year=info.year, place=info.place, description=info.story, pers_id=us_id, photos=info.images))
+            await session.add(Person(id=us_id, name=person.name, description=person.desc, time_added=datetime.datetime.now(), rewards=rew, info=info_list))
             await session.commit()
             return us_id
     
@@ -142,10 +142,10 @@ class Orm:
             res = res.scalars().first()
             ans = {
                 'name': res.name,
-                'biography': res.desc,
+                'biography': res.description,
                 'avatar': res.avatar,
                 'rewards': [reward.title for reward in res.rewards],
-                'years': [{'year': info.year, 'place': info.place, 'story': info.desc, 'images': [photo.url for photo in info.photos]} for info in res.info]
+                'years': [{'year': info.year, 'place': info.place, 'story': info.description, 'images': [photo.url for photo in info.photos]} for info in res.info]
             }
             return ans
         
@@ -162,11 +162,15 @@ class Orm:
                     )
             res = await session.execute(query)
             res = res.scalars().all()
+            for info in res:
+                print(info.place)
             ans = [{
-                'name': info.pers.name,
-                'location': info.place,
-                'img_url': info.pers.avatar,
-                'id': info.pers.id
+                "name": (info.pers.name.split())[0],
+                "surname": (info.pers.name.split())[1],
+                "patronymic": (info.pers.name.split())[2],
+                "location": info.place,
+                "img_url": info.pers.avatar[0] if info.pers.avatar is not None else None,
+                "id": info.pers.id
                 } for info in res
                 ]
             return ans
@@ -179,7 +183,7 @@ class Orm:
             rew = rew.scalars().all()
             if rew:
                 return
-            with open('backend/data/models_data/medals.txt', encoding='utf-8') as f:
+            with open('data/models_data/medals.txt', encoding='utf-8') as f:
                 for line in f.readlines():
                     line = line.split('-')
                     line[1] = line[1].replace('\n', '')
@@ -191,7 +195,7 @@ class Orm:
     @staticmethod
     async def create_old_table():
         async with async_session_factory() as session:
-            with open('backend/data/models_data/pummemory_persons.sql', encoding='utf-8') as f:
+            with open('data/models_data/pummemory_persons.sql', encoding='utf-8') as f:
                 query = f.read()
                 await session.execute(text(query))
                 await session.commit()
@@ -267,7 +271,7 @@ class Orm:
             # with open('backend/data/models_data/years.json', 'w', encoding='utf-8') as f:
             #     json.dump(data, f, ensure_ascii=False, indent=4)
             #наконец-то, когда готов json на две тысячи строк можно вставлять этот кал в базу.
-            with open('backend/data/models_data/years.json', 'r', encoding='utf-8') as f:
+            with open('data/models_data/years.json', 'r', encoding='utf-8') as f:
                 data = json.load(f)
             async with async_session_factory() as session:
                 all_rew = await session.execute(select(Rewards))
@@ -295,8 +299,8 @@ class Orm:
                         else:
                             photos = []
                         if data[person]['years'][year]['desc'] or data[person]['years'][year]['place'] or photos:
-                            info_list.append(Info(id=year_id, year=year, place=data[person]['years'][year]['place'], desc=data[person]['years'][year]['desc'], pers_id=us_id, photos=photos))
-                    pers = Person(id=us_id, name=person, desc=data[person]['desc'], avatar=list(data[person]['photos']) if data[person]['photos'] else None, time_added=datetime.datetime.now(), rewards=u_rew, info=info_list)
+                            info_list.append(Info(id=year_id, year=Year(year), place=data[person]['years'][year]['place'], description=data[person]['years'][year]['desc'], pers_id=us_id, photos=photos))
+                    pers = Person(id=us_id, name=person, description=data[person]['desc'], avatar=list(data[person]['photos']) if data[person]['photos'] else None, time_added=datetime.datetime.now(), rewards=u_rew, info=info_list)
                     pprint(pers)
                     session.add(pers)
                 await session.commit()

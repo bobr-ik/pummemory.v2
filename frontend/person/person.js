@@ -13,6 +13,8 @@ function back_button() {
 }
 
 const personData = {
+    //TODO
+
     id: 1,
     name: "Иванов Иван Иванович",
     biography: "Георгий Васильевич поступил в распоряжение Коломенского артиллерийского учебного лагеря. В нём под руководством полковника Коваленко и подполковника Остроухова с 17 декабря 1943 года по 5 июня 1944 года шло формирование 1972 истребительного противотанкового полка. За время боевых действий полком было уничтожено 46 танков, около 200 пулемётов и свыше 2000 солдат противника. \nВ этом полку прадед служил в должности наводчика орудия, а также бесперебойно обеспечивал связь в качестве телефониста I батареи.",
@@ -223,11 +225,17 @@ function create_slider(images) {
 }
 
 
-
+async function get_Person(id){
+    const response = await fetch(`http://127.0.0.1:8000/user_info?id=${id}`);
+    personData = await response.json();
+    return personData
+}
 
 
 function initPage() {
     const { year_from_url } = getUrlParams();
+    const { id } = getUrlParams();
+    
 
     name_elem = document.getElementById('name');
     avatar_elem = document.getElementById('avatar');
@@ -238,6 +246,7 @@ function initPage() {
     year_description_elem = document.getElementById('year_description');
     photo_slider_elem = document.getElementById('photo_slider');
 
+    const personData = get_Person(id); //TODO
     name_elem.textContent = personData.name;
     avatar_elem.src = personData.avatar;
     biography_elem.textContent = personData.biography;

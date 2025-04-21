@@ -20,10 +20,22 @@
 </head>
 <body>
 	<script>
-		const url_params = new URLSearchParams(window.location.search)
-		year_from_url = url_params.get('year')
+		async function get_points() {
+			const url_params = new URLSearchParams(window.location.search)
+			year_from_url = url_params.get('year')
 
-		year = year_from_url ? Math.min(Math.max(parseInt(year_from_url, 10), 1940), 1945) : 1940
+			year = year_from_url ? Math.min(Math.max(parseInt(year_from_url, 10), 1940), 1945) : 1940
+			res = await fetch('http://127.0.0.1:8000/get_points?year=' + year);
+			data = await res.json(); 
+			console.log(data);
+			return data
+			
+		}
+		
+		//TODO
+		
+		data = get_points(year)
+		console.log(data)
 		data = [
                 {name: 'Тарасова', surname: 'Маргарита', patronymic: 'Викторовна', location: '48.7792833 132.8625016', img_url: './src/photo.jpg', visible: true, id: '5'},
                 {name: 'Кондратьев', surname: 'Иван', patronymic: '', location: '48.7792833 132.8625016', img_url: './src/photo.jpg', visible: true, id: '6'}, 
@@ -40,6 +52,7 @@
                 {name: 'Муркин', surname: 'Алексей', patronymic: 'Иванович', location: '55.7024151 78.1737926', img_url: './src/photo.jpg', visible: true, id: '39'},
                 {name: 'Дунаевский', surname: 'Константин', patronymic: 'Дмитриевич', location: '45.1856351 78.0016422', img_url: './src/photo.jpg', visible: true, id: '42'}
                 ]
+		console.log(data)
 		
 	</script>
 
