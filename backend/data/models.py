@@ -6,7 +6,7 @@ from data.database import Base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import func
 import enum, datetime
-from typing import Annotated, Optional, TypedDict
+from typing import Annotated, List, Optional, TypedDict
 from data.database import str_256
 from sqlalchemy import Text, Enum
 import bcrypt
@@ -36,8 +36,9 @@ class Person(Base):
     __tablename__ = "person"
     id: Mapped[str_256] = mapped_column(primary_key=True)
     name: Mapped[str_256]
-    desc: Mapped[Optional[str]] = mapped_column(Text, default = "")
+    description: Mapped[Optional[str]] = mapped_column(Text, default = "")
     time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
+    avatar: Mapped[Optional[list[str_256]]] = mapped_column(JSON, default = [])
     rewards: Mapped[Optional[list["Rewards"]]] = relationship("Rewards", secondary=person_rewards, back_populates="ppl_got")
     info: Mapped[list['Info']] = relationship(back_populates="pers")
 
@@ -46,27 +47,27 @@ class Rewards(Base):
     __tablename__ = "rewards"
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str_256]
-    # desc: Mapped[str] = mapped_column(Text, default ="")
+    # description: Mapped[str] = mapped_column(Text, default ="")
     img_url: Mapped[str_256]
     ppl_got: Mapped[list["Person"]] = relationship("Person", secondary=person_rewards, back_populates="rewards")
     
 
 class Info(Base):
     __tablename__ = "info"
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[str_256] = mapped_column(primary_key=True)
     year: Mapped[Year] = mapped_column(Enum(Year))
     pers_id: Mapped[int] = mapped_column(ForeignKey("person.id"))
     pers: Mapped["Person"] = relationship(back_populates="info")
     place: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None) #TODO может не сработать тк туплы криво передаются
-    desc: Mapped[Optional[str]] = mapped_column(Text, default="")
+    description: Mapped[Optional[str]] = mapped_column(Text, default="")
     photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="info")
 
 
 class Photo(Base):
     __tablename__ = "photos"
     id: Mapped[int] = mapped_column(primary_key=True)
-    url: Mapped[str_256]
-    url_delete: Mapped[str_256]
+    url: Mapped[Optional[str_256]] = mapped_column(default=None)
+    url_delete: Mapped[Optional[str_256]] = mapped_column(default=None)
     info: Mapped['Info'] = relationship(back_populates="photos")
     info_id: Mapped[int] = mapped_column(ForeignKey("info.id"))
 

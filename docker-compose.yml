@@ -15,10 +15,10 @@ services:
     container_name: db
     restart: always
     environment: #TODO up to .env
-      MYSQL_ROOT_PASSWORD: '123456789Dak'
+      MYSQL_ROOT_PASSWORD: '200209318Dak()'
       MYSQL_DATABASE: 'pummemory_test'
       MYSQL_USER: 'dak'
-      MYSQL_PASSWORD: '123456789Dak'
+      MYSQL_PASSWORD: '200209318Dak()'
     ports:
       - "127.0.0.1:3307:3306"
     volumes:
