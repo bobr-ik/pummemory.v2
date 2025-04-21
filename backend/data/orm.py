@@ -145,7 +145,7 @@ class Orm:
                 'biography': res.description,
                 'avatar': res.avatar,
                 'rewards': [reward.title for reward in res.rewards],
-                'years': [{'year': info.year, 'place': info.place, 'story': info.description, 'images': [photo.url for photo in info.photos]} for info in res.info]
+                'years': [{'id': res.id, 'year': info.year, 'location': info.place.split(), 'story': info.description, 'images': [photo.url for photo in info.photos]} for info in res.info]
             }
             return ans
         
