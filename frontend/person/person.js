@@ -232,7 +232,7 @@ async function get_Person(id){
 }
 
 
-function initPage() {
+async function initPage() {
     const { year_from_url } = getUrlParams();
     const { id } = getUrlParams();
     
@@ -246,7 +246,7 @@ function initPage() {
     year_description_elem = document.getElementById('year_description');
     photo_slider_elem = document.getElementById('photo_slider');
 
-    const personData = get_Person(id); //TODO
+    const personData = await get_Person(id); //TODO
     name_elem.textContent = personData.name;
     avatar_elem.src = personData.avatar;
     biography_elem.textContent = personData.biography;
