@@ -104,8 +104,10 @@ async def get_user_info(id: str):
 
 
 @app.post('/insert_person')
-async def insert_person(person: Person):
-    await Orm.insert_temporary_person(person)
+async def insert_person(person):
+    # await Orm.insert_temporary_person(person)
+    print(person)
+    
     avatar = await save_images(person.avatar)
     person.avatar = avatar
     for year in person.info:

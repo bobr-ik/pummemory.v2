@@ -24,12 +24,21 @@ function getInfo(key) {
     return JSON.parse(jsonString);
 }
 
-addEventListener("load", () => {
+addEventListener("load", () => startSite());
+
+async function startSite() {
     const parametrs = new URLSearchParams(window.location.search); //* В url нужно передавать токен и год: ?person=...&year=...
 
     for (const [key, value] of parametrs.entries()) {
         URLParams[key] = value;
     }
+
+    // const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.person}`);
+    // const data = await response.json();
+    // if (!data.content) {
+    //     alert('В доступе отказано, проверьте токен');
+    // } else {
+    // }
 
     if (URLParams.person === 'MarkToken') {
         document.getElementById('share-button').dataset.view = true;
@@ -41,7 +50,7 @@ addEventListener("load", () => {
             year.classList.add('active-year');
         }
     }
-});
+}
 
 addEventListener("load", () => {
     GeneralDict = getInfo("GeneralDict")
@@ -73,6 +82,7 @@ addEventListener("load", () => {
             YearDict[year] = undefined
             YearDict[`${year}-photo`] = undefined
             YearDict[`${year}-cord`] = undefined
+            saveInfo("YearDict", YearDict)
         }
     }
     else {
@@ -204,10 +214,29 @@ function saveInputPhoto(id) {
 }
 
 
-function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
-    saveInfo('GeneralDict', {})
-    saveInfo('YearDict', {})
-    location.reload()
+async function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
+    // saveInfo('GeneralDict', {})   //! Убрать эти строчки 
+    // saveInfo('YearDict', {})
+    // location.reload()
+
+    // const SendYearList = []
+    // const dopDict = {}
+    // for (let [key, value] of Object.entries(YearDict)) {
+        
+    // }
+    // console.log(SendYearList)
+
+    const SendDict = {
+        name: GeneralDict.secondName + ' ' + GeneralDict.firstName + ' ' + GeneralDict.thirdName, 
+        desc: GeneralDict.generalBiography,
+        avatar: GeneralDict.photo,
+        info: YearDict,
+    }
+
+    const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
+    data = await response.json();
+
+    console.log(data)
 }
 
 
