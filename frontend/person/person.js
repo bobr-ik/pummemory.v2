@@ -12,7 +12,7 @@ function back_button() {
     window.location = `../index.html?year=${year_from_url}`;
 }
 
-const personData = {
+let personData = {
     //TODO
 
     id: 1,
@@ -260,6 +260,7 @@ async function initPage() {
 
     const map = createMap();  
     year_buttons = []
+    let marker = null
 
     personData.years.forEach(year => {
         const year_button = document.createElement('button');
@@ -271,7 +272,9 @@ async function initPage() {
         if (year.year === year_from_url) {
             activated = year_button
             marker = addMarker(map, year.location);
-            map.setView( [ year.location[0], year.location[1] ] );
+            if (year.location != false) {
+                map.setView( [ year.location[0], year.location[1] ] );
+            }
             year_button.classList.add('active');
             year_description_elem.textContent = year.story;
             create_slider(year.images);
@@ -284,9 +287,11 @@ async function initPage() {
                     button.classList.remove('active');
                 }
             })
-            marker.remove();
+            if(marker) marker.remove();
             marker = addMarker(map, year.location);
-            if (year.location != false) map.setView( [ year.location[0], year.location[1] ] );
+            if (year.location != false) {
+                map.setView( [ year.location[0], year.location[1] ] );
+            }
             year_description_elem.textContent = year.story;
             photo_slider_elem.innerHTML = '';
             create_slider(year.images);

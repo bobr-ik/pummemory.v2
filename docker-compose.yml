@@ -42,12 +42,12 @@ services:
     networks:
       - dev
 
-  bot:
-    build: ./bot
-    networks:
-      - dev
-    depends_on:
-      - backend
+  # bot:
+  #   build: ./bot
+  #   networks:
+  #     - dev
+  #   depends_on:
+  #     - backend
 
 networks:
   dev:

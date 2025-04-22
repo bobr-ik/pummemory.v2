@@ -97,7 +97,7 @@ async def get_points(year: Year) -> list[Points]:
 
 
 @app.get('/user_info')
-async def get_user_info(id: int) -> User_info:
+async def get_user_info(id: str):
     #фио - name, описание - buiography, avatar - фото профиля, rewards - медали, years : [{year: enum story: images:list[str] location:}] 
     pers = await Orm.get_person(id)
     return pers

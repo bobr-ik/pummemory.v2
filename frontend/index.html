@@ -20,39 +20,27 @@
 </head>
 <body>
 	<script>
-		async function get_points() {
-			const url_params = new URLSearchParams(window.location.search)
-			year_from_url = url_params.get('year')
+		const url_params = new URLSearchParams(window.location.search)
+		year_from_url = url_params.get('year')
 
-			year = year_from_url ? Math.min(Math.max(parseInt(year_from_url, 10), 1940), 1945) : 1940
-			res = await fetch('http://127.0.0.1:8000/get_points?year=' + year);
-			data = await res.json(); 
-			console.log(data);
-			return data
-			
-		}
+		year = year_from_url ? Math.min(Math.max(parseInt(year_from_url, 10), 1940), 1945) : 1940
 		
-		//TODO
-		
-		data = get_points(year)
-		console.log(data)
-		data = [
-                {name: 'Тарасова', surname: 'Маргарита', patronymic: 'Викторовна', location: '48.7792833 132.8625016', img_url: './src/photo.jpg', visible: true, id: '5'},
-                {name: 'Кондратьев', surname: 'Иван', patronymic: '', location: '48.7792833 132.8625016', img_url: './src/photo.jpg', visible: true, id: '6'}, 
-                {name: 'Ширяев', surname: 'Иван', patronymic: 'Иванович', location: '51.4753593 46.0897162', img_url: './src/photo.jpg', visible: true, id: '7'},
-                {name: 'Туберозов', surname: 'Никалай', patronymic: 'Ленинград)', location: '59.939226 29.534304', img_url: './src/photo.jpg', visible: true, id: '8'},
-                {name: 'Семенов', surname: 'Иван', patronymic: 'Иванович', location: '55.5815245 36.8251381', img_url: './src/photo.jpg', visible: true, id: '9'},
-                {name: 'Борисов', surname: 'Семен', patronymic: 'Георгиевич', location: '49.327553 42.0594664', img_url: './src/photo.jpg', visible: true, id: '17'},
-                {name: 'Макарова', surname: 'Зоя', patronymic: 'Николаевна', location: '55.1481091 59.6226577', img_url: './src/photo.jpg', visible: true, id: '20'},
-                {name: 'Пахомов', surname: 'Александр', patronymic: 'Егорович', location: '55.7539333 37.6186063', img_url: './src/photo.jpg', visible: true, id: '22'},
-                {name: 'Орлов', surname: 'Виктор', patronymic: 'Александрович', location: '43.0293616 44.5916733', img_url: './src/photo.jpg', visible: true, id: '24'},
-                {name: 'Адикаев', surname: 'Фатих', patronymic: 'Саддыкович', location: '54.2937181 44.9614606', img_url: './src/photo.jpg', visible: true, id: '26'},
-                {name: 'Панферов', surname: 'Аким', patronymic: 'Яковлевич', location: '53.4904639 40.4852227', img_url: './src/photo.jpg', visible: true, id: '30'},
-                {name: 'Вербицкий', surname: 'Пётр', patronymic: 'Андреевич', location: '44.9442637 42.1594563', img_url: './src/photo.jpg', visible: true, id: '37'},
-                {name: 'Муркин', surname: 'Алексей', patronymic: 'Иванович', location: '55.7024151 78.1737926', img_url: './src/photo.jpg', visible: true, id: '39'},
-                {name: 'Дунаевский', surname: 'Константин', patronymic: 'Дмитриевич', location: '45.1856351 78.0016422', img_url: './src/photo.jpg', visible: true, id: '42'}
-                ]
-		console.log(data)
+		// data = [
+        //         {name: 'Тарасова', surname: 'Маргарита', patronymic: 'Викторовна', location: '48.7792833 132.8625016', img_url: './src/photo.jpg', visible: true, id: '5'},
+        //         {name: 'Кондратьев', surname: 'Иван', patronymic: '', location: '48.7792833 132.8625016', img_url: './src/photo.jpg', visible: true, id: '6'}, 
+        //         {name: 'Ширяев', surname: 'Иван', patronymic: 'Иванович', location: '51.4753593 46.0897162', img_url: './src/photo.jpg', visible: true, id: '7'},
+        //         {name: 'Туберозов', surname: 'Никалай', patronymic: 'Ленинград)', location: '59.939226 29.534304', img_url: './src/photo.jpg', visible: true, id: '8'},
+        //         {name: 'Семенов', surname: 'Иван', patronymic: 'Иванович', location: '55.5815245 36.8251381', img_url: './src/photo.jpg', visible: true, id: '9'},
+        //         {name: 'Борисов', surname: 'Семен', patronymic: 'Георгиевич', location: '49.327553 42.0594664', img_url: './src/photo.jpg', visible: true, id: '17'},
+        //         {name: 'Макарова', surname: 'Зоя', patronymic: 'Николаевна', location: '55.1481091 59.6226577', img_url: './src/photo.jpg', visible: true, id: '20'},
+        //         {name: 'Пахомов', surname: 'Александр', patronymic: 'Егорович', location: '55.7539333 37.6186063', img_url: './src/photo.jpg', visible: true, id: '22'},
+        //         {name: 'Орлов', surname: 'Виктор', patronymic: 'Александрович', location: '43.0293616 44.5916733', img_url: './src/photo.jpg', visible: true, id: '24'},
+        //         {name: 'Адикаев', surname: 'Фатих', patronymic: 'Саддыкович', location: '54.2937181 44.9614606', img_url: './src/photo.jpg', visible: true, id: '26'},
+        //         {name: 'Панферов', surname: 'Аким', patronymic: 'Яковлевич', location: '53.4904639 40.4852227', img_url: './src/photo.jpg', visible: true, id: '30'},
+        //         {name: 'Вербицкий', surname: 'Пётр', patronymic: 'Андреевич', location: '44.9442637 42.1594563', img_url: './src/photo.jpg', visible: true, id: '37'},
+        //         {name: 'Муркин', surname: 'Алексей', patronymic: 'Иванович', location: '55.7024151 78.1737926', img_url: './src/photo.jpg', visible: true, id: '39'},
+        //         {name: 'Дунаевский', surname: 'Константин', patronymic: 'Дмитриевич', location: '45.1856351 78.0016422', img_url: './src/photo.jpg', visible: true, id: '42'}
+        //         ]
 		
 	</script>
 
