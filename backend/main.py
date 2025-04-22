@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI, Request, Response
+from fastapi import Body, FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.security import OAuth2PasswordBearer
@@ -104,15 +104,24 @@ async def get_user_info(id: int) -> User_info:
 
 
 @app.post('/insert_person')
-async def insert_person(person):
+async def insert_person(person = Body(...)):
     # await Orm.insert_temporary_person(person)
     print(person)
-    
-    avatar = await save_images(person.avatar)
-    person.avatar = avatar
-    for year in person.info:
+    info_list = ['1940', '1940-cord', '1940-photo', '1941', '1941-cord', '1941-photo', '1942', '1942-cord', '1942-photo', '1943', '1943-cord', '1943-photo', '1944', '1944-cord', '1944-photo', '1945', '1945-cord', '1945-photo']
+    true_info = []
+    for i in range(len(info_list), 3):
+        for elem in person['info']:
+            dop = []
+            for key in info_list[i:i+3]:
+                if key in elem:
+                    dop.append((key, person['info'][key]))
+            true_info.append(Info(year=dop[0][0] if len(dop) >= 1 else None, place=dop[1][1] if len(dop) >= 2 else None, story=dop[2][1]) if len(dop) == 3 else None)
+    true_person = Person(avatar=person['avatar'], name=person['name'], description=person['description'], rewards=None, info=true_info)
+    avatar = await save_images(true_person.avatar)
+    true_person.avatar = avatar
+    for year in true_person.info:
         year.images = [await save_images(image) for image in year.images]
-    await Orm.insert_person(person)
+    await Orm.insert_person(true_person)
     
 @app.get('/get_rewards')
 async def get_rewards():
