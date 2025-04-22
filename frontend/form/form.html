@@ -37,9 +37,10 @@
                 <input class="form-input" type="text" id="firstName" onChange="saveStaticInfo('firstName')" placeholder="Имя">
                 <input class="form-input" type="text" id="thirdName" onChange="saveStaticInfo('thirdName')" placeholder="Отчество">
             </form>
-            <button id="photo-button" class="button-style" onclick="useInput('photo-input')">Загурзить фотографию</button>
-            <input type="file" id="photo-input" class="photo-input" onchange="saveInputPhoto('photo-input')"/>
         </div>
+        
+        <button id="photo-button" class="button-style" onclick="useInput('photo-input')">Загурзить фотографию</button>
+        <input type="file" id="photo-input" class="photo-input" onchange="saveInputPhoto('photo-input')"/>
         <div id="person-photo"></div>
 
         <div class="description-title general-title">Общее описание</div>
