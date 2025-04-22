@@ -262,7 +262,8 @@ async function initPage() {
     year_buttons = []
     let marker = null
 
-    personData.years.forEach(year => {
+    personData.years.sort((a, b) => parseInt(a.year) - parseInt(b.year))
+        .forEach(year => {
         const year_button = document.createElement('button');
         year_button.textContent = year.year;
         year_button.classList.add('year_button');
