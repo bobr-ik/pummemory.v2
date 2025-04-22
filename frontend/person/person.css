@@ -47,6 +47,7 @@ body{
         height: 100%;
         width: fit-content;
         position: relative;
+        min-height: 100vh;
         .frame{
             position: absolute;
             left: -40px;
