@@ -215,9 +215,9 @@ function saveInputPhoto(id) {
 
 
 async function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
-    // saveInfo('GeneralDict', {})   //! Убрать эти строчки 
-    // saveInfo('YearDict', {})
-    // location.reload()
+    saveInfo('GeneralDict', {})   //! Убрать эти строчки 
+    saveInfo('YearDict', {})
+    location.reload()
 
     // const SendYearList = []
     // const dopDict = {}
@@ -226,17 +226,17 @@ async function sendAllInfo() {            //* Сейчас просто отчи
     // }
     // console.log(SendYearList)
 
-    const SendDict = {
-        name: GeneralDict.secondName + ' ' + GeneralDict.firstName + ' ' + GeneralDict.thirdName, 
-        desc: GeneralDict.generalBiography,
-        avatar: GeneralDict.photo,
-        info: YearDict,
-    }
+    // const SendDict = {
+    //     name: GeneralDict.secondName + ' ' + GeneralDict.firstName + ' ' + GeneralDict.thirdName, 
+    //     desc: GeneralDict.generalBiography,
+    //     avatar: GeneralDict.photo,
+    //     info: YearDict,
+    // }
 
-    const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
-    data = await response.json();
+    // const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
+    // data = await response.json();
 
-    console.log(data)
+    // console.log(data)
 }
 
 

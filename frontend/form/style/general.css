@@ -139,7 +139,7 @@
 }
 
 .general-title {
-    top: 45%;
+    top: 50%;
     left: calc(1vw + 6px);
 }
 
@@ -154,8 +154,8 @@
 }
 
 .general-description {
-    height: 45%;
-    top: 50%;
+    height: 40%;
+    top: 55%;
     left: 1vw;
 }
 
@@ -239,11 +239,10 @@ textarea {
 
 #photo-button {
     position: absolute;
-    width: calc(80% + 16px);
-    height: 10%;
-    margin: 0;
-    bottom: 1vh;
-    transform: translate(-50%, 0);
+    width: 17vw;
+    left: calc(0.5vw - 3px);
+    top: calc(40% + 6px + 10px);
+    height: 5%;
 }
 
 #year-photo-button {
@@ -305,7 +304,7 @@ textarea {
     left: calc(1.5vw - 6px);
 
     background-size: cover;
-    background-position: center;
+    background-position: top;
     background-repeat: no-repeat;
     border: 3px solid rgb(200, 200, 200);
     border-radius: 10px;
@@ -490,4 +489,8 @@ textarea {
 
 li + li {
     margin-top: 15px;
+}
+
+.leaflet-control-container{
+    display: none !important;
 }
