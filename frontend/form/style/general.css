@@ -490,3 +490,7 @@ textarea {
 li + li {
     margin-top: 15px;
 }
+
+.leaflet-control-container{
+    display: none !important;
+}

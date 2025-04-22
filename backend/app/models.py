@@ -8,20 +8,20 @@ class Token(BaseModel):
     
 class Person(BaseModel):
     name: str = Field(..., min_length = 3, max_length=60, example = "Иванов Иван Иванович")
-    desc: Optional[str] = Field(..., max_length=500, example = "Описание")
+    desc: Optional[str] = Field(..., max_length=5000, example = "Описание")
     avatar: bytes|HttpUrl
     rewards: Optional[list['Reward']]
     info: Optional[list['Info']]
     
 class Reward(BaseModel):
     title: str = Field(..., min_length = 3, max_length=60, example = "Медаль")
-    desc: Optional[str] = Field(..., max_length=500, example = "Описание подвига")
+    desc: Optional[str] = Field(..., max_length=5000, example = "Описание подвига")
 
 class Info(BaseModel):
     id: Optional[str]
     year: Year
-    place: Coordinates
-    story: Optional[str] = Field(..., max_length=500, example = "История")
+    place: str
+    story: Optional[str] = Field(..., max_length=5000, example = "История")
     images: Optional[list['Photo']]
     
 class Photo(BaseModel):
@@ -40,7 +40,7 @@ class Points(BaseModel):
     
 class User_info(BaseModel):
      name: str = Field(..., min_length = 3, max_length=60, example = "Иванов Иван Иванович")
-     biography: Optional[str] = Field(..., max_length=500, example = "Описание")
-     avatar: Optional[HttpUrl] = Field(..., max_length=500, example = "https://example.com/avatar.jpg")
+     biography: Optional[str] = Field(..., max_length=5000, example = "Описание")
+     avatar: Optional[list[HttpUrl]] = Field(..., max_length=500, example = "https://example.com/avatar.jpg")
      rewards: Optional[list['Reward']]
      years: Optional[list['Info']]
