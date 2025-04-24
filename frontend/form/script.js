@@ -5,6 +5,7 @@ let YearDict = new Map()
 YearDict.isInfoAdd = false
 
 const URLParams = {}
+const awardList = ''
 
 if (!("GeneralDict" in localStorage)) {
     saveInfo("GeneralDict", GeneralDict);
@@ -42,7 +43,26 @@ async function startSite() {
 
     const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
     const data = await response_award.json()
-    console.log(data)
+
+    const award = document.getElementById('awards');
+    for (const index in data) {
+        const option = document.createElement('option');
+        option.value = data[index];
+        option.textContent = data[index];
+
+        for (const i in YearDict['awards']) {
+            if (data[index] === YearDict['awards'][i]) {
+                option.selected = true
+            }
+        }
+
+        award.appendChild(option);
+    }
+    if (award.children.length == data.length) {
+        setTimeout(() => startChoices(), 0)
+    }
+    
+
 
     if (URLParams.person === 'MarkToken') {
         document.getElementById('share-button').dataset.view = true;
@@ -59,6 +79,7 @@ async function startSite() {
 addEventListener("load", () => {
     GeneralDict = getInfo("GeneralDict")
     YearDict = getInfo("YearDict")
+    console.log(YearDict)
 
     if (!(GeneralDict.isInfoAdd)) {
         GeneralDict.photo = "media/person.jpg"
@@ -212,7 +233,6 @@ function saveInputPhoto(id) {
             } else {
                 if (YearDict[`${URLParams.year}-photo`] === undefined) {
                     YearDict[`${URLParams.year}-photo`] = [adress];
-                    // console.log(YearDict)
                 } else {
                     YearDict[`${URLParams.year}-photo`].push(adress);
                 }
@@ -229,7 +249,7 @@ function saveInputPhoto(id) {
 function saveAward() {
     const awards = document.getElementById('awards');
     for (const elem in awards.options) {
-        if (awards.options[elem].selected) {
+        if (awards.options[elem].selected && !YearDict['awards'].includes(awards.options[elem].value)) {
             YearDict['awards'].push(awards.options[elem].value)
         }
     }
@@ -255,7 +275,6 @@ async function sendAllInfo() {            //* Сейчас просто отчи
     // for (let [key, value] of Object.entries(YearDict)) {
         
     // }
-    // console.log(SendYearList)
 
     // const SendDict = {
     //     name: GeneralDict.secondName + ' ' + GeneralDict.firstName + ' ' + GeneralDict.thirdName, 
@@ -267,8 +286,6 @@ async function sendAllInfo() {            //* Сейчас просто отчи
 
     // const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
     // data = await response.json();
-
-    // console.log(data)
 }
 
 
@@ -316,10 +333,9 @@ addEventListener('load', function () {
 
 // ======================================= Скрипт для списка с наградами
 
-addEventListener('load', () => {
-    const awardsSelect = new Choices('#awards', {
+function startChoices() {
+    awardsSelect = new Choices('#awards', {
         removeItemButton: true,
-        // placeholderValue: 'Выберите награды',
         itemSelectText: '',
         containerOuter: 'custom-outer',
         containerInner: 'custom-inner',
@@ -328,4 +344,13 @@ addEventListener('load', () => {
         item: 'custom-item',
         placeholder: 'custom-placeholder',
     });
-  });
+
+    awardsSelect.passedElement.element.addEventListener('removeItem', (item) => {
+        for (const index in YearDict['awards']) {
+            if (item.detail.label === YearDict['awards'][index]) {
+                YearDict['awards'].splice(index, 1)
+            }
+        }
+        saveInfo("YearDict", YearDict)
+    }, false);
+}

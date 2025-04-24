@@ -506,7 +506,6 @@ li + li {
 }
 
 /* ================================================ Стилизация списка с наградами */
-
 .awards-title {
     position: absolute;
     left: 50%;
@@ -523,7 +522,7 @@ li + li {
     position: absolute !important;
     width: calc(90% - 3px);
     left: 5%;
-    bottom: 5%;
+    bottom: 0%;
 
     border: 3px solid rgb(200, 200, 200);
     border-radius: 5px;
