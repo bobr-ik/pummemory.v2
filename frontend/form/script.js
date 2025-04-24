@@ -40,6 +40,10 @@ async function startSite() {
     // } else {
     // }
 
+    const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
+    const data = await response_award.json()
+    console.log(data)
+
     if (URLParams.person === 'MarkToken') {
         document.getElementById('share-button').dataset.view = true;
     }
@@ -55,7 +59,6 @@ async function startSite() {
 addEventListener("load", () => {
     GeneralDict = getInfo("GeneralDict")
     YearDict = getInfo("YearDict")
-    console.log(YearDict)
 
     if (!(GeneralDict.isInfoAdd)) {
         GeneralDict.photo = "media/person.jpg"
@@ -213,7 +216,6 @@ function saveInputPhoto(id) {
                 } else {
                     YearDict[`${URLParams.year}-photo`].push(adress);
                 }
-                console.log(YearDict)
                 YearDict.isInfoAdd = true
                 saveInfo("YearDict", YearDict)
                 usePhotoPopup(1)
