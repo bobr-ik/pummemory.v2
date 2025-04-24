@@ -207,7 +207,7 @@ class Orm:
         async with async_session_factory() as session:
             rew = await session.execute(select(Rewards))
             rew = rew.scalars().all()
-            return rew
+            return [elem.title for elem in rew]
         
     @staticmethod
     async def insert_old_ppl():

@@ -40,6 +40,10 @@ async function startSite() {
     // } else {
     // }
 
+    const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
+    const data = await response_award.json()
+    console.log(data)
+
     if (URLParams.person === 'MarkToken') {
         document.getElementById('share-button').dataset.view = true;
     }
@@ -82,12 +86,22 @@ addEventListener("load", () => {
             YearDict[year] = undefined
             YearDict[`${year}-photo`] = undefined
             YearDict[`${year}-cord`] = undefined
+            YearDict['awards'] = []
             saveInfo("YearDict", YearDict)
         }
     }
     else {
         const textarea = document.getElementById('yearBiography')
-        YearDict[URLParams.year] === undefined ? textarea.placeholder = `Описаниe года` : textarea.value = YearDict[URLParams.year]
+        YearDict[URLParams.year] === undefined ? textarea.placeholder = `События года` : textarea.value = YearDict[URLParams.year]
+        
+        const awards = document.getElementById('awards');
+        YearDict['awards'].forEach(award => {
+            for (let option of awards.options) {
+                if (option.value === award) {
+                    option.selected = true;
+                }
+            }
+        });
     }
 })
 
@@ -202,7 +216,6 @@ function saveInputPhoto(id) {
                 } else {
                     YearDict[`${URLParams.year}-photo`].push(adress);
                 }
-                console.log(YearDict)
                 YearDict.isInfoAdd = true
                 saveInfo("YearDict", YearDict)
                 usePhotoPopup(1)
@@ -213,11 +226,29 @@ function saveInputPhoto(id) {
     }
 }
 
+function saveAward() {
+    const awards = document.getElementById('awards');
+    for (const elem in awards.options) {
+        if (awards.options[elem].selected) {
+            YearDict['awards'].push(awards.options[elem].value)
+        }
+    }
+    YearDict.isInfoAdd = true
+    saveInfo("YearDict", YearDict)
+}
+
 
 async function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
     saveInfo('GeneralDict', {})   //! Убрать эти строчки 
     saveInfo('YearDict', {})
     location.reload()
+
+    // const awards = [];
+    // for (const elem in document.getElementById('awards').options) {
+    //     if (document.getElementById('awards').options[elem].selected) {
+    //         awards.push(document.getElementById('awards').options[elem].value)
+    //     }
+    // }
 
     // const SendYearList = []
     // const dopDict = {}
@@ -231,6 +262,7 @@ async function sendAllInfo() {            //* Сейчас просто отчи
     //     desc: GeneralDict.generalBiography,
     //     avatar: GeneralDict.photo,
     //     info: YearDict,
+    //     awards: awards,
     // }
 
     // const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
@@ -247,9 +279,9 @@ let marker;
 let selectedCoords = null;
 addEventListener('load', function () { 
     if (YearDict[`${URLParams.year}-cord`] === undefined) {
-        map = L.map('map-block').setView([55.75, 37.61], 10); // Москва, масштаб 10
+        map = L.map('map-block').setView([55.75, 37.61], 8); // Москва, масштаб 10
     } else {
-        map = L.map('map-block').setView([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], 10);
+        map = L.map('map-block').setView([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], 8);
         marker = L.marker([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng]).addTo(map);
         
     }
@@ -281,3 +313,19 @@ addEventListener('load', function () {
         saveInfo("YearDict", YearDict)
     });
 });
+
+// ======================================= Скрипт для списка с наградами
+
+addEventListener('load', () => {
+    const awardsSelect = new Choices('#awards', {
+        removeItemButton: true,
+        // placeholderValue: 'Выберите награды',
+        itemSelectText: '',
+        containerOuter: 'custom-outer',
+        containerInner: 'custom-inner',
+        input: 'custom-input',
+        list: 'custom-list',
+        item: 'custom-item',
+        placeholder: 'custom-placeholder',
+    });
+  });
