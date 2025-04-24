@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, HttpUrl, field_validator
 from typing import Optional
-from data.models import Year, Coordinates
+from data import Year
 
 class Token(BaseModel):
     token: Optional[str] = None
@@ -26,7 +26,6 @@ class Info(BaseModel):
     
 class Photo(BaseModel):
     url: bytes|HttpUrl
-    img_del: Optional[HttpUrl]
 
 
 class Points(BaseModel):

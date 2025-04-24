@@ -11,7 +11,7 @@ async_engine = create_async_engine( #асинзронный движок
     echo=True,
     pool_size=5,
     max_overflow=10,
-) 
+)
 
 async_session_factory = sessionmaker(
     async_engine,
