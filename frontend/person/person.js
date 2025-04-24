@@ -254,7 +254,8 @@ async function initPage() {
     personData.rewards.forEach(reward => {
         const reward_elem = document.createElement('div');
         reward_elem.classList.add('reward');
-        reward_elem.innerHTML = `<img src="${reward.image}" alt="${reward.name}"> <p class="reward_name">${reward.name}</p>`;
+        console.log(reward.image)
+        reward_elem.innerHTML = `<img src="${reward.image}.jpg" alt="${reward.name}"> <p class="reward_name">${reward.name}</p>`;
         rewards_elem.appendChild(reward_elem);
     });
 

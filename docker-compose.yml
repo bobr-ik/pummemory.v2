@@ -14,6 +14,11 @@ services:
     image: mysql:8.0
     container_name: db
     restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
     environment: #TODO up to .env
       MYSQL_ROOT_PASSWORD: '200209318Dak()'
       MYSQL_DATABASE: 'pummemory_test'
@@ -28,9 +33,12 @@ services:
 
   backend:
     build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - "127.0.0.1:8000:8000"
-    networks:
+    networks: 
       - dev
 
     

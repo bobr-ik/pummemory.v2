@@ -15,6 +15,7 @@ from app.models import Person as ps_model, Reward as rw_model, Photo as ph_model
 import requests
 import base64
 from pprint import pprint
+import os
 
 def create_token(data):
     now = datetime.datetime.now()
@@ -144,7 +145,7 @@ class Orm:
                 'name': res.name,
                 'biography': res.description,
                 'avatar': res.avatar,
-                'rewards': [reward.title for reward in res.rewards],
+                'rewards': [{'name': reward.title, 'image': reward.img_url} for reward in res.rewards],
                 'years': [{'id': res.id, 'year': info.year, 'location': info.place.split(), 'story': info.description, 'images': [photo.url for photo in info.photos]} for info in res.info]
             }
             return ans
@@ -183,9 +184,9 @@ class Orm:
             rew = rew.scalars().all()
             if rew:
                 return
-            with open('data/models_data/medals.txt', encoding='utf-8') as f:
+            with open(os.path.join(os.path.dirname(__file__), 'models_data/medals.txt'), encoding='utf-8') as f:
                 for line in f.readlines():
-                    line = line.split('-')
+                    line = line.split('~')
                     line[1] = line[1].replace('\n', '')
                     print(line)
                     
@@ -195,7 +196,7 @@ class Orm:
     @staticmethod
     async def create_old_table():
         async with async_session_factory() as session:
-            with open('data/models_data/pummemory_persons.sql', encoding='utf-8') as f:
+            with open(os.path.join(os.path.dirname(__file__), 'models_data/pummemory_persons.sql'), encoding='utf-8') as f:
                 query = f.read()
                 await session.execute(text(query))
                 await session.commit()
@@ -271,7 +272,7 @@ class Orm:
             # with open('backend/data/models_data/years.json', 'w', encoding='utf-8') as f:
             #     json.dump(data, f, ensure_ascii=False, indent=4)
             #наконец-то, когда готов json на две тысячи строк можно вставлять этот кал в базу.
-            with open('data/models_data/years.json', 'r', encoding='utf-8') as f:
+            with open(os.path.join(os.path.dirname(__file__), 'models_data/years.json'), 'r', encoding='utf-8') as f:
                 data = json.load(f)
             async with async_session_factory() as session:
                 all_rew = await session.execute(select(Rewards))
@@ -280,17 +281,19 @@ class Orm:
                     us_id = str(uuid.uuid4())
                     u_rew = []
                     print(data[person]['rewards'])
-                    for rew in data[person]['rewards'][0].split(', '):
+                    extra = data[person]['rewards'][0].split(',')
+                    for rew in extra:
                         for r in all_rew:
-                            if rew == r.img_url or rew == r.id:
+                            # print(r.id, rew)
+                            if str(rew) == str(r.id):
                                 u_rew.append(r)
                                 break
-                    data[person]['rewards'] = u_rew
-                    # rew = [await Orm.get_or_insert_reward(reward) for reward in person.rewards]
+                    # print('награды' , u_rew)
+                    # rew = [await Orm.get_or_insert_reward(reward) for reward in u_rew]
                     info_list = []
                     for year in data[person]['years']:
                         year_id = str(uuid.uuid4())
-                        print(data[person]['years'][year]['photos'])
+                        # print(data[person]['years'][year]['photos'])
                         if type(data[person]['years'][year]['photos']) == str:
                             if data[person]['years'][year]['photos'] != None:
                                 photos = [Photo(url=data[person]['years'][year]['photos'], info_id=year_id)]
