@@ -307,9 +307,9 @@ addEventListener('load', function () {
         // shadowAnchor : [30,30],
     })
     if (YearDict[`${URLParams.year}-cord`] === undefined) {
-        map = L.map('map-block').setView([55.75, 37.61], 4); // Москва, масштаб 10
+        map = L.map('map-block').setView([55.75, 37.61], 8); // Москва, масштаб 10
     } else {
-        map = L.map('map-block').setView([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], 4);
+        map = L.map('map-block').setView([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], 8);
         marker = L.marker([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], {icon:icon}).addTo(map);
         
     }
