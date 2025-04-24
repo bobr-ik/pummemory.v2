@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     API_KEY: str
     TOKEN: str
     ADMIN_CHAT_ID: str
+    ADMIN_TOKEN: str
     
     @property
     def db_url(self):

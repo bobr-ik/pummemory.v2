@@ -86,6 +86,12 @@ async def check_token(token: str):
     return JSONResponse(status_code=200, content=res)
 
 
+@app.get('/check_token_if_admin')
+async def check_token_if_admin(token: str):
+    res = await Orm.check_token_if_admin(token)
+    return JSONResponse(status_code=200, content=res)
+
+
 @app.get('/get_points')
 async def get_points(year: Year) -> list[Points]:
     #Принимает год

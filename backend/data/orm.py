@@ -64,6 +64,7 @@ class Orm:
             await Orm.insert_or_upd_rewards()
             await Orm.create_old_table()
             await Orm.insert_old_ppl()
+            await Orm.add_admin_token()
             
             
     # @staticmethod
@@ -87,6 +88,14 @@ class Orm:
             await session.commit()
         return token_str
     
+    @staticmethod
+    async def check_token_if_admin(oth: str):
+        async with async_session_factory() as session:
+            res = await session.execute(select(Tokens).where(and_(Tokens.check_token(oth), Tokens.is_admin == True)))
+            res = res.scalars().first()
+            return True if res else False
+        
+        
     
     @staticmethod
     async def check_token_validity(token: str):
@@ -95,7 +104,14 @@ class Orm:
             res = res.scalars().first()
             return True if res else False
         
+    @staticmethod
+    async def add_admin_token():
+        token = settings.ADMIN_TOKEN
+        async with async_session_factory() as session:
+            session.add(Tokens(_token=token, is_active=True, is_admin=True, gen_time=str(datetime.datetime.now())))        
+            await session.commit()
         
+    
     @staticmethod
     async def get_or_insert_reward(reward: rw_model):
         async with async_session_factory() as session:
