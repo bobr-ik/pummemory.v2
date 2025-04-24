@@ -34,13 +34,6 @@ async function startSite() {
         URLParams[key] = value;
     }
 
-    // const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.person}`);
-    // const data = await response.json();
-    // if (!data.content) {
-    //     alert('В доступе отказано, проверьте токен');
-    // } else {
-    // }
-
     const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
     const data = await response_award.json()
 
@@ -61,10 +54,12 @@ async function startSite() {
     if (award.children.length == data.length) {
         setTimeout(() => startChoices(), 0)
     }
+    console.log(URLParams);
+    const response = await fetch(`http://localhost:8000/api/check_token_if_admin?token=${URLParams.token}`);
+    const isMark = await response.json();
+    console.log(isMark.content);
     
-
-
-    if (URLParams.person === 'MarkToken') {
+    if (isMark.content) {
         document.getElementById('share-button').dataset.view = true;
     }
 
@@ -79,7 +74,6 @@ async function startSite() {
 addEventListener("load", () => {
     GeneralDict = getInfo("GeneralDict")
     YearDict = getInfo("YearDict")
-    console.log(YearDict)
 
     if (!(GeneralDict.isInfoAdd)) {
         GeneralDict.photo = "media/person.jpg"
@@ -263,29 +257,29 @@ async function sendAllInfo() {
     // saveInfo('YearDict', {})
     // location.reload()
 
-    // const awards = [];
-    // for (const elem in document.getElementById('awards').options) {
-    //     if (document.getElementById('awards').options[elem].selected) {
-    //         awards.push(document.getElementById('awards').options[elem].value)
-    //     }
-    // }
+    const awards = [];
+    for (const elem in document.getElementById('awards').options) {
+        if (document.getElementById('awards').options[elem].selected) {
+            awards.push(document.getElementById('awards').options[elem].value)
+        }
+    }
 
-    // const SendYearList = []
-    // const dopDict = {}
-    // for (let [key, value] of Object.entries(YearDict)) {
-        
-    // }
+    const SendDict = {
+        name: GeneralDict.secondName + ' ' + GeneralDict.firstName + ' ' + GeneralDict.thirdName, 
+        desc: GeneralDict.generalBiography,
+        avatar: GeneralDict.photo,
+        info: YearDict,
+        awards: awards,
+    }
 
-    // const SendDict = {
-    //     name: GeneralDict.secondName + ' ' + GeneralDict.firstName + ' ' + GeneralDict.thirdName, 
-    //     desc: GeneralDict.generalBiography,
-    //     avatar: GeneralDict.photo,
-    //     info: YearDict,
-    //     awards: awards,
-    // }
-
-    // const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
-    // data = await response.json();
+    const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.person}`);
+    const data = await response.json();
+    if (!data.content) {
+        alert('В доступе отказано, проверьте ссылку');
+    } else {
+        const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
+        data = await response.json();
+    }
 }
 
 
