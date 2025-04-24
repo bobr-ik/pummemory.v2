@@ -209,6 +209,15 @@ class Orm:
             rew = rew.scalars().all()
             return [elem.title for elem in rew]
         
+    
+    @staticmethod
+    async def get_rewards_from_list(rewards: list[str]):
+        async with async_session_factory() as session:
+            rew: list[Rewards] = await session.execute(select(Rewards).where(Rewards.title.in_(rewards)))
+            rew = rew.scalars().all()
+            return [elem.img_url for elem in rew]
+    
+          
     @staticmethod
     async def insert_old_ppl():
         #это пиздец.

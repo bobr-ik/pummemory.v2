@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     port: str
     secret: str
     API_KEY: str
+    TOKEN: str
+    ADMIN_CHAT_ID: str
     
     @property
     def db_url(self):
@@ -20,3 +22,5 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+

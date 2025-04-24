@@ -10,6 +10,6 @@ COPY . .
 
 EXPOSE 8000
 
-RUN ["pip", "install", "requests"]
+# RUN ["pip", "install", "requests"]
 
 CMD ["python", "main.py"]

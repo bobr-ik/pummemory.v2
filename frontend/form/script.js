@@ -259,9 +259,9 @@ function saveAward() {
 
 
 async function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
-    saveInfo('GeneralDict', {})   //! Убрать эти строчки 
-    saveInfo('YearDict', {})
-    location.reload()
+    // saveInfo('GeneralDict', {})   //! Убрать эти строчки 
+    // saveInfo('YearDict', {})
+    // location.reload()
 
     // const awards = [];
     // for (const elem in document.getElementById('awards').options) {
@@ -294,22 +294,31 @@ async function sendAllInfo() {            //* Сейчас просто отчи
 let map;
 let marker;
 let selectedCoords = null;
+
 addEventListener('load', function () { 
+    let icon = L.icon({
+        iconUrl      : '../src/star.svg',
+        // shadowUrl    : '../src/shadow.png',
+
+        iconSize     : [30,30],
+        iconAnchor   : [15,15],
+
+        // shadowSize   : [60,60],
+        // shadowAnchor : [30,30],
+    })
     if (YearDict[`${URLParams.year}-cord`] === undefined) {
-        map = L.map('map-block').setView([55.75, 37.61], 8); // Москва, масштаб 10
+        map = L.map('map-block').setView([55.75, 37.61], 4); // Москва, масштаб 10
     } else {
-        map = L.map('map-block').setView([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], 8);
-        marker = L.marker([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng]).addTo(map);
+        map = L.map('map-block').setView([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], 4);
+        marker = L.marker([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], {icon:icon}).addTo(map);
         
     }
 
     // Добавляем тайлы OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap',
-      maxZoom: 19,
-    }).addTo(map);
+    L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=jFVHTIg2WK3xJlt5wfqJ7F41zVI76aPnnsvSD3Pm4pjbR1J2mpnmUEMyUFjWKQY8', {}).addTo(map);
 
     map.on('click', function (e) {  
+        
         const { lat, lng } = e.latlng;
 
         // Удаляем старую метку, если есть
@@ -318,7 +327,7 @@ addEventListener('load', function () {
         }
 
         // Ставим новую метку
-        marker = L.marker([lat, lng]).addTo(map);
+        marker = L.marker([lat, lng], {icon:icon}).addTo(map);
 
         const Lat = lat.toFixed(2);
         const Lng = lng.toFixed(2);

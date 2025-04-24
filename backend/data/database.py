@@ -6,12 +6,12 @@ from data.config import settings
 # import asyncio
 from typing import Annotated
 
-async_engine = create_async_engine( #асинзронный движок
+async_engine = create_async_engine(
     url=settings.db_url,
     echo=True,
     pool_size=5,
     max_overflow=10,
-) 
+)
 
 async_session_factory = sessionmaker(
     async_engine,
