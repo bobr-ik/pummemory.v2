@@ -28,8 +28,7 @@ function getInfo(key) {
 addEventListener("load", () => startSite());
 
 async function startSite() {
-    const parametrs = new URLSearchParams(window.location.search); //* В url нужно передавать токен и год: ?person=...&year=...
-
+    const parametrs = new URLSearchParams(window.location.search);
     for (const [key, value] of parametrs.entries()) {
         URLParams[key] = value;
     }
