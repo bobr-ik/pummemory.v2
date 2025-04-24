@@ -57,9 +57,9 @@ async function startSite() {
     console.log(URLParams);
     const response = await fetch(`http://localhost:8000/api/check_token_if_admin?token=${URLParams.token}`);
     const isMark = await response.json();
-    console.log(isMark.content);
+    console.log(isMark);
     
-    if (isMark.content) {
+    if (isMark) {
         document.getElementById('share-button').dataset.view = true;
     }
 
@@ -166,12 +166,18 @@ document.getElementById('manual').addEventListener('click', () => {
 
 async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
-    // response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
-    // data = await response.json();
 
-    data = 'Ультра супер классный единоразовый токен';
+    const response = await fetch('http://localhost:8000/api/create_token', {
+        method: 'POST'
+    });
+    const data = await response.json();
+
+    const token = encodeURIComponent(data);
+    const url = `http://localhost:8001/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
+
     const link = document.getElementById('link');
-    link.innerHTML = data;
+    link.href = url;
+    link.textContent = url;
 }
 
 function usePhotoPopup(status = 0) {

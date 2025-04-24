@@ -91,18 +91,23 @@ class Orm:
     @staticmethod
     async def check_token_if_admin(oth: str):
         async with async_session_factory() as session:
-            res = await session.execute(select(Tokens).where(and_(Tokens.check_token(oth), Tokens.is_admin == True)))
-            res = res.scalars().first()
-            return True if res else False
-        
+            res = await session.execute(select(Tokens).where(Tokens.is_admin == True))
+            res = res.scalars().all()
+            for tk in res:
+                if tk.check_token(oth):
+                    return True
+        return False
         
     
     @staticmethod
     async def check_token_validity(token: str):
         async with async_session_factory() as session:
-            res = await session.execute(select(Tokens).where(Tokens.check_token(token)))
-            res = res.scalars().first()
-            return True if res else False
+            res = await session.execute(select(Tokens))
+            res = res.scalars().all()
+            for tk in res:
+                if tk.check_token(token):
+                    return True
+        return False
         
     @staticmethod
     async def add_admin_token():
