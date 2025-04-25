@@ -8,15 +8,8 @@ class Token(BaseModel):
 
 
 class Person(BaseModel):
-    name: str = Field(...,
-                      min_length=3,
-                      max_length=60,
-                      example="Иванов Иван Иванович"
-                      )
-    desc: Optional[str] = Field(...,
-                                max_length=5000,
-                                example="Описание"
-                                )
+    name: str = Field(..., min_length=3, max_length=60, example="Иванов Иван Иванович")
+    desc: Optional[str] = Field(..., max_length=5000, example="Описание")
     avatar: bytes | HttpUrl
     rewards: Optional[list['Reward']]
     info: Optional[list['Info']]
@@ -24,10 +17,7 @@ class Person(BaseModel):
 
 class Reward(BaseModel):
     title: str = Field(..., min_length=3, max_length=60, example="Медаль")
-    desc: Optional[str] = Field(...,
-                                max_length=5000,
-                                example="Описание подвига"
-                                )
+    desc: Optional[str] = Field(..., max_length=5000, example="Описание подвига")
 
 
 class Info(BaseModel):
@@ -44,11 +34,7 @@ class Photo(BaseModel):
 
 class Points(BaseModel):
     name: str = Field(..., min_length=3, max_length=60, example="Иванов")
-    surname: Optional[str] = Field(...,
-                                   min_length=3,
-                                   max_length=60,
-                                   example="Иван"
-                                   )
+    surname: Optional[str] = Field(..., min_length=3, max_length=60, example="Иван")
     patronymic: Optional[str] = Field(...,
                                       min_length=3,
                                       max_length=60,

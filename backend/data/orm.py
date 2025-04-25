@@ -5,10 +5,10 @@ from sqlalchemy import text, insert, select
 from data.database import async_engine, async_session_factory
 from data.database import Base
 from sqlalchemy.orm import selectinload
-from data.models import Person, Rewards, Info, Tokens, Year
+from data.models import Person, Rewards, Info, Tokens, Year, Photo
 import jwt
 from data.config import settings
-from app.models import Person as ps_model, Reward as rw_model, Photo
+from app.models import Person as ps_model, Reward as rw_model
 import requests
 from pprint import pprint
 import os
@@ -331,10 +331,10 @@ class Orm:
                         year_id = str(uuid.uuid4())
                         # print(data[person]['years'][year]['photos'])
                         if type(data[person]['years'][year]['photos']) is str:
-                            if data[person]['years'][year]['photos'] is not None:
+                            if data[person]['years'][year]['photos'] != '':
                                 photos = [Photo(url=data[person]['years'][year]['photos'], info_id=year_id)]
                         elif type(data[person]['years'][year]['photos']) is list:
-                            photos = [Photo(url=photo, info_id=year_id) for photo in data[person]['years'][year]['photos'] if photo is not None]
+                            photos = [Photo(url=photo, info_id=year_id) for photo in data[person]['years'][year]['photos'] if photo != '']
                         else:
                             photos = []
                         if data[person]['years'][year]['desc'] or data[person]['years'][year]['place'] or photos:
