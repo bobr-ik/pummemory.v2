@@ -33,33 +33,36 @@ async function startSite() {
         URLParams[key] = value;
     }
 
-    const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
-    const data = await response_award.json()
+    if (!(GeneralDict.isFirstOpen)) {
+        const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
+        const data = await response_award.json()
 
-    const award = document.getElementById('awards');
-    for (const index in data) {
-        const option = document.createElement('option');
-        option.value = data[index];
-        option.textContent = data[index];
+        const award = document.getElementById('awards');
+        for (const index in data) {
+            const option = document.createElement('option');
+            option.value = data[index];
+            option.textContent = data[index];
 
-        for (const i in YearDict['awards']) {
-            if (data[index] === YearDict['awards'][i]) {
-                option.selected = true
+            for (const i in YearDict['awards']) {
+                if (data[index] === YearDict['awards'][i]) {
+                    option.selected = true
+                }
             }
-        }
 
-        award.appendChild(option);
+            award.appendChild(option);
+        }
+        if (award.children.length == data.length) {
+            setTimeout(() => startChoices(), 0)
+        }
     }
-    if (award.children.length == data.length) {
-        setTimeout(() => startChoices(), 0)
-    }
-    console.log(URLParams);
-    const response = await fetch(`http://localhost:8000/api/check_token_if_admin?token=${URLParams.token}`);
-    const isMark = await response.json();
-    console.log(isMark);
-    
-    if (isMark) {
-        document.getElementById('share-button').dataset.view = true;
+
+    if (!(GeneralDict.isFirstOpen)) {
+        const response = await fetch(`http://localhost:8000/api/check_token_if_admin?token=${URLParams.token}`);
+        const isMark = await response.json();
+        
+        if (isMark) {
+            document.getElementById('share-button').dataset.view = true;
+        }
     }
 
     const yearBlock = document.getElementById('year-button-block');
@@ -68,6 +71,9 @@ async function startSite() {
             year.classList.add('active-year');
         }
     }
+
+    GeneralDict.isFirstOpen = true
+    saveInfo("GeneralDict", GeneralDict);
 }
 
 addEventListener("load", () => {
@@ -81,6 +87,7 @@ addEventListener("load", () => {
         GeneralDict.thirdName = undefined
         GeneralDict.generalBiography = undefined
         GeneralDict.yearBiography = undefined
+        GeneralDict.isFirstOpen = false
     } 
     else {
         addPhoto(GeneralDict.photo)
@@ -120,7 +127,7 @@ addEventListener("load", () => {
 })
 
 function changeYear(year) {
-    const path = `${window.location.pathname}?person=${URLParams.person}&year=${year}`;
+    const path = `${window.location.pathname}?token=${URLParams.token}&year=${year}`;
     window.location.href = path;
 }
 
@@ -174,9 +181,12 @@ async function useLinkPopup() {
     const token = encodeURIComponent(data);
     const url = `http://localhost:8001/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
 
-    const link = document.getElementById('link');
+    const link = document.createElement('a');
     link.href = url;
     link.textContent = url;
+    link.id = 'copy-link'
+
+    document.getElementById('link').appendChild(link);
 }
 
 function usePhotoPopup(status = 0) {
@@ -199,8 +209,8 @@ function usePhotoPopup(status = 0) {
 }
 
 function copyLink() {
-    const link = document.getElementById('link');
-    navigator.clipboard.writeText(link.innerHTML);
+    const link = document.getElementById('copy-link');
+    navigator.clipboard.writeText(link.href);
 
     const copyButton = document.getElementById('copy-button');
     copyButton.innerHTML = 'copied';
@@ -277,7 +287,7 @@ async function sendAllInfo() {
         awards: awards,
     }
 
-    const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.person}`);
+    const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.token}`);
     const data = await response.json();
     if (!data.content) {
         alert('В доступе отказано, проверьте ссылку');
