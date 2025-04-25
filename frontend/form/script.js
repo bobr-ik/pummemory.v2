@@ -85,7 +85,6 @@ addEventListener("load", () => {
         GeneralDict.thirdName = undefined
         GeneralDict.generalBiography = undefined
         GeneralDict.yearBiography = undefined
-        GeneralDict.isFirstOpen = false
     } 
     else {
         addPhoto(GeneralDict.photo)
