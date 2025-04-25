@@ -56,13 +56,11 @@ async function startSite() {
         }
     }
 
-    if (!(GeneralDict.isFirstOpen)) {
-        const response = await fetch(`http://localhost:8000/api/check_token_if_admin?token=${URLParams.token}`);
-        const isMark = await response.json();
-        
-        if (isMark) {
-            document.getElementById('share-button').dataset.view = true;
-        }
+    const response = await fetch(`http://localhost:8000/api/check_token_if_admin?token=${URLParams.token}`);
+    const isMark = await response.json();
+
+    if (isMark) {
+        document.getElementById('share-button').dataset.view = true;
     }
 
     const yearBlock = document.getElementById('year-button-block');
@@ -268,9 +266,9 @@ function saveAward() {
 
 
 async function sendAllInfo() {
-    // saveInfo('GeneralDict', {})   //! Убрать эти строчки 
-    // saveInfo('YearDict', {})
-    // location.reload()
+    saveInfo('GeneralDict', {})   //! Убрать эти строчки 
+    saveInfo('YearDict', {})
+    location.reload()
 
     const awards = [];
     for (const elem in document.getElementById('awards').options) {
@@ -287,6 +285,7 @@ async function sendAllInfo() {
         awards: awards,
     }
 
+    console.log(SendDict);
     const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.token}`);
     const data = await response.json();
     if (!data.content) {
