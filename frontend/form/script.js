@@ -182,7 +182,6 @@ async function useLinkPopup() {
     const copyButton = document.getElementById('copy-button');
     copyButton.style.backgroundImage = "url('media/copy-icon.png')";
 
-
     const qrCode = new QRCode(document.getElementById("popup-qr"), url);
 
     const link = document.createElement('a');
@@ -227,6 +226,10 @@ function copyLink() {
 
 function closePopup(id) {
     document.getElementById(id).classList.toggle('close');
+
+    if (id == 'link-popup') {
+        document.getElementById('popup-qr').removeChild(document.getElementById('popup-qr').lastChild);
+    }
 }
 
 function useInput(id) {
