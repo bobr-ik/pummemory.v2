@@ -170,20 +170,31 @@ document.getElementById('manual').addEventListener('click', () => {
 async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
 
+    
     const response = await fetch('http://localhost:8000/api/create_token', {
         method: 'POST'
     });
     const data = await response.json();
-
+    
     const token = encodeURIComponent(data);
     const url = `http://localhost:8001/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
+    
+    const copyButton = document.getElementById('copy-button');
+    copyButton.style.backgroundImage = "url('media/copy-icon.png')";
+
+
+    const qrCode = new QRCode(document.getElementById("popup-qr"), url);
 
     const link = document.createElement('a');
     link.href = url;
     link.textContent = url;
     link.id = 'copy-link'
-
-    document.getElementById('link').appendChild(link);
+    // link.classList.add('copy-link');
+    
+    console.log(document.getElementById('copy-link'));
+    if (document.getElementById('copy-link') == undefined) {
+        document.getElementById('link').appendChild(link);
+    }
 }
 
 function usePhotoPopup(status = 0) {
@@ -192,6 +203,7 @@ function usePhotoPopup(status = 0) {
     }
 
     const photoBlock = document.getElementById('photo-block');
+    console.log(YearDict[`${URLParams.year}-photo`]);
     if (YearDict[`${URLParams.year}-photo`] === undefined) {
         photoBlock.innerHTML = 'На этот год фотографии отсутствуют';
     } else {
@@ -210,7 +222,7 @@ function copyLink() {
     navigator.clipboard.writeText(link.href);
 
     const copyButton = document.getElementById('copy-button');
-    copyButton.innerHTML = 'copied';
+    copyButton.style.backgroundImage = "url('media/galochchchka.png')";
 }
 
 function closePopup(id) {

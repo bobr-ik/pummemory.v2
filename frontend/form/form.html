@@ -98,7 +98,8 @@
     <div id="link-popup" class="general-popup close">
         <div class="popup-content link-popup">
             <button class="close-button" onclick="closePopup('link-popup')">X</button>
-            <div class="popup-qr"></div>
+            <div id="popup-qr"></div>
+            <div class="link-title">Копировать сслыку</div>
             <div class="link-block">
                 <div id="link"></div>
                 <div id="copy-button" onclick="copyLink()"></div>
@@ -109,6 +110,7 @@
     <script src="script.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 	<script src="https://unpkg.com/leaflet-providers@1.13.0/leaflet-providers.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </body>
 </html>
