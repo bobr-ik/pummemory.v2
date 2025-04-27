@@ -7,7 +7,7 @@ let map = L.map('map',{
 	center   : [50.881176, 30.371177],
 	zoom     : 5,
 	maxZoom  : 100,
-	minZoom: 4,
+	minZoom: 2,
 })
 let markerCluster
 
@@ -79,7 +79,7 @@ function addMarker( info={} ) {
 		info.location = info.location.split(" ").map(Number);
 	}
 
-	if (info.location == false) info.location = [0, 0];
+	if (info.location == false) return NaN;
 	
 	
 	//create marker
