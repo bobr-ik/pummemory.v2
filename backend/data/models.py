@@ -54,7 +54,7 @@ class Rewards(Base):
     __tablename__ = "rewards"
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str_256]
-    img_url: Mapped[str_256]
+    img_url: Mapped[str_256] = mapped_column(default="")
     ppl_got: Mapped[list["Person"]] = relationship("Person", secondary=person_rewards, back_populates="rewards")
 
 
@@ -92,6 +92,7 @@ class Tokens(Base):
         return hashed.decode('utf-8')
 
     def check_token(self, raw_token: str):
+        print(self._token, raw_token)
         return bcrypt.checkpw(raw_token.encode('utf-8'), self._token.encode('utf-8'))
 
 

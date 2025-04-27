@@ -77,7 +77,7 @@ class Orm:
     async def create_token(data: str = ''.join([str(random.randint(0, 100)) for _ in range(30)])):
         token_str, now = create_token(data)
         token_obj = Tokens()
-        token_obj.token = token_str
+        token_obj._token = token_str
         token_obj.is_active = True
         token_obj.gen_time = str(now)
         async with async_session_factory() as session:
@@ -87,6 +87,7 @@ class Orm:
 
     @staticmethod
     async def check_token_if_admin(oth: str):
+        # print(oth, 'admin_token')
         # получение всех объектов админских токенов и проверка на соответвтвие переданному токену
         async with async_session_factory() as session:
             res = await session.execute(select(Tokens).where(Tokens.is_admin))
@@ -98,6 +99,7 @@ class Orm:
 
     @staticmethod
     async def check_token_validity(token: str):
+        # print(token, 'random_token')
         # получение всех объектов токенов и проверка на существование и валидность
         async with async_session_factory() as session:
             res = await session.execute(select(Tokens))
@@ -116,34 +118,48 @@ class Orm:
             await session.commit()
 
     @staticmethod
-    async def get_or_insert_reward(reward: rw_model):
+    async def get_or_insert_reward(reward: str):
         async with async_session_factory() as session:
             # получение объекта награды соответствующего переданному названию
-            res = await session.execute(select(Rewards).where(Rewards.title == reward.title))
+            res = await session.execute(select(Rewards).where(Rewards.title == reward))
             res = res.scalars().first()
-            if res:
-                return res
-            else:
-                # если награда не найдена, вставляем новую
-                # в данный момент не используется, на фротненде нет возможности внести не существующую награду
-                query = insert(Rewards).values(title=reward.title)
-                await session.execute(query)
-                await session.flush()
-                res = await session.execute(select(Rewards).where(Rewards.title == reward.title))
-                res = res.scalars().first()
-                return res
+            # if res:
+            #     return res
+            # else:
+            #     # если награда не найдена, вставляем новую
+            #     # в данный момент не используется, на фротненде нет возможности внести не существующую награду
+            #     query = insert(Rewards).values(title=reward.title)
+            #     await session.execute(query)
+            #     await session.flush()
+            #     res = await session.execute(select(Rewards).where(Rewards.title == reward.title))
+            #     res = res.scalars().all()
+            #     return res
+            print()
+            print(res)
+            print()
+            return res
 
     @staticmethod
     async def insert_person(person: ps_model):
         async with async_session_factory() as session:
             us_id = str(uuid.uuid4())
             # список объектов наград переданного человека
+            # rew=person.rewards
+            # print(person.rewards)
             rew = [await Orm.get_or_insert_reward(reward) for reward in person.rewards]
             info_list = []
             # генерация списка информации о персоне по годам
+            # print()
+            # print(person.info)
+            # print()
             for info in person.info:
+                # print('banger')
                 info.id = us_id + str(info.year)
                 info.images = [Photo(url=photo.url, info_id=info.id) for photo in info.images]
+                info.place = info.place['Lat'] + ' ' + info.place['Lng']
+                print()
+                print('info', info)
+                print()
                 info_list.append(
                     Info(
                         id=info.id,
@@ -154,7 +170,7 @@ class Orm:
                         photos=info.images
                     )
                 )
-            await session.add(
+            session.add(
                 Person(
                     id=us_id,
                     name=person.name,
@@ -201,9 +217,9 @@ class Orm:
                 print(info.place)
             ans = [
                 {
-                    "name": (info.pers.name.split())[0],
-                    "surname": (info.pers.name.split())[1],
-                    "patronymic": (info.pers.name.split())[2],
+                    "name": (info.pers.name.split())[0] if len(info.pers.name.split()) > 0 else '',
+                    "surname": (info.pers.name.split())[1] if len(info.pers.name.split()) > 1 else '',
+                    "patronymic": (info.pers.name.split())[2] if len(info.pers.name.split()) > 2 else '',
                     "location": info.place,
                     "img_url": info.pers.avatar[0] if info.pers.avatar is not None else None,
                     "id": info.pers.id
