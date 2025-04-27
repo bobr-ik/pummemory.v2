@@ -351,20 +351,10 @@ class Orm:
             # наконец-то, когда готов json на две тысячи строк можно вставлять этот кал в базу.
             # with open(os.path.join(os.path.dirname(__file__), 'models_data\years.json'), 'r', encoding='utf-8') as f:
             #     data = json.load(f)
-            # res = {}
             # for pers in data:
-            #     new_years = {
-            #         "1940": data[pers]["years"]["1945"],
-            #         "1941": data[pers]["years"]["1940"],
-            #         "1942": data[pers]["years"]["1941"],
-            #         "1943": data[pers]["years"]["1942"],
-            #         "1944": data[pers]["years"]["1943"],
-            #         "1945": data[pers]["years"]["1944"]
-            #     }
-            #     data[pers]["years"] = new_years
-            #     res[pers] = data[pers]
+            #     data[pers]['years']['1940']['location'], data[pers]['years']['1941']['location'], data[pers]['years']['1942']['location'], data[pers]['years']['1943']['location'], data[pers]['years']['1944']['location'], data[pers]['years']['1945']['location'] = data[pers]['years']['1945']['location'], data[pers]['years']['1940']['location'], data[pers]['years']['1941']['location'], data[pers]['years']['1942']['location'], data[pers]['years']['1943']['location'], data[pers]['years']['1944']['location']
             # with open(os.path.join(os.path.dirname(__file__), 'models_data\years.json'), 'w', encoding='utf-8') as f:
-            #     json.dump(res, f, ensure_ascii=False, indent=4)
+            #     json.dump(data, f, ensure_ascii=False, indent=4)
             with open(os.path.join(os.path.dirname(__file__), 'models_data/years.json'), 'r', encoding='utf-8') as f:
                 data = json.load(f)
             async with async_session_factory() as session:
