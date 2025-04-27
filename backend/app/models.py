@@ -96,6 +96,6 @@ class User_info(BaseModel):
     id: str
     name: str = Field(..., max_length=60, example="Иванов Иван Иванович")
     biography: Optional[str] = Field(default="", max_length=5000, example="Описание")
-    avatar: Optional[str] = Field(default="", max_length=500, example="https://example.com/avatar.jpg")
+    avatar: Optional[list[str]] = Field(default=[], max_length=500, example="https://example.com/avatar.jpg")
     rewards: Optional[list['Reward']] = Field(default=None)
     years: Optional[list['Info_sending']] = Field(default=None)

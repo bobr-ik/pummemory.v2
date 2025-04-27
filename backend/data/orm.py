@@ -171,7 +171,7 @@ class Orm:
             session.add(
                 Person(
                     id=us_id,
-                    avatar=person.avatar,
+                    avatar=person.avatar[0],
                     name=person.name,
                     description=person.desc,
                     time_added=datetime.datetime.now(),
@@ -205,7 +205,7 @@ class Orm:
                 'id': res.id,
                 'name': res.name,
                 'biography': res.description,
-                'avatar': res.avatar,
+                'avatar': [res.avatar],
                 'rewards': [{'name': reward.title, 'image': reward.img_url} for reward in res.rewards],
                 'years': [
                     {'id': res.id,
@@ -233,7 +233,7 @@ class Orm:
                     "surname": (info.pers.name.split())[1] if len(info.pers.name.split()) > 1 else '',
                     "patronymic": (info.pers.name.split())[2] if len(info.pers.name.split()) > 2 else '',
                     "location": info.location,
-                    "img_url": info.pers.avatar if info.pers.avatar is not None else None,
+                    "img_url": info.pers.avatar[0] if info.pers.avatar != [] and info.pers.avatar[0] != '' else None,
                     "id": info.pers.id
                 } for info in res
             ]
