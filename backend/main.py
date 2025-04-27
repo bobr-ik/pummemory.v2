@@ -97,7 +97,7 @@ async def get_points(year: Year) -> list[Points]:
 
 
 @app.get('/user_info')
-async def get_user_info(id: str) -> User_info:
+async def get_user_info(id: str):
     #фио - name, описание - buiography, avatar - фото профиля, rewards - медали, years : [{year: enum story: images:list[str] location:}] 
     pers = await Orm.get_person(id)
     print(pers)
@@ -116,7 +116,7 @@ async def insert_person(person = Body(...)):
             for key in info_list[i:i+3]:
                 if key in elem:
                     dop.append((key, person['info'][key]))
-            true_info.append(Info(year=dop[0][0] if len(dop) >= 1 else None, place=dop[1][1] if len(dop) >= 2 else None, story=dop[2][1]) if len(dop) == 3 else None)
+            true_info.append(Info(year=dop[0][0] if len(dop) >= 1 else None, location=dop[1][1] if len(dop) >= 2 else None, story=dop[2][1]) if len(dop) == 3 else None)
     true_person = Person(avatar=person['avatar'], name=person['name'], description=person['description'], rewards=None, info=true_info)
     avatar = await save_images(true_person.avatar)
     true_person.avatar = avatar

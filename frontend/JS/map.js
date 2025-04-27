@@ -7,68 +7,56 @@ let map = L.map('map',{
 	center   : [50.881176, 30.371177],
 	zoom     : 5,
 	maxZoom  : 100,
-	minZoom  : 4,
+	minZoom: 4,
 })
+let markerCluster
 
-let markerCluster = L.markerClusterGroup({
-	iconCreateFunction: function(cluster) {
-		let count = cluster.getChildCount();
-
-		let size = 'small';
-		if (count >= 3) size = 'medium';
-		if (count >= 5) size = 'large';
-
-		return L.divIcon({
-			html: `<span>${count}</span>`,
-			className: 'custom-cluster custom-cluster-' + size,
-			iconSize: L.point(40, 40)
-		});
-	},
-	showCoverageOnHover: false,
-	spiderfyOnMaxZoom: true,
-	disableClusteringAtZoom: 10,
-});
-
-// markerCluster.on('clusterclick', function (a) {
-//     a.originalEvent.preventDefault();
-
-//     let latlng = a.layer.getLatLng();
-
-//     if (map.getZoom() !== 6) {
-//         // Просто приблизить до 6
-//         map.setView(latlng, 6);
-//     } else {
-//         // Отложить активацию "паучка" на следующий тик
-//         setTimeout(function() {
-//             a.layer.spiderfy();
-//         }, 0);
-//     }
-// });
-
-markerCluster.on('animationend', function () {
-	markerCluster.eachLayer(marker => {
-		// Убедимся, что это маркер, а не кластер
-		if (marker instanceof L.Marker && marker._icon && marker._shadow) {
-			marker._shadow.style.opacity = '0';
-			marker._shadow.style.transition = '.8s';
-
-			// Сбросим старые обработчики
-			marker._icon.onmouseenter = null;
-			marker._icon.onmouseleave = null;
-
-			// Добавим новые
-			marker._icon.addEventListener("mouseenter", () => {
-				marker._shadow.classList.add('shadow-visible');
+function createMarkerCluster() {
+	markerCluster = L.markerClusterGroup({
+		iconCreateFunction: function(cluster) {
+			let count = cluster.getChildCount();
+	
+			let size = 'small';
+			if (count >= 3) size = 'medium';
+			if (count >= 5) size = 'large';
+	
+			return L.divIcon({
+				html: `<span>${count}</span>`,
+				className: 'custom-cluster custom-cluster-' + size,
+				iconSize: L.point(40, 40)
 			});
-			marker._icon.addEventListener("mouseleave", () => {
-				marker._shadow.classList.remove('shadow-visible');
-			});
-		}
+		},
+		showCoverageOnHover: false,
+		spiderfyOnMaxZoom: true,
+		disableClusteringAtZoom: 10,
 	});
-});
 
-
-map.addLayer(markerCluster);
+	markerCluster.on('animationend', function () {
+		markerCluster.eachLayer(marker => {
+			// Убедимся, что это маркер, а не кластер
+			if (marker instanceof L.Marker && marker._icon && marker._shadow) {
+				marker._shadow.style.opacity = '0';
+				marker._shadow.style.transition = '.8s';
+	
+				// Сбросим старые обработчики
+				marker._icon.onmouseenter = null;
+				marker._icon.onmouseleave = null;
+	
+				// Добавим новые
+				marker._icon.addEventListener("mouseenter", () => {
+					marker._shadow.classList.add('shadow-visible');
+				});
+				marker._icon.addEventListener("mouseleave", () => {
+					marker._shadow.classList.remove('shadow-visible');
+				});
+			}
+		});
+	});
+	
+	
+	map.addLayer(markerCluster);
+}
+createMarkerCluster();
 
 // L.tileLayer.provider('CartoDB.DarkMatter').addTo(map);
 L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=jFVHTIg2WK3xJlt5wfqJ7F41zVI76aPnnsvSD3Pm4pjbR1J2mpnmUEMyUFjWKQY8', {}).addTo(map);
@@ -153,3 +141,4 @@ function clickMark( mark ) {
 	mark.openPopup();
 	map.setView( [ mark.x,mark.y ] );
 }
+

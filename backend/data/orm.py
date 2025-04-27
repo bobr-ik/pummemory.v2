@@ -121,7 +121,7 @@ class Orm:
             for info in person.info:
                 info.id = us_id + str(info.year)
                 info.images = [Photo(url=photo.url, url_delete=photo.img_del, info_id=info.id) for photo in info.images]
-                info_list.append(Info(id=info.id, year=info.year, place=info.place, description=info.story, pers_id=us_id, photos=info.images))
+                info_list.append(Info(id=info.id, year=info.year, location=info.location, description=info.story, pers_id=us_id, photos=info.images))
             await session.add(Person(id=us_id, name=person.name, description=person.desc, time_added=datetime.datetime.now(), rewards=rew, info=info_list))
             await session.commit()
             return us_id
@@ -146,7 +146,7 @@ class Orm:
                 'biography': res.description,
                 'avatar': res.avatar,
                 'rewards': [{'name': reward.title, 'image': reward.img_url} for reward in res.rewards],
-                'years': [{'id': res.id, 'year': info.year, 'location': info.place.split(), 'story': info.description, 'images': [photo.url for photo in info.photos]} for info in res.info]
+                'years': [{'id': res.id, 'year': info.year, 'location': info.location.split(), 'story': info.description, 'images': [photo.url for photo in info.photos]} for info in res.info]
             }
             return ans
         
@@ -164,12 +164,12 @@ class Orm:
             res = await session.execute(query)
             res = res.scalars().all()
             for info in res:
-                print(info.place)
+                print(info.location)
             ans = [{
                 "name": (info.pers.name.split())[0],
                 "surname": (info.pers.name.split())[1],
                 "patronymic": (info.pers.name.split())[2],
-                "location": info.place,
+                "location": info.location,
                 "img_url": info.pers.avatar[0] if info.pers.avatar is not None else None,
                 "id": info.pers.id
                 } for info in res
@@ -223,32 +223,32 @@ class Orm:
                     'photos': [el for el in row[7:11] if el != ''],
                     'years': {
                         '1940': {
-                            'place': row[36],
+                            'location': row[36],
                             'desc': row[12],
                             'photos': [el for el in row[13:16] if el != '']
                         },
                         '1941': {
-                            'place': row[37],
+                            'location': row[37],
                             'desc': row[17],
                             'photos': [el for el in row[18:21] if el != '']
                         },
                         '1942': {
-                            'place': row[38],
+                            'location': row[38],
                             'desc': row[22],
                             'photos': [el for el in row[23:25] if el != '']
                         },
                         '1943': {
-                            'place': row[39],
+                            'location': row[39],
                             'desc': row[26],
                             'photos': [row[27] if row[27] != '' else None]
                         },
                         '1944': {
-                            'place': row[40],
+                            'location': row[40],
                             'desc': row[29],
                             'photos': [row[30] if row[30] != '' else None]
                         },
                         '1945': {
-                            'place': row[2],
+                            'location': row[2],
                             'desc': row[32],
                             'photos': [row[33] if row[33] != '' else None]
                         }   
@@ -301,8 +301,8 @@ class Orm:
                             photos = [Photo(url=photo, info_id=year_id) for photo in data[person]['years'][year]['photos'] if photo is not None]
                         else:
                             photos = []
-                        if data[person]['years'][year]['desc'] or data[person]['years'][year]['place'] or photos:
-                            info_list.append(Info(id=year_id, year=Year(year), place=data[person]['years'][year]['place'], description=data[person]['years'][year]['desc'], pers_id=us_id, photos=photos))
+                        if data[person]['years'][year]['desc'] or data[person]['years'][year]['location'] or photos:
+                            info_list.append(Info(id=year_id, year=Year(year), location=data[person]['years'][year]['location'], description=data[person]['years'][year]['desc'], pers_id=us_id, photos=photos))
                     pers = Person(id=us_id, name=person, description=data[person]['desc'], avatar=list(data[person]['photos']) if data[person]['photos'] else None, time_added=datetime.datetime.now(), rewards=u_rew, info=info_list)
                     pprint(pers)
                     session.add(pers)
