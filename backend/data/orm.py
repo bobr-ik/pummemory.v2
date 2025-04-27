@@ -171,7 +171,7 @@ class Orm:
             session.add(
                 Person(
                     id=us_id,
-                    avatar=person.avatar[0],
+                    avatar=person.avatar,
                     name=person.name,
                     description=person.desc,
                     time_added=datetime.datetime.now(),
@@ -205,7 +205,7 @@ class Orm:
                 'id': res.id,
                 'name': res.name,
                 'biography': res.description,
-                'avatar': [res.avatar],
+                'avatar': res.avatar,
                 'rewards': [{'name': reward.title, 'image': reward.img_url} for reward in res.rewards],
                 'years': [
                     {'id': res.id,
@@ -233,7 +233,7 @@ class Orm:
                     "surname": (info.pers.name.split())[1] if len(info.pers.name.split()) > 1 else '',
                     "patronymic": (info.pers.name.split())[2] if len(info.pers.name.split()) > 2 else '',
                     "location": info.location,
-                    "img_url": info.pers.avatar[0] if info.pers.avatar != [] and info.pers.avatar[0] != '' else None,
+                    "img_url": info.pers.avatar if info.pers.avatar is not None else None,
                     "id": info.pers.id
                 } for info in res
             ]
@@ -349,6 +349,22 @@ class Orm:
             # with open('backend/data/models_data/years.json', 'w', encoding='utf-8') as f:
             #     json.dump(data, f, ensure_ascii=False, indent=4)
             # наконец-то, когда готов json на две тысячи строк можно вставлять этот кал в базу.
+            # with open(os.path.join(os.path.dirname(__file__), 'models_data\years.json'), 'r', encoding='utf-8') as f:
+            #     data = json.load(f)
+            # res = {}
+            # for pers in data:
+            #     new_years = {
+            #         "1940": data[pers]["years"]["1945"],
+            #         "1941": data[pers]["years"]["1940"],
+            #         "1942": data[pers]["years"]["1941"],
+            #         "1943": data[pers]["years"]["1942"],
+            #         "1944": data[pers]["years"]["1943"],
+            #         "1945": data[pers]["years"]["1944"]
+            #     }
+            #     data[pers]["years"] = new_years
+            #     res[pers] = data[pers]
+            # with open(os.path.join(os.path.dirname(__file__), 'models_data\years.json'), 'w', encoding='utf-8') as f:
+            #     json.dump(res, f, ensure_ascii=False, indent=4)
             with open(os.path.join(os.path.dirname(__file__), 'models_data/years.json'), 'r', encoding='utf-8') as f:
                 data = json.load(f)
             async with async_session_factory() as session:

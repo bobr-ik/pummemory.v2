@@ -33,8 +33,8 @@ def format_message(message: User_info) -> str:
 '''
     )
     images = []
-    if message.avatar[0] is not None:
-        images.append(message.avatar[0])
+    if message.avatar is not None:
+        images.append(message.avatar)
     for info in message.years:
         if info.images != []:
             for elem in info.images:

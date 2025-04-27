@@ -119,7 +119,6 @@ async def insert_person(person=Body(...)):
     for year in data['info']:
         print(data['info'][year])
         if type(data['info'][year]) is not bool:
-            
             info = Info(
                 year=year,
                 location=(data['info'][year]['cord']['Lat'] + ' ' + data['info'][year]['cord']['Lng']) if data['info'][year]['cord'] != '' else '',
