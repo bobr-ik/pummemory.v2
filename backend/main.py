@@ -1,3 +1,5 @@
+import json
+from pprint import pprint
 from fastapi import Body, FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -15,16 +17,10 @@ from data import settings
 import requests
 
 
-async def save_images(image: Photo):
-    image_base64 = base64.b64encode(image).decode("utf-8")
-    url = "https://api.imgbb.com/1/upload"
-    payload = {
-        'key': api_key,
-        'image': image_base64,
-    }
-    resp = requests.post(url, data=payload)
-    image.url = resp.json().data.url
-    image.img_del = resp.json().data.delete_url
+# async def save_images(image: Photo):
+#     # image_base64 = base64.b64encode(image).decode("utf-8")
+    
+#     # image.img_del = resp.json().data.delete_url
 
 
 @asynccontextmanager
@@ -108,29 +104,57 @@ async def get_user_info(id: str) -> User_info:
 @app.post('/insert_person')
 async def insert_person(person=Body(...)):
     # await Orm.insert_temporary_person(person)
-    print(person)
-    info_list = ['1940', '1940-cord', '1940-photo', '1941', '1941-cord', '1941-photo', '1942', '1942-cord', '1942-photo', '1943', '1943-cord', '1943-photo', '1944', '1944-cord', '1944-photo', '1945', '1945-cord', '1945-photo']
-    true_info = []
-    for i in range(len(info_list), 3):
-        for elem in person['info']:
-            dop = []
-            for key in info_list[i:i + 3]:
-                if key in elem:
-                    dop.append((key, person['info'][key]))
-            true_info.append(Info(year=dop[0][0] if len(dop) >= 1 else None, location=dop[1][1] if len(dop) >= 2 else None, story=dop[2][1]) if len(dop) == 3 else None)
-    true_rewards = await Orm.get_rewards_from_list(person['rewards'])
-    true_person = Person(avatar=person['avatar'], name=person['name'], description=person['description'], rewards=true_rewards, info=true_info)
-    avatar = await save_images(true_person.avatar)
-    true_person.avatar = avatar
-    for year in true_person.info:
-        year.images = [await save_images(image) for image in year.images]
-    await Orm.insert_person(true_person)
+    # print(person)
+    person = json.loads(person)
+    pprint(person)
+    person = Person(
+        name=person['name'],
+        description=person['desc'],
+        avatar=person['avatar'],
+        rewards=person['awards'],
+        info=[]
+    )
+    for year in person['info']:
+        info = Info(
+            year=year,
+            location=person['info'][year]['cord']['Lat'] + ' ' + person['info'][year]['cord']['Lng'],
+            story=person['info'][year]['description'],
+            images=[Photo(image=photo) for photo in person['info'][year]['photo']]
+        )
+        person.info.append(info)
+    await Orm.insert_person(person)
+    return JSONResponse(status_code=200, content={'status': 'ok'})
+
+    # info_list = ['1940', '1940-cord', '1940-photo', '1941', '1941-cord', '1941-photo', '1942', '1942-cord', '1942-photo', '1943', '1943-cord', '1943-photo', '1944', '1944-cord', '1944-photo', '1945', '1945-cord', '1945-photo']
+    # true_info = []
+    # pprint(person['info'])
+    # for i in range(0, len(info_list), 3):
+    #     year_keys = info_list[i:i + 3]
+    #     year_info = {}
+    #     for key in year_keys:
+    # # print()
+    # pprint('true_info', true_info)
+    # print()
+    # # true_rewards = await Orm.get_rewards_from_list(person['awards'])
+    # true_person = Person(
+    #     avatar=person['avatar'],
+    #     name=person['name'],
+    #     description=person['description'] if 'description' in person else '',
+    #     rewards=person['info']['awards'] if 'awards' in person['info'] else [],
+    #     info=true_info
+    # )
+    # # avatar = await save_images(true_person.avatar)
+    # # true_person.avatar = avatar
+    # # for year in true_person.info:
+    # #     year.images = [await save_images(image) for image in year.images]
+    # # print(true_person)
+    # await Orm.insert_person(true_person)
 
 
 @app.get('/get_rewards')
 async def get_rewards():
     res = await Orm.get_rewards()
-    print(res)
+    # print(res)
     return res
 
 
