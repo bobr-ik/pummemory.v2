@@ -319,7 +319,11 @@ async function initPage() {
     const personData = await get_Person(id); //TODO
     name_elem.textContent = personData.name;
 
-    if(!personData.avatar) personData.avatar = ['../src/no_photo.png'];
+    if (!personData.avatar) personData.avatar = ['../src/no_photo.png'];
+    
+    if (!Array.isArray(personData.avatar)) {
+        personData.avatar = [personData.avatar];
+    }
 
     create_avatar_slider(personData.avatar);
     // avatar_elem.src = personData.avatar;
