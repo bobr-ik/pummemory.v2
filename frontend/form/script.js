@@ -372,9 +372,11 @@ async function sendAllInfo() {
         name += ' ' + GeneralDict.thirdName
     }
 
+    delete YearDict['isInfoAdd'];
+
     const SendDict = {
         name: name, 
-        desc: GeneralDict.generalBiography,
+        desc: GeneralDict.generalBiography === undefined ? "" : GeneralDict.generalBiography,
         avatar: GeneralDict.photo === 'media/person.jpg' ? "" : GeneralDict.photo,
         info: YearDict,
         awards: awards,
