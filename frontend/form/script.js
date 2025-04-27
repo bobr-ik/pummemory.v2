@@ -5,6 +5,7 @@ let YearDict = new Map()
 YearDict.isInfoAdd = false
 
 const URLParams = {}
+const awardList = ''
 
 if (!("GeneralDict" in localStorage)) {
     saveInfo("GeneralDict", GeneralDict);
@@ -27,24 +28,38 @@ function getInfo(key) {
 addEventListener("load", () => startSite());
 
 async function startSite() {
-    const parametrs = new URLSearchParams(window.location.search); //* В url нужно передавать токен и год: ?person=...&year=...
-
+    const parametrs = new URLSearchParams(window.location.search);
     for (const [key, value] of parametrs.entries()) {
         URLParams[key] = value;
     }
 
-    // const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.person}`);
-    // const data = await response.json();
-    // if (!data.content) {
-    //     alert('В доступе отказано, проверьте токен');
-    // } else {
-    // }
+    if (!(GeneralDict.isFirstOpen)) {
+        const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
+        const data = await response_award.json()
 
-    const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
-    const data = await response_award.json()
-    console.log(data)
+        const award = document.getElementById('awards');
+        for (const index in data) {
+            const option = document.createElement('option');
+            option.value = data[index];
+            option.textContent = data[index];
 
-    if (URLParams.person === 'MarkToken') {
+            for (const i in YearDict['awards']) {
+                if (data[index] === YearDict['awards'][i]) {
+                    option.selected = true
+                }
+            }
+
+            award.appendChild(option);
+        }
+        if (award.children.length == data.length) {
+            setTimeout(() => startChoices(), 0)
+        }
+    }
+
+    const response = await fetch(`http://localhost:8000/api/check_token_if_admin?token=${URLParams.token}`);
+    const isMark = await response.json();
+
+    if (isMark) {
         document.getElementById('share-button').dataset.view = true;
     }
 
@@ -54,6 +69,9 @@ async function startSite() {
             year.classList.add('active-year');
         }
     }
+
+    GeneralDict.isFirstOpen = true
+    saveInfo("GeneralDict", GeneralDict);
 }
 
 addEventListener("load", () => {
@@ -106,7 +124,7 @@ addEventListener("load", () => {
 })
 
 function changeYear(year) {
-    const path = `${window.location.pathname}?person=${URLParams.person}&year=${year}`;
+    const path = `${window.location.pathname}?token=${URLParams.token}&year=${year}`;
     window.location.href = path;
 }
 
@@ -151,12 +169,31 @@ document.getElementById('manual').addEventListener('click', () => {
 
 async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
-    // response = await fetch('http://localhost:8000/api/create_token', {method: 'POST'});
-    // data = await response.json();
 
-    data = 'Ультра супер классный единоразовый токен';
-    const link = document.getElementById('link');
-    link.innerHTML = data;
+    
+    const response = await fetch('http://localhost:8000/api/create_token', {
+        method: 'POST'
+    });
+    const data = await response.json();
+    
+    const token = encodeURIComponent(data);
+    const url = `http://localhost:8001/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
+    
+    const copyButton = document.getElementById('copy-button');
+    copyButton.style.backgroundImage = "url('media/copy-icon.png')";
+
+    const qrCode = new QRCode(document.getElementById("popup-qr"), url);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.textContent = url;
+    link.id = 'copy-link'
+    // link.classList.add('copy-link');
+    
+    console.log(document.getElementById('copy-link'));
+    if (document.getElementById('copy-link') == undefined) {
+        document.getElementById('link').appendChild(link);
+    }
 }
 
 function usePhotoPopup(status = 0) {
@@ -165,6 +202,7 @@ function usePhotoPopup(status = 0) {
     }
 
     const photoBlock = document.getElementById('photo-block');
+    console.log(YearDict[`${URLParams.year}-photo`]);
     if (YearDict[`${URLParams.year}-photo`] === undefined) {
         photoBlock.innerHTML = 'На этот год фотографии отсутствуют';
     } else {
@@ -179,15 +217,19 @@ function usePhotoPopup(status = 0) {
 }
 
 function copyLink() {
-    const link = document.getElementById('link');
-    navigator.clipboard.writeText(link.innerHTML);
+    const link = document.getElementById('copy-link');
+    navigator.clipboard.writeText(link.href);
 
     const copyButton = document.getElementById('copy-button');
-    copyButton.innerHTML = 'copied';
+    copyButton.style.backgroundImage = "url('media/galochchchka.png')";
 }
 
 function closePopup(id) {
     document.getElementById(id).classList.toggle('close');
+
+    if (id == 'link-popup') {
+        document.getElementById('popup-qr').removeChild(document.getElementById('popup-qr').lastChild);
+    }
 }
 
 function useInput(id) {
@@ -212,7 +254,6 @@ function saveInputPhoto(id) {
             } else {
                 if (YearDict[`${URLParams.year}-photo`] === undefined) {
                     YearDict[`${URLParams.year}-photo`] = [adress];
-                    // console.log(YearDict)
                 } else {
                     YearDict[`${URLParams.year}-photo`].push(adress);
                 }
@@ -229,7 +270,7 @@ function saveInputPhoto(id) {
 function saveAward() {
     const awards = document.getElementById('awards');
     for (const elem in awards.options) {
-        if (awards.options[elem].selected) {
+        if (awards.options[elem].selected && !YearDict['awards'].includes(awards.options[elem].value)) {
             YearDict['awards'].push(awards.options[elem].value)
         }
     }
@@ -238,37 +279,35 @@ function saveAward() {
 }
 
 
-async function sendAllInfo() {            //* Сейчас просто отчищаем все данные, потом будем формировать словарь и кидать его на бекенд
+async function sendAllInfo() {
     saveInfo('GeneralDict', {})   //! Убрать эти строчки 
     saveInfo('YearDict', {})
     location.reload()
 
-    // const awards = [];
-    // for (const elem in document.getElementById('awards').options) {
-    //     if (document.getElementById('awards').options[elem].selected) {
-    //         awards.push(document.getElementById('awards').options[elem].value)
-    //     }
-    // }
+    const awards = [];
+    for (const elem in document.getElementById('awards').options) {
+        if (document.getElementById('awards').options[elem].selected) {
+            awards.push(document.getElementById('awards').options[elem].value)
+        }
+    }
 
-    // const SendYearList = []
-    // const dopDict = {}
-    // for (let [key, value] of Object.entries(YearDict)) {
-        
-    // }
-    // console.log(SendYearList)
+    const SendDict = {
+        name: GeneralDict.secondName + ' ' + GeneralDict.firstName + ' ' + GeneralDict.thirdName, 
+        desc: GeneralDict.generalBiography,
+        avatar: GeneralDict.photo,
+        info: YearDict,
+        awards: awards,
+    }
 
-    // const SendDict = {
-    //     name: GeneralDict.secondName + ' ' + GeneralDict.firstName + ' ' + GeneralDict.thirdName, 
-    //     desc: GeneralDict.generalBiography,
-    //     avatar: GeneralDict.photo,
-    //     info: YearDict,
-    //     awards: awards,
-    // }
-
-    // const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
-    // data = await response.json();
-
-    // console.log(data)
+    console.log(SendDict);
+    const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.token}`);
+    const data = await response.json();
+    if (!data.content) {
+        alert('В доступе отказано, проверьте ссылку');
+    } else {
+        const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
+        data = await response.json();
+    }
 }
 
 
@@ -290,9 +329,9 @@ addEventListener('load', function () {
         // shadowAnchor : [30,30],
     })
     if (YearDict[`${URLParams.year}-cord`] === undefined) {
-        map = L.map('map-block').setView([55.75, 37.61], 4); // Москва, масштаб 10
+        map = L.map('map-block').setView([55.75, 37.61], 8); // Москва, масштаб 10
     } else {
-        map = L.map('map-block').setView([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], 4);
+        map = L.map('map-block').setView([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], 8);
         marker = L.marker([YearDict[`${URLParams.year}-cord`].Lat, YearDict[`${URLParams.year}-cord`].Lng], {icon:icon}).addTo(map);
         
     }
@@ -325,10 +364,9 @@ addEventListener('load', function () {
 
 // ======================================= Скрипт для списка с наградами
 
-addEventListener('load', () => {
-    const awardsSelect = new Choices('#awards', {
+function startChoices() {
+    awardsSelect = new Choices('#awards', {
         removeItemButton: true,
-        // placeholderValue: 'Выберите награды',
         itemSelectText: '',
         containerOuter: 'custom-outer',
         containerInner: 'custom-inner',
@@ -337,4 +375,13 @@ addEventListener('load', () => {
         item: 'custom-item',
         placeholder: 'custom-placeholder',
     });
-  });
+
+    awardsSelect.passedElement.element.addEventListener('removeItem', (item) => {
+        for (const index in YearDict['awards']) {
+            if (item.detail.label === YearDict['awards'][index]) {
+                YearDict['awards'].splice(index, 1)
+            }
+        }
+        saveInfo("YearDict", YearDict)
+    }, false);
+}

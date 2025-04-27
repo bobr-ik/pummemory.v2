@@ -39,10 +39,9 @@
                 <input class="form-input" type="text" id="firstName" onChange="saveStaticInfo('firstName')" placeholder="Имя">
                 <input class="form-input" type="text" id="thirdName" onChange="saveStaticInfo('thirdName')" placeholder="Отчество">
 
-                <label for="awards" class="awards-title">Награды</label>    
+                <label for="awards" class="awards-title">Награды</label>
                 <select id="awards" class="custom-choices choices" multiple onchange="saveAward()">
-                    <option value="Орден Мужества">Орден Мужества</option>
-                  </select>
+                </select>
             </form>
         </div>
 
@@ -77,7 +76,7 @@
                 <li>Для добавления фотографии ветерана нажмите на кнопку "Загрузить фотографию". Выберите нужную Вам фотографию. Фотография отобразится в боковом окне</li>
                 <li>В поле "Общее описание" вы можете написать общую информацию о ветеране</li>
                 <li>При желании можно добавить дополнительную информацию, привязанную к году. Чтобы выбрать год, нажмите на соответствующую кнопку в блоке над основным полем. По умолчанию изначально открыт 1940 год</li>
-                <li>===== Карта =====</li> <!--! Описание карты -->
+                <li>К каждому году можно привязать точку на карте, для этого просто найдите нужное место на карте и поставьте метку. Метка относится только к конкретному году</li>
                 <li>Чтобы добавить соответствующие году фотографии, нажмите на кнопку "Фотографии этото года". В открывшемся окне будут отображаться фотографии, выбранные Вами. Чтобы загрузить фотографию, нажмите на кнопку "Загрузить фотографию"</li>
                 <li>После того как вся информация будет добавлена, нажмите на кнопку "Отправить информацию"</li>
             </ul>
@@ -99,7 +98,8 @@
     <div id="link-popup" class="general-popup close">
         <div class="popup-content link-popup">
             <button class="close-button" onclick="closePopup('link-popup')">X</button>
-            <div class="popup-qr"></div>
+            <div id="popup-qr"></div>
+            <div class="link-title">Копировать сслыку</div>
             <div class="link-block">
                 <div id="link"></div>
                 <div id="copy-button" onclick="copyLink()"></div>
@@ -110,6 +110,7 @@
     <script src="script.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 	<script src="https://unpkg.com/leaflet-providers@1.13.0/leaflet-providers.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </body>
 </html>

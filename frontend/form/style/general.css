@@ -369,14 +369,35 @@ textarea {
     height: 80vh;
 }
 
-.popup-qr {
+#popup-qr {
     position: absolute;
     top: 5%;
     left: 7vw;
     width: 26vw;
     height: 26vw;
 
-    background-color: grey;
+    border-radius: 5px;
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.link-title {
+    position: absolute;
+    bottom: calc(25% + 10px);
+    left: 10%;
+    width: 80%;
+    height: 5%;
+
+    font-size: large;
+    font-family: Arial;
+    font-weight: 600;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .link-block {
@@ -412,17 +433,30 @@ textarea {
     #copy-button {
         width: 10%;
         height: 100%;
+        background-color: rgb(200, 200, 200);
+        border-radius: 5px;
 
-        background-color: blue;
+        background-position: center;
+        background-size: 40%;
+        background-repeat: no-repeat;
 
         &:hover {
-            opacity: 0.8;
+            cursor: pointer;
+            background-color: rgb(220, 220, 220);
+            transition: background-color 0.2s;
         }
 
         &:active {
             opacity: 0.9;
         }
     }
+}
+
+#copy-link {
+    text-decoration: none;
+    color: black;
+    font-size: large;
+    font-family: Arial;
 }
 
 .close-button {
@@ -506,7 +540,6 @@ li + li {
 }
 
 /* ================================================ Стилизация списка с наградами */
-
 .awards-title {
     position: absolute;
     left: 50%;
@@ -523,7 +556,7 @@ li + li {
     position: absolute !important;
     width: calc(90% - 3px);
     left: 5%;
-    bottom: 5%;
+    bottom: 0%;
 
     border: 3px solid rgb(200, 200, 200);
     border-radius: 5px;

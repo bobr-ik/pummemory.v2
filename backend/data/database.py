@@ -1,38 +1,40 @@
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
-from sqlalchemy.orm import Session, DeclarativeBase, sessionmaker
-from sqlalchemy import URL, create_engine, text, String
-# from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy import String
 from data.config import settings
-# import asyncio
 from typing import Annotated
 
-async_engine = create_async_engine( #асинзронный движок
+# асинхронный движоек
+async_engine = create_async_engine(
     url=settings.db_url,
-    echo=True,
+    echo=True,  # ыключенные логи
     pool_size=5,
     max_overflow=10,
-) 
+)
 
+# как бы исполнитель запросов
 async_session_factory = sessionmaker(
     async_engine,
     expire_on_commit=False,
     class_=AsyncSession
 )
 
+# дополнительный класс данных для бд
 str_256 = Annotated[str, 256]
+
+
 class Base(DeclarativeBase):
+    # добавляем аннотации
     type_annotation_map = {
         str_256: String(256),
-
     }
-    
-    repr_columns_num = 200
-    repr_cols = tuple() #можно указать это как поля у отдельных классов когда делаем модельки через orm
 
-    def __repr__(self): # переделка принта моделей в логах
+    repr_columns_num = 200
+    repr_cols = tuple()
+
+    def __repr__(self):  # переделка принта моделей в логах
         cols = []
         for idx, col in enumerate(self.__table__.columns.keys()):
             if col in self.repr_cols or idx < self.repr_columns_num:
                 cols.append(f"{col}={getattr(self, col)}")
         return f"==== {self.__class__.__name__} {', '.join(cols)} ===="
-
