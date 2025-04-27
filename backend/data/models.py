@@ -31,7 +31,7 @@ class Status(enum.Enum):
     new = "new"
     pending = "pending"
     active = "approved"
-    cancelled = "cancelled"
+    rejected = "rejected"
 
 
 class Coordinates(TypedDict):

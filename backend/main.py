@@ -10,9 +10,10 @@ from contextlib import asynccontextmanager
 from data import Orm
 from fastapi.middleware.cors import CORSMiddleware
 from data import Year
-from app import Photo, Points, User_info, Person, Info
+from app.models import Photo, Points, User_info, Person, Info
 # from config import settings
 from data import settings
+from app.bot import send_to_moderation, bot, dp
 
 
 # async def save_images(image: Photo):
@@ -38,6 +39,7 @@ async def lifespan(app: FastAPI):
             print("Waiting for MySQL to be ready...", str(e))
             await asyncio.sleep(1)
     await Orm.create_all()
+    asyncio.create_task(dp.start_polling(bot))
     yield
 
 
@@ -104,25 +106,36 @@ async def insert_person(person=Body(...)):
     # print(person)
     data = json.loads(person)
     # pprint(person)
+    if data['avatar'] != '':
+        avatar = Photo(image=data['avatar']).url
     person = Person(
         name=data['name'],
         description=data['desc'],
-        avatar=data['avatar'],
+        avatar=avatar,
         rewards=data['awards'],
         info=[]
     )
+    pprint(data['info'])
     for year in data['info']:
         print(data['info'][year])
         if type(data['info'][year]) is not bool:
+            
             info = Info(
                 year=year,
                 location=(data['info'][year]['cord']['Lat'] + ' ' + data['info'][year]['cord']['Lng']) if data['info'][year]['cord'] != '' else '',
                 story=data['info'][year]['description'],
-                images=[Photo(image=photo) for photo in data['info'][year]['photo']]
+                images=[]
             )
+            for img in data['info'][year]['photo']:
+                if img:
+                    print(img)
+                    img = Photo(image=img).url
+                    info.images.append(img)
             person.info.append(info)
     print(person)
-    await Orm.insert_person(person)
+    pers_id = await Orm.insert_person(person)
+    person = await Orm.get_person(pers_id)
+    await send_to_moderation(person)
     return JSONResponse(status_code=200, content={'status': 'ok'})
 
     # info_list = ['1940', '1940-cord', '1940-photo', '1941', '1941-cord', '1941-photo', '1942', '1942-cord', '1942-photo', '1943', '1943-cord', '1943-photo', '1944', '1944-cord', '1944-photo', '1945', '1945-cord', '1945-photo']

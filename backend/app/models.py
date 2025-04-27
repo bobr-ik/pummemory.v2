@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, HttpUrl, model_validator
-from typing import Optional
+from typing import Optional, Union
 from data import Year
 import requests
 from data import settings
@@ -14,7 +14,7 @@ class Token(BaseModel):
 class Person(BaseModel):
     name: str = Field(..., min_length=3, max_length=60, example="Иванов Иван Иванович")
     desc: str | None = Field(max_length=5000, example="Описание", default="")
-    avatar: bytes | HttpUrl | None = Field(default=None)
+    avatar: Optional[Union[str, 'Photo']] = Field(default="")
     rewards: list['Reward'] | None | list['str'] = Field(default=None)
     info: list['Info'] | None = Field(default=None)
 
@@ -25,7 +25,7 @@ class Reward(BaseModel):
 
 
 class Info(BaseModel):
-    id: Optional[str]
+    id: Optional[str] = None
     year: Year
     location: str
     story: Optional[str] = Field(..., max_length=5000, example="История")
@@ -63,6 +63,7 @@ class Photo(BaseModel):
 
     @model_validator(mode="after")
     def upload_image(self):
+        print(self.image)
         if self.image.startswith('data:'):
             self.image = self.image.split(',', 1)[1]
         response = requests.post(
@@ -78,6 +79,7 @@ class Photo(BaseModel):
             self.url = data['data']['url']
         else:
             raise ValueError(f"Upload failed: {data.get('error', {}).get('message', 'Unknown error')}")
+        self.image = None
         return self
 
 
@@ -91,6 +93,7 @@ class Points(BaseModel):
 
 
 class User_info(BaseModel):
+    id: str
     name: str = Field(..., max_length=60, example="Иванов Иван Иванович")
     biography: Optional[str] = Field(default="", max_length=5000, example="Описание")
     avatar: Optional[str] = Field(default="", max_length=500, example="https://example.com/avatar.jpg")

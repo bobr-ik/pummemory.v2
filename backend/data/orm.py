@@ -1,7 +1,7 @@
 import json
 import random
 import uuid
-from sqlalchemy import and_, text, select
+from sqlalchemy import and_, text, select, update
 from data.database import async_engine, async_session_factory
 from data.database import Base
 from sqlalchemy.orm import selectinload
@@ -165,12 +165,13 @@ class Orm:
                         location=info.location,
                         description=info.story,
                         pers_id=us_id,
-                        photos=list(Photo(url=img.url) for img in info.images)
+                        photos=list(Photo(url=img) for img in info.images)
                     )
                 )
             session.add(
                 Person(
                     id=us_id,
+                    avatar=person.avatar,
                     name=person.name,
                     description=person.desc,
                     time_added=datetime.datetime.now(),
@@ -196,10 +197,12 @@ class Orm:
             )
             res = await session.execute(query)
             res: Person = res.scalars().first()
-            for info in res.info:
-                print(info.photos)
-                print()
+            # for info in res.info:
+            #     print(info.photos)
+            #     print()
+            print(res.avatar)
             ans = {
+                'id': res.id,
                 'name': res.name,
                 'biography': res.description,
                 'avatar': res.avatar,
@@ -272,6 +275,19 @@ class Orm:
             rew: list[Rewards] = await session.execute(select(Rewards).where(Rewards.title.in_(rewards)))
             rew = rew.scalars().all()
             return [elem.img_url for elem in rew]
+
+    @staticmethod
+    async def confirm_person(id: str):
+        async with async_session_factory() as session:
+            await session.execute(update(Person).where(Person.id == id).values(status=Status.active))
+            print('yep')
+            await session.commit()
+
+    @staticmethod
+    async def reject_person(id: str):
+        async with async_session_factory() as session:
+            await session.execute(update(Person).where(Person.id == id).values(status=Status.rejected))
+            await session.commit()
 
     @staticmethod
     async def insert_old_ppl():
