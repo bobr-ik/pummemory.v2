@@ -88,7 +88,9 @@ function addMarker( info={} ) {
 	
 
 	//connect with shadow
-	if(marker._icon) marker._icon.shadow = marker._shadow;
+	if (marker._icon) marker._icon.shadow = marker._shadow;
+	
+	if (!(info.img_url)) info.img_url = './src/no_photo.png'; 
 
 	marker.bindPopup('<div class="content"><div class="image"><img src="'+info.img_url+'"/></div><div class="info">'+info.name+'<br/>'+info.surname+'</div><div class="goTo"><a href="'+sets.URL+'?id='+info.id+'&year='+year+'"><div class="hov_line"></div><span>ПЕРЕЙТИ</span></div></a></div>');
 
