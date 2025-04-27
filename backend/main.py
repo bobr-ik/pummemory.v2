@@ -117,7 +117,7 @@ async def insert_person(person=Body(...)):
             for key in info_list[i:i + 3]:
                 if key in elem:
                     dop.append((key, person['info'][key]))
-            true_info.append(Info(year=dop[0][0] if len(dop) >= 1 else None, place=dop[1][1] if len(dop) >= 2 else None, story=dop[2][1]) if len(dop) == 3 else None)
+            true_info.append(Info(year=dop[0][0] if len(dop) >= 1 else None, location=dop[1][1] if len(dop) >= 2 else None, story=dop[2][1]) if len(dop) == 3 else None)
     true_rewards = await Orm.get_rewards_from_list(person['rewards'])
     true_person = Person(avatar=person['avatar'], name=person['name'], description=person['description'], rewards=true_rewards, info=true_info)
     avatar = await save_images(true_person.avatar)

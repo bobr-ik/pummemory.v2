@@ -1,8 +1,4 @@
-async function get_points() {
-	const url_params = new URLSearchParams(window.location.search)
-	year_from_url = url_params.get('year')
-
-	year = year_from_url ? Math.min(Math.max(parseInt(year_from_url, 10), 1940), 1945) : 1940
+async function get_points(year) {
 	res = await fetch('http://127.0.0.1:8000/get_points?year=' + year);
 	data = await res.json(); 
 	console.log(data);
@@ -12,15 +8,16 @@ async function get_points() {
 
 //TODO
 
-let mark_list_2   = {};
-
+let mark_list_2 = {};
+let mark_list = [];
 
 async function init() {
 
 	//create background map
 	data = await get_points(year)
+	console.log(data)
 	
-	let mark_list     = [];
+	
 	
 	let li_names      = $('.hints ul li').map(function(x,y) {return y.innerText});
 	let loaded_images = 0;
@@ -46,8 +43,23 @@ async function init() {
 	imgToSvg("#preloader .icon");
 
 	//init choosed year
+	console.log(year)
+	all_years = document.getElementsByClassName("year");
+	for (let i = 0; i < all_years.length; i++) {
+		all_years[i].classList.remove("choosed");
+	}
 	c = $("."+String(year))[0].getAttribute("class");
 	$("." + String(year))[0].setAttribute("class", c + " choosed");
 }	
 
 init();
+
+
+async function change_year(year_new) {
+	year_new = Number(year_new);
+	map.removeLayer(markerCluster);
+	
+	createMarkerCluster();
+	year = year_new;
+	await init();
+}
