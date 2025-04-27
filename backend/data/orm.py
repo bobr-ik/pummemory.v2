@@ -148,7 +148,7 @@ class Orm:
                     Info(
                         id=info.id,
                         year=info.year,
-                        place=info.place,
+                        location=info.location,
                         description=info.story,
                         pers_id=us_id,
                         photos=info.images
@@ -187,7 +187,7 @@ class Orm:
                 'biography': res.description,
                 'avatar': res.avatar,
                 'rewards': [{'name': reward.title, 'image': reward.img_url} for reward in res.rewards],
-                'years': [{'id': res.id, 'year': info.year, 'location': info.place, 'story': info.description, 'images': [photo.url for photo in info.photos]} for info in res.info]
+                'years': [{'id': res.id, 'year': info.year, 'location': info.location, 'story': info.description, 'images': [photo.url for photo in info.photos] + []} for info in res.info]
             }
             return ans
 
@@ -198,13 +198,13 @@ class Orm:
             res = await session.execute(query)
             res: list[Info] = res.scalars().all()
             for info in res:
-                print(info.place)
+                print(info.location)
             ans = [
                 {
                     "name": (info.pers.name.split())[0],
                     "surname": (info.pers.name.split())[1],
-                    "patronymic": (info.pers.name.split())[2],
-                    "location": info.place,
+                    "patronymic": (info.pers.name.split())[2] if len(info.pers.name.split()) > 2 else None,
+                    "location": info.location,
                     "img_url": info.pers.avatar[0] if info.pers.avatar is not None else None,
                     "id": info.pers.id
                 } for info in res

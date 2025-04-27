@@ -16,16 +16,16 @@ class Person(BaseModel):
 
 
 class Reward(BaseModel):
-    title: str = Field(..., min_length=3, max_length=60, example="Медаль")
-    desc: Optional[str] = Field(..., max_length=5000, example="Описание подвига")
+    name: str = Field(..., min_length=3, max_length=120, example="Медаль")
+    image: Optional[str] = Field(..., max_length=5000, example="Описание подвига")
 
 
 class Info(BaseModel):
     id: Optional[str]
     year: Year
-    place: str
+    location: str
     story: Optional[str] = Field(..., max_length=5000, example="История")
-    images: Optional[list['Photo']]
+    images: Optional[list[Optional['Photo']]] = Field(default=[])
 
 
 class Photo(BaseModel):

@@ -12,81 +12,81 @@ function back_button() {
     window.location = `../index.html?year=${year_from_url}`;
 }
 
-let personData = {
-    //TODO
+// let personData = {
+//     //TODO
 
-    id: 1,
-    name: "Иванов Иван Иванович",
-    biography: "Георгий Васильевич поступил в распоряжение Коломенского артиллерийского учебного лагеря. В нём под руководством полковника Коваленко и подполковника Остроухова с 17 декабря 1943 года по 5 июня 1944 года шло формирование 1972 истребительного противотанкового полка. За время боевых действий полком было уничтожено 46 танков, около 200 пулемётов и свыше 2000 солдат противника. \nВ этом полку прадед служил в должности наводчика орудия, а также бесперебойно обеспечивал связь в качестве телефониста I батареи.",
-    rewards: [
-        {
-            name: "Орден Отечественной Войны",
-            image: "../src/reward.jpg"
-        },
-        {
-            name: "Орден Красной Звезды",
-            image: "../src/reward2.jpg"
-        },
-        {
-            name: "Орден Суворова",
-            image: "../src/reward1.jpg"
-        },
-        {
-            name: "Орден Отечественной Войны",
-            image: "../src/reward.jpg"
-        },
-        {
-            name: "Орден Красной Звезды",
-            image: "../src/reward2.jpg"
-        },
-        {
-            name: "Орден Суворова",
-            image: "../src/reward1.jpg"
-        }
-    ],
-    avatar: "../src/photo.jpg",
-    years: [
-        {
-            year: "1940",
-            story: "В 1940 году Иван Иванов был призван в армию...Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!",
-            images: ["../src/photo.jpg", "../src/photo.jpg", "../src/photo.jpg", "../src/photo.jpg"],
-            location: [55.7558, 37.6173]
-        },
-        {
-            year: "1941",
-            story: "В 1941 году Иван участвовал в обороне Москвы...",
-            images: ["path/to/1941_image1.jpg", "../src/photo.jpg", "../src/phdoto.jpg"],
-            location: [55.7558, 37.6173]
+//     id: 1,
+//     name: "Иванов Иван Иванович",
+//     biography: "Георгий Васильевич поступил в распоряжение Коломенского артиллерийского учебного лагеря. В нём под руководством полковника Коваленко и подполковника Остроухова с 17 декабря 1943 года по 5 июня 1944 года шло формирование 1972 истребительного противотанкового полка. За время боевых действий полком было уничтожено 46 танков, около 200 пулемётов и свыше 2000 солдат противника. \nВ этом полку прадед служил в должности наводчика орудия, а также бесперебойно обеспечивал связь в качестве телефониста I батареи.",
+//     rewards: [
+//         {
+//             name: "Орден Отечественной Войны",
+//             image: "../src/reward.jpg"
+//         },
+//         {
+//             name: "Орден Красной Звезды",
+//             image: "../src/reward2.jpg"
+//         },
+//         {
+//             name: "Орден Суворова",
+//             image: "../src/reward1.jpg"
+//         },
+//         {
+//             name: "Орден Отечественной Войны",
+//             image: "../src/reward.jpg"
+//         },
+//         {
+//             name: "Орден Красной Звезды",
+//             image: "../src/reward2.jpg"
+//         },
+//         {
+//             name: "Орден Суворова",
+//             image: "../src/reward1.jpg"
+//         }
+//     ],
+//     avatar: "../src/photo.jpg",
+//     years: [
+//         {
+//             year: "1940",
+//             story: "В 1940 году Иван Иванов был призван в армию...Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!",
+//             images: ["../src/photo.jpg", "../src/photo.jpg", "../src/photo.jpg", "../src/photo.jpg"],
+//             location: [55.7558, 37.6173]
+//         },
+//         {
+//             year: "1941",
+//             story: "В 1941 году Иван участвовал в обороне Москвы...",
+//             images: ["path/to/1941_image1.jpg", "../src/photo.jpg", "../src/phdoto.jpg"],
+//             location: [55.7558, 37.6173]
 
-        },
-        {
-            year: "1942",
-            story: "В 1942 году Иван был ранен в бою под Сталинградом...",
-            images: ["../src/photo.jpg"],
-            location: []
+//         },
+//         {
+//             year: "1942",
+//             story: "В 1942 году Иван был ранен в бою под Сталинградом...",
+//             images: ["../src/photo.jpg"],
+//             location: []
 
-        },
-        {
-            year: "1943",
-            story: "После госпиталя в 1943 году вернулся на фронт...",
-            images: [],
-            location: [55.7558, 37.6173]
+//         },
+//         {
+//             year: "1943",
+//             story: "После госпиталя в 1943 году вернулся на фронт...",
+//             images: [],
+//             location: [55.7558, 37.6173]
 
-        },
-        {
-            year: "1944",
-            story: "В 1944 году участвовал в операции «Багратион»...",
-            images: ["path/to/1944_image1.jpg"],
-            location: [75.7558, 37.6173]
-        },
-        {
-            year: "1945",
-            story: "День Победы встретил в Берлине...",
-            images: ["path/to/1945_image1.jpg", "path/to/1945_image2.jpg", "path/to/1945_image3.jpg"],
-            location: [55.7558, 37.6173]
-        }
-    ],
-};
+//         },
+//         {
+//             year: "1944",
+//             story: "В 1944 году участвовал в операции «Багратион»...",
+//             images: ["path/to/1944_image1.jpg"],
+//             location: [75.7558, 37.6173]
+//         },
+//         {
+//             year: "1945",
+//             story: "День Победы встретил в Берлине...",
+//             images: ["path/to/1945_image1.jpg", "path/to/1945_image2.jpg", "path/to/1945_image3.jpg"],
+//             location: [55.7558, 37.6173]
+//         }
+//     ],
+// };
 
 
 function createMap() {
@@ -126,7 +126,7 @@ function addMarker(map, location) {
     }
 
 	
-	//create marker
+    //create marker
 	let marker = L.marker( [location[0], location[1]],{icon:icon} );
 	marker.addTo(map);
 
@@ -251,6 +251,7 @@ async function initPage() {
     avatar_elem.src = personData.avatar;
     biography_elem.textContent = personData.biography;
 
+
     personData.rewards.forEach(reward => {
         const reward_elem = document.createElement('div');
         reward_elem.classList.add('reward');
@@ -269,6 +270,8 @@ async function initPage() {
         year_button.textContent = year.year;
         year_button.classList.add('year_button');
         year_buttons.push(year_button);
+        year.location = year.location.split(" ").map(Number);
+        
 
 
         if (year.year === year_from_url) {
