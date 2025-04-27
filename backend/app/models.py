@@ -23,9 +23,9 @@ class Reward(BaseModel):
 class Info(BaseModel):
     id: Optional[str]
     year: Year
-    place: str
+    location: str
     story: Optional[str] = Field(..., max_length=5000, example="История")
-    images: Optional[list['Photo']]
+    images: Optional[list[Optional['Photo']]] = Field(default=[])
 
 
 class Photo(BaseModel):

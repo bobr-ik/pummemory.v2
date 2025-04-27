@@ -9,10 +9,10 @@
 	<link rel="stylesheet" type="text/css" href="./CSS/search-box.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/timeline.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/social-bar.css"> <!-- OUR STYLES -->
-	<script src="https://unpkg.com/leaflet-providers@1.13.0/leaflet-providers.js"></script> <!-- LEAFLET MAP LIB -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> <!-- FONT AWESOME LIB -->
 	<script src="./src/jquery.min.js"></script> <!-- JQUERY -->
 	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-providers@1.13.0/leaflet-providers.js"></script> <!-- LEAFLET MAP LIB -->
 
 	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
@@ -54,17 +54,21 @@
 
 	
 	<script src="./JS/functions.js"></script>
+
+	<script>
+		
+	</script>
 	<div id="main"> <!-- Main group -->
 		<div id="map"></div>
 		<div id="timeline"> <!-- Years below -->
 			<div class="container">
   				<ul>
-  					<li class="zero 1940"><a href="?year=1940">1940</a></li><!--
- 				 --><li class="one 1941"><a href="?year=1941">1941</a></li><!--
- 				 --><li class="two 1942"><a href="?year=1942">1942</a></li><!--
- 				 --><li class="three 1943"><a href="?year=1943">1943</a></li><!--
- 				 --><li class="four 1944"><a href="?year=1944">1944</a></li><!--
- 				 --><li class="five 1945"><a href="?year=1945">1945</a></li>
+  					<li class="year zero 1940"><a onclick="change_year(1940)">1940</a></li><!--
+ 				 --><li class="year one 1941"><a onclick="change_year(1941)">1941</a></li><!--
+ 				 --><li class="year two 1942"><a onclick="change_year(1942)">1942</a></li><!--
+ 				 --><li class="year three 1943"><a onclick="change_year(1943)">1943</a></li><!--
+ 				 --><li class="year four 1944"><a onclick="change_year(1944)">1944</a></li><!--
+ 				 --><li class="year five 1945"><a onclick="change_year(1945)">1945</a></li>
     				<hr class="curs" />
   				</ul>
 			</div>
