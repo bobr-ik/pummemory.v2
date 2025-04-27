@@ -30,7 +30,7 @@ class Year(enum.Enum):
 class Status(enum.Enum):
     new = "new"
     pending = "pending"
-    approved = "approved"
+    active = "approved"
     cancelled = "cancelled"
 
 
@@ -45,9 +45,10 @@ class Person(Base):
     name: Mapped[str_256]
     description: Mapped[Optional[str]] = mapped_column(Text, default="")
     time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
-    avatar: Mapped[Optional[list[str_256]]] = mapped_column(JSON, default=[])
+    avatar: Mapped[Optional[str_256]] = mapped_column(default="")
     rewards: Mapped[Optional[list["Rewards"]]] = relationship("Rewards", secondary=person_rewards, back_populates="ppl_got")
     info: Mapped[list['Info']] = relationship(back_populates="pers")
+    status: Mapped[Status] = mapped_column(Enum(Status), default=Status.new)
 
 
 class Rewards(Base):
@@ -73,7 +74,7 @@ class Photo(Base):
     __tablename__ = "photos"
     id: Mapped[int] = mapped_column(primary_key=True)
     url: Mapped[Optional[str_256]] = mapped_column(default=None)
-    url_delete: Mapped[Optional[str_256]] = mapped_column(default=None)
+    # url_delete: Mapped[Optional[str_256]] = mapped_column(default=None)
     info: Mapped['Info'] = relationship(back_populates="photos")
     info_id: Mapped[int] = mapped_column(ForeignKey("info.id"))
 

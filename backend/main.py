@@ -12,14 +12,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from data import Year
 from app import Photo, Points, User_info, Person, Info
 # from config import settings
-import base64
 from data import settings
-import requests
 
 
 # async def save_images(image: Photo):
 #     # image_base64 = base64.b64encode(image).decode("utf-8")
-    
 #     # image.img_del = resp.json().data.delete_url
 
 
@@ -97,7 +94,7 @@ async def get_points(year: Year) -> list[Points]:
 async def get_user_info(id: str) -> User_info:
     # фио - name, описание - buiography, avatar - фото профиля, rewards - медали, years : [{year: enum story: images:list[str] location:}]
     pers = await Orm.get_person(id)
-    print(pers)
+    pprint(pers)
     return pers
 
 
@@ -105,23 +102,26 @@ async def get_user_info(id: str) -> User_info:
 async def insert_person(person=Body(...)):
     # await Orm.insert_temporary_person(person)
     # print(person)
-    person = json.loads(person)
-    pprint(person)
+    data = json.loads(person)
+    # pprint(person)
     person = Person(
-        name=person['name'],
-        description=person['desc'],
-        avatar=person['avatar'],
-        rewards=person['awards'],
+        name=data['name'],
+        description=data['desc'],
+        avatar=data['avatar'],
+        rewards=data['awards'],
         info=[]
     )
-    for year in person['info']:
-        info = Info(
-            year=year,
-            location=person['info'][year]['cord']['Lat'] + ' ' + person['info'][year]['cord']['Lng'],
-            story=person['info'][year]['description'],
-            images=[Photo(image=photo) for photo in person['info'][year]['photo']]
-        )
-        person.info.append(info)
+    for year in data['info']:
+        print(data['info'][year])
+        if type(data['info'][year]) is not bool:
+            info = Info(
+                year=year,
+                location=(data['info'][year]['cord']['Lat'] + ' ' + data['info'][year]['cord']['Lng']) if data['info'][year]['cord'] != '' else '',
+                story=data['info'][year]['description'],
+                images=[Photo(image=photo) for photo in data['info'][year]['photo']]
+            )
+            person.info.append(info)
+    print(person)
     await Orm.insert_person(person)
     return JSONResponse(status_code=200, content={'status': 'ok'})
 
