@@ -60,16 +60,16 @@ addEventListener("load", () => {
     if (!(YearDict.isInfoAdd)) {
         for (let year = 1940; year <= 1945; year++) {
             YearDict[year] = {
-                description: undefined,
-                photo: undefined,
-                cord: undefined,
+                description: "",
+                photo: "",
+                cord: "",
             }
             saveInfo("YearDict", YearDict)
         }
     }
     else {
         const textarea = document.getElementById('yearBiography')
-        YearDict[URLParams.year]['description'] === undefined ? textarea.placeholder = `События года` : textarea.value = YearDict[URLParams.year]['description']
+        YearDict[URLParams.year]['description'] === "" ? textarea.placeholder = `События года` : textarea.value = YearDict[URLParams.year]['description']
     }
 })
 
@@ -198,7 +198,7 @@ function usePhotoPopup(status = 0) {
     }
 
     const photoBlock = document.getElementById('photo-block');
-    if (YearDict[URLParams.year]['photo'] === undefined) {
+    if (YearDict[URLParams.year]['photo'] === "") {
         photoBlock.innerHTML = 'На этот год фотографии отсутствуют';
     } else {
         photoBlock.innerHTML = '';
@@ -248,7 +248,7 @@ function saveInputPhoto(id) {
                 saveInfo("GeneralDict", GeneralDict)
                 addPhoto(e.target.result)
             } else {
-                if (YearDict[URLParams.year]['photo'] === undefined) {
+                if (YearDict[URLParams.year]['photo'] === "") {
                     YearDict[URLParams.year]['photo'] = [adress];
                 } else {
                     YearDict[URLParams.year]['photo'].push(adress);
@@ -291,7 +291,7 @@ addEventListener('load', function () {
         // shadowSize   : [60,60],
         // shadowAnchor : [30,30],
     })
-    if (YearDict[URLParams.year]['cord'] === undefined) {
+    if (YearDict[URLParams.year]['cord'] === "") {
         map = L.map('map-block').setView([55.75, 37.61], 8); // Москва, масштаб 10
     } else {
         map = L.map('map-block').setView([YearDict[URLParams.year]['cord'].Lat, YearDict[URLParams.year]['cord'].Lng], 8);
@@ -375,18 +375,18 @@ async function sendAllInfo() {
     const SendDict = {
         name: name, 
         desc: GeneralDict.generalBiography,
-        avatar: GeneralDict.photo,
+        avatar: GeneralDict.photo === 'media/person.jpg' ? "" : GeneralDict.photo,
         info: YearDict,
         awards: awards,
     }
 
     console.log(SendDict);
-    const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.token}`);
-    const data = await response.json();
-    if (!data.content) {
-        alert('В доступе отказано, проверьте ссылку');
-    } else {
-        const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
-        data = await response.json();
-    }
+    // const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.token}`);
+    // const data = await response.json();
+    // if (!data.content) {
+    //     alert('В доступе отказано, проверьте ссылку');
+    // } else {
+    //     const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
+    //     data = await response.json();
+    // }
 }
