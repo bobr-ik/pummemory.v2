@@ -1,14 +1,14 @@
 import json
 import random
 import uuid
-from sqlalchemy import text, insert, select
+from sqlalchemy import and_, text, select, update
 from data.database import async_engine, async_session_factory
 from data.database import Base
 from sqlalchemy.orm import selectinload
-from data.models import Person, Rewards, Info, Tokens, Year, Photo
+from data.models import Person, Rewards, Info, Status, Tokens, Year, Photo
 import jwt
 from data.config import settings
-from app.models import Person as ps_model, Reward as rw_model
+from app.models import Person as ps_model
 import requests
 from pprint import pprint
 import os
@@ -155,8 +155,6 @@ class Orm:
             for info in person.info:
                 # print('banger')
                 info.id = us_id + str(info.year)
-                info.images = [Photo(url=photo.url, info_id=info.id) for photo in info.images]
-                info.place = info.place['Lat'] + ' ' + info.place['Lng']
                 print()
                 print('info', info)
                 print()
@@ -167,17 +165,18 @@ class Orm:
                         location=info.location,
                         description=info.story,
                         pers_id=us_id,
-                        photos=info.images
+                        photos=list(Photo(url=img) for img in info.images)
                     )
                 )
             session.add(
                 Person(
                     id=us_id,
+                    avatar=person.avatar,
                     name=person.name,
                     description=person.desc,
                     time_added=datetime.datetime.now(),
                     rewards=rew,
-                    info=info_list
+                    info=info_list,
                 )
             )
             await session.commit()
@@ -198,19 +197,32 @@ class Orm:
             )
             res = await session.execute(query)
             res: Person = res.scalars().first()
+            # for info in res.info:
+            #     print(info.photos)
+            #     print()
+            print(res.avatar)
             ans = {
+                'id': res.id,
                 'name': res.name,
                 'biography': res.description,
                 'avatar': res.avatar,
                 'rewards': [{'name': reward.title, 'image': reward.img_url} for reward in res.rewards],
-                'years': [{'id': res.id, 'year': info.year, 'location': info.location, 'story': info.description, 'images': [photo.url for photo in info.photos] + []} for info in res.info]
+                'years': [
+                    {'id': res.id,
+                     'year': info.year,
+                     'location': info.location,
+                     'story': info.description,
+                     'images': [photo.url for photo in info.photos if photo.url is not None]} for info in res.info if any(
+                         [info.photos != [] and all([photo.url is not None for photo in info.photos]), info.location != '', info.description != '']
+                    )
+                ]
             }
             return ans
 
     @staticmethod
     async def get_points(year: Year):
         async with async_session_factory() as session:
-            query = select(Info).where(Info.year == year).options(selectinload(Info.pers))
+            query = select(Info).join(Info.pers).where(and_(Info.year == year, Person.status == Status.active)).options(selectinload(Info.pers))
             res = await session.execute(query)
             res: list[Info] = res.scalars().all()
             for info in res:
@@ -220,8 +232,8 @@ class Orm:
                     "name": (info.pers.name.split())[0] if len(info.pers.name.split()) > 0 else '',
                     "surname": (info.pers.name.split())[1] if len(info.pers.name.split()) > 1 else '',
                     "patronymic": (info.pers.name.split())[2] if len(info.pers.name.split()) > 2 else '',
-                    "location": info.place,
-                    "img_url": info.pers.avatar[0] if info.pers.avatar is not None else None,
+                    "location": info.location,
+                    "img_url": info.pers.avatar if info.pers.avatar is not None else None,
                     "id": info.pers.id
                 } for info in res
             ]
@@ -263,6 +275,19 @@ class Orm:
             rew: list[Rewards] = await session.execute(select(Rewards).where(Rewards.title.in_(rewards)))
             rew = rew.scalars().all()
             return [elem.img_url for elem in rew]
+
+    @staticmethod
+    async def confirm_person(id: str):
+        async with async_session_factory() as session:
+            await session.execute(update(Person).where(Person.id == id).values(status=Status.active))
+            print('yep')
+            await session.commit()
+
+    @staticmethod
+    async def reject_person(id: str):
+        async with async_session_factory() as session:
+            await session.execute(update(Person).where(Person.id == id).values(status=Status.rejected))
+            await session.commit()
 
     @staticmethod
     async def insert_old_ppl():
@@ -324,6 +349,12 @@ class Orm:
             # with open('backend/data/models_data/years.json', 'w', encoding='utf-8') as f:
             #     json.dump(data, f, ensure_ascii=False, indent=4)
             # наконец-то, когда готов json на две тысячи строк можно вставлять этот кал в базу.
+            # with open(os.path.join(os.path.dirname(__file__), 'models_data\years.json'), 'r', encoding='utf-8') as f:
+            #     data = json.load(f)
+            # for pers in data:
+            #     data[pers]['years']['1940']['location'], data[pers]['years']['1941']['location'], data[pers]['years']['1942']['location'], data[pers]['years']['1943']['location'], data[pers]['years']['1944']['location'], data[pers]['years']['1945']['location'] = data[pers]['years']['1945']['location'], data[pers]['years']['1940']['location'], data[pers]['years']['1941']['location'], data[pers]['years']['1942']['location'], data[pers]['years']['1943']['location'], data[pers]['years']['1944']['location']
+            # with open(os.path.join(os.path.dirname(__file__), 'models_data\years.json'), 'w', encoding='utf-8') as f:
+            #     json.dump(data, f, ensure_ascii=False, indent=4)
             with open(os.path.join(os.path.dirname(__file__), 'models_data/years.json'), 'r', encoding='utf-8') as f:
                 data = json.load(f)
             async with async_session_factory() as session:
@@ -355,7 +386,10 @@ class Orm:
                             photos = []
                         if data[person]['years'][year]['desc'] or data[person]['years'][year]['location'] or photos:
                             info_list.append(Info(id=year_id, year=Year(year), location=data[person]['years'][year]['location'], description=data[person]['years'][year]['desc'], pers_id=us_id, photos=photos))
-                    pers = Person(id=us_id, name=person, description=data[person]['desc'], avatar=list(data[person]['photos']) if data[person]['photos'] else None, time_added=datetime.datetime.now(), rewards=u_rew, info=info_list)
+                    print()
+                    print(data[person]['photos'])
+                    print()
+                    pers = Person(id=us_id, name=person, description=data[person]['desc'], avatar=list(data[person]['photos'])[0] if data[person]['photos'] else None, time_added=datetime.datetime.now(), rewards=u_rew, info=info_list, status=Status.active)
                     pprint(pers)
                     session.add(pers)
                 await session.commit()

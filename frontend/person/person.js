@@ -44,46 +44,46 @@ function back_button() {
 //             image: "../src/reward1.jpg"
 //         }
 //     ],
-//     avatar: "../src/photo.jpg",
+//     avatar: ["../src/photo.jpg", "../src/photo.jpg", "../src/photo.jpg"],
 //     years: [
 //         {
 //             year: "1940",
 //             story: "В 1940 году Иван Иванов был призван в армию...Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur natus perspiciatis aliquam distinctio ipsum deserunt doloribus doloremque voluptatem numquam adipisci earum iusto eos unde dolore laudantium, cupiditate blanditiis quibusdam rerum!",
 //             images: ["../src/photo.jpg", "../src/photo.jpg", "../src/photo.jpg", "../src/photo.jpg"],
-//             location: [55.7558, 37.6173]
+//             location: '55.7558 37.6173'
 //         },
 //         {
 //             year: "1941",
 //             story: "В 1941 году Иван участвовал в обороне Москвы...",
 //             images: ["path/to/1941_image1.jpg", "../src/photo.jpg", "../src/phdoto.jpg"],
-//             location: [55.7558, 37.6173]
+//             location: '55.7558 37.6173'
 
 //         },
 //         {
 //             year: "1942",
 //             story: "В 1942 году Иван был ранен в бою под Сталинградом...",
 //             images: ["../src/photo.jpg"],
-//             location: []
+//             location: ''
 
 //         },
 //         {
 //             year: "1943",
 //             story: "После госпиталя в 1943 году вернулся на фронт...",
 //             images: [],
-//             location: [55.7558, 37.6173]
+//             location: '55.7558 37.6173'
 
 //         },
 //         {
 //             year: "1944",
 //             story: "В 1944 году участвовал в операции «Багратион»...",
 //             images: ["path/to/1944_image1.jpg"],
-//             location: [75.7558, 37.6173]
+//             location: '75.7558 37.6173'
 //         },
 //         {
 //             year: "1945",
 //             story: "День Победы встретил в Берлине...",
 //             images: ["path/to/1945_image1.jpg", "path/to/1945_image2.jpg", "path/to/1945_image3.jpg"],
-//             location: [55.7558, 37.6173]
+//             location: '55.7558 37.6173'
 //         }
 //     ],
 // };
@@ -225,6 +225,76 @@ function create_slider(images) {
 }
 
 
+
+function create_avatar_slider(images) {
+    const slider = document.getElementById('avatar_slider');
+    const prevBtn = document.getElementById('prevBtn_avatar');
+    const nextBtn = document.getElementById('nextBtn_avatar');
+
+    slider.innerHTML = '';
+    if (images.length == 0) {
+        slider.style.display = 'none';
+        return;
+    }
+    slider.style.display = 'block';
+
+
+    // Добавляем изображения в слайдер
+    images.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.classList.add('slider_item');
+        slider.appendChild(img);
+    });
+
+    let currentIndex = 0;
+
+    // Функция для обновления положения слайдера и скрытия стрелок
+    function updateSlider() {
+        const totalImages = images.length;
+
+        // Показываем/скрываем кнопки
+        prevBtn.classList.toggle('slider_control_hidden', currentIndex === 0);
+        nextBtn.classList.toggle('slider_control_hidden', currentIndex === totalImages - 1);
+
+        // Скрываем все изображения, кроме текущего
+        const imgs = slider.querySelectorAll('img');
+        imgs.forEach((img, index) => {
+            if (index !== currentIndex) {
+                img.style.display = 'none';
+            } else {
+                img.style.display = 'block';
+            }
+        });
+    }
+
+    // Функция для перехода к следующему изображению
+    function nextSlide() {
+        if (currentIndex < images.length - 1) {
+            currentIndex++;
+            updateSlider();
+        }
+    }
+
+    // Функция для перехода к предыдущему изображению
+    function prevSlide() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlider();
+        }
+    }
+
+    // Инициализация слайдера
+    updateSlider();
+
+    // Обработчики событий для кнопок
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+}
+
+
+
 async function get_Person(id){
     const response = await fetch(`http://127.0.0.1:8000/user_info?id=${id}`);
     personData = await response.json();
@@ -238,7 +308,7 @@ async function initPage() {
     
 
     name_elem = document.getElementById('name');
-    avatar_elem = document.getElementById('avatar');
+    avatar_elem = document.getElementById('avatar_slider');
     biography_elem = document.getElementById('biography');
     rewards_elem = document.getElementById('rewards');
     timeline_elem = document.getElementById('timeline');
@@ -248,7 +318,15 @@ async function initPage() {
 
     const personData = await get_Person(id); //TODO
     name_elem.textContent = personData.name;
-    avatar_elem.src = personData.avatar;
+
+    if (!personData.avatar) personData.avatar = ['../src/no_photo.png'];
+    
+    if (!Array.isArray(personData.avatar)) {
+        personData.avatar = [personData.avatar];
+    }
+
+    create_avatar_slider(personData.avatar);
+    // avatar_elem.src = personData.avatar;
     biography_elem.textContent = personData.biography;
 
 

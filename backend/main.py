@@ -10,16 +10,14 @@ from contextlib import asynccontextmanager
 from data import Orm
 from fastapi.middleware.cors import CORSMiddleware
 from data import Year
-from app import Photo, Points, User_info, Person, Info
+from app.models import Photo, Points, User_info, Person, Info
 # from config import settings
-import base64
 from data import settings
-import requests
+from app.bot import send_to_moderation, bot, dp
 
 
 # async def save_images(image: Photo):
 #     # image_base64 = base64.b64encode(image).decode("utf-8")
-    
 #     # image.img_del = resp.json().data.delete_url
 
 
@@ -41,6 +39,7 @@ async def lifespan(app: FastAPI):
             print("Waiting for MySQL to be ready...", str(e))
             await asyncio.sleep(1)
     await Orm.create_all()
+    asyncio.create_task(dp.start_polling(bot))
     yield
 
 
@@ -97,7 +96,7 @@ async def get_points(year: Year) -> list[Points]:
 async def get_user_info(id: str) -> User_info:
     # фио - name, описание - buiography, avatar - фото профиля, rewards - медали, years : [{year: enum story: images:list[str] location:}]
     pers = await Orm.get_person(id)
-    print(pers)
+    pprint(pers)
     return pers
 
 
@@ -105,24 +104,37 @@ async def get_user_info(id: str) -> User_info:
 async def insert_person(person=Body(...)):
     # await Orm.insert_temporary_person(person)
     # print(person)
-    person = json.loads(person)
-    pprint(person)
+    data = json.loads(person)
+    # pprint(person)
+    if data['avatar'] != '':
+        avatar = Photo(image=data['avatar']).url
     person = Person(
-        name=person['name'],
-        description=person['desc'],
-        avatar=person['avatar'],
-        rewards=person['awards'],
+        name=data['name'],
+        description=data['desc'],
+        avatar=avatar,
+        rewards=data['awards'],
         info=[]
     )
-    for year in person['info']:
-        info = Info(
-            year=year,
-            location=person['info'][year]['cord']['Lat'] + ' ' + person['info'][year]['cord']['Lng'],
-            story=person['info'][year]['description'],
-            images=[Photo(image=photo) for photo in person['info'][year]['photo']]
-        )
-        person.info.append(info)
-    await Orm.insert_person(person)
+    pprint(data['info'])
+    for year in data['info']:
+        print(data['info'][year])
+        if type(data['info'][year]) is not bool:
+            info = Info(
+                year=year,
+                location=(data['info'][year]['cord']['Lat'] + ' ' + data['info'][year]['cord']['Lng']) if data['info'][year]['cord'] != '' else '',
+                story=data['info'][year]['description'],
+                images=[]
+            )
+            for img in data['info'][year]['photo']:
+                if img:
+                    print(img)
+                    img = Photo(image=img).url
+                    info.images.append(img)
+            person.info.append(info)
+    print(person)
+    pers_id = await Orm.insert_person(person)
+    person = await Orm.get_person(pers_id)
+    await send_to_moderation(person)
     return JSONResponse(status_code=200, content={'status': 'ok'})
 
     # info_list = ['1940', '1940-cord', '1940-photo', '1941', '1941-cord', '1941-photo', '1942', '1942-cord', '1942-photo', '1943', '1943-cord', '1943-photo', '1944', '1944-cord', '1944-photo', '1945', '1945-cord', '1945-photo']
