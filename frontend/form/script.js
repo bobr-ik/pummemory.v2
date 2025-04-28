@@ -35,17 +35,18 @@ addEventListener("load", () => {
     console.log(GeneralDict);
 
     if (!(GeneralDict.isInfoAdd)) {
-        GeneralDict.photo = "media/person.jpg"
+        GeneralDict.avatar = "media/person.jpg"
         GeneralDict.secondName = undefined
         GeneralDict.firstName = undefined
         GeneralDict.thirdName = undefined
         GeneralDict.generalBiography = undefined
         GeneralDict.yearBiography = undefined
         GeneralDict.awards = []
+        GeneralDict.photo = []
         saveInfo("GeneralDict", GeneralDict)
     } 
     else {
-        addPhoto(GeneralDict.photo)
+        addPhoto(GeneralDict.avatar)
 
         document.querySelectorAll('#main-form input').forEach((input, index) => {
             const nameList = ['secondName', 'firstName', 'thirdName']
@@ -73,7 +74,7 @@ addEventListener("load", () => {
     }
 })
 
-addEventListener("load", () => addPhoto(GeneralDict.photo));
+addEventListener("load", () => addPhoto(GeneralDict.avatar));
 
 document.querySelectorAll('#main-form input').forEach((input, index, inputs) => {
     input.addEventListener('keydown', (event) => {
@@ -192,22 +193,39 @@ async function useLinkPopup() {
     }
 }
 
-function usePhotoPopup(status = 0) {
-    if (status === 0) {
+function usePhotoPopup(status, key) {
+    if (status == 0) {
         document.getElementById('photo-popup').classList.toggle('close');
     }
 
     const photoBlock = document.getElementById('photo-block');
-    if (YearDict[URLParams.year]['photo'] === "") {
-        photoBlock.innerHTML = 'На этот год фотографии отсутствуют';
-    } else {
-        photoBlock.innerHTML = '';
-        YearDict[URLParams.year]['photo'].forEach(adress => {
-            const photo = document.createElement('img');
-            photo.classList.add('year-photo');
-            photo.src = adress;
-            photoBlock.appendChild(photo);
-        });
+    const button = document.getElementById('popup-photo-button');
+    button.dataset.key = key;
+
+    if (key == 'year') {
+        if (YearDict[URLParams.year]['photo'] === "") {
+            photoBlock.innerHTML = 'На этот год фотографии отсутствуют';
+        } else {
+            photoBlock.innerHTML = '';
+            YearDict[URLParams.year]['photo'].forEach(adress => {
+                const photo = document.createElement('img');
+                photo.classList.add('year-photo');
+                photo.src = adress;
+                photoBlock.appendChild(photo);
+            });
+        }
+    } if (key == 'general') {
+        if (GeneralDict['photo'].length === 0) {
+            photoBlock.innerHTML = 'На этот год фотографии отсутствуют';
+        } else {
+            photoBlock.innerHTML = '';
+            GeneralDict['photo'].forEach(adress => {
+                const photo = document.createElement('img');
+                photo.classList.add('year-photo');
+                photo.src = adress;
+                photoBlock.appendChild(photo);
+            });
+        }
     }
 }
 
@@ -227,14 +245,18 @@ function closePopup(id) {
     }
 }
 
-function useInput(id) {
-    document.getElementById(id).click();
+function useInput(id, key=undefined) {
+    const input = document.getElementById(id);
+    if (key !== undefined) {
+        input.dataset.key = key
+    }
+    input.click();
 }
 
-function saveInputPhoto(id) {
-    const input = document.getElementById(id);
+function saveInputPhoto(key) {
+    let input;
+    key === 'avatar-input' ? input = document.getElementById(id) : input = document.getElementById('popup-photo-input');
     const file = input.files[0];
-    console.log(file);
 
     if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
@@ -242,20 +264,31 @@ function saveInputPhoto(id) {
         reader.onload = function (e) {
             adress = e.target.result
 
-            if (id === 'photo-input') {
-                GeneralDict.photo = e.target.result;
+            if (key === 'avatar-input') {
+                GeneralDict.avatar = e.target.result;
                 GeneralDict.isInfoAdd = true
                 saveInfo("GeneralDict", GeneralDict)
                 addPhoto(e.target.result)
             } else {
-                if (YearDict[URLParams.year]['photo'] === "") {
-                    YearDict[URLParams.year]['photo'] = [adress];
-                } else {
-                    YearDict[URLParams.year]['photo'].push(adress);
+                if (key === 'year') {
+                    if (YearDict[URLParams.year]['photo'] === "") {
+                        YearDict[URLParams.year]['photo'] = [adress];
+                    } else {
+                        YearDict[URLParams.year]['photo'].push(adress);
+                    }
+                    YearDict.isInfoAdd = true
+                    saveInfo("YearDict", YearDict)
                 }
-                YearDict.isInfoAdd = true
-                saveInfo("YearDict", YearDict)
-                usePhotoPopup(1)
+                if (key === 'general') {
+                    if (GeneralDict['photo'].length === 0) {
+                        GeneralDict['photo'] = [adress];
+                    } else {
+                        GeneralDict['photo'].push(adress);
+                    }
+                    GeneralDict.isInfoAdd = true
+                    saveInfo("GeneralDict", GeneralDict)
+                }
+                usePhotoPopup(1, key)
             }
         };
         
@@ -377,18 +410,19 @@ async function sendAllInfo() {
     const SendDict = {
         name: name, 
         desc: GeneralDict.generalBiography === undefined ? "" : GeneralDict.generalBiography,
-        avatar: GeneralDict.photo === 'media/person.jpg' ? "" : GeneralDict.photo,
+        avatar: GeneralDict.avatr === 'media/person.jpg' ? "" : GeneralDict.avatar,
+        photo: GeneralDict.photo.length === 0 ? "" : GeneralDict.photo,
         info: YearDict,
         awards: awards,
     }
 
     console.log(SendDict);
-    const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.token}`);
-    const data = await response.json();
-    if (!data) {
-        alert('В доступе отказано, проверьте ссылку');
-    } else {
-        const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
-        data = await response.json();
-    }
+    // const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.token}`);
+    // const data = await response.json();
+    // if (!data) {
+    //     alert('В доступе отказано, проверьте ссылку');
+    // } else {
+    //     const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
+    //     data = await response.json();
+    // }
 }

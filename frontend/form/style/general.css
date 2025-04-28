@@ -235,7 +235,7 @@ textarea {
     background-color: rgb(220, 220, 220);
 }
 
-#photo-button {
+#avatar-photo-button {
     position: absolute;
     /* width: 17vw; */
     width: calc(17vw - 6px);
@@ -244,7 +244,7 @@ textarea {
     height: 5%;
 }
 
-#year-photo-button {
+#popup-photo-button {
     position: absolute;
     width: auto;
     height: 5%;
@@ -255,8 +255,8 @@ textarea {
 
 .button-block {
     position: absolute;
-    width: 100%;
-    left: 0;
+    width: calc(43vw + 16px);
+    /* left: 0; */
     /* transform: translateX(-50%); */
     height: 5vh;
     bottom: 1vh;
@@ -494,6 +494,7 @@ textarea {
 .year-photo {
     max-width: 50%;
     max-height: 50%;
+    height: fit-content;
     object-fit: contain;
 
     border-radius: 10px;

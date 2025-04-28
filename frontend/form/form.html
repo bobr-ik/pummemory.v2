@@ -45,8 +45,8 @@
             </form>
         </div>
 
-        <button id="photo-button" class="button-style" onclick="useInput('photo-input')">Загурзить фотографию</button>
-        <input type="file" id="photo-input" class="photo-input" onchange="saveInputPhoto('photo-input')"/>
+        <button id="avatar-photo-button" class="button-style" onclick="useInput('avatar-input')">Загурзить фотографию</button>
+        <input type="file" id="avatar-input" class="photo-input" onchange="saveInputPhoto('avatar-input')"/>
         <div id="person-photo"></div>
 
         <div class="description-title general-title">Общее описание</div>
@@ -61,10 +61,12 @@
 
         <div id="map-block"></div>
 
-        <div class="button-block">
+        <div class="button-block" style="left: 1vw">
             <button class="button-style" data-view="false" id="share-button" onclick="useLinkPopup()">Поделиться формой</button>
-            <button class="button-style" onclick="usePhotoPopup()">Общие фотографии</button>
-            <button class="button-style" onclick="usePhotoPopup()">Фотографии этото года</button>
+            <button class="button-style" onclick="usePhotoPopup(0, 'general')">Общие фотографии</button>
+        </div>
+        <div class="button-block" style="left: 49vw">
+            <button class="button-style" onclick="usePhotoPopup(0, 'year')">Фотографии этото года</button>
             <button class="button-style" onclick="sendAllInfo()">Отправить информацию</button>
         </div>
     </div>
@@ -91,8 +93,8 @@
             <div id="photo-block">
                 <!-- Список фотографии -->
             </div>
-            <button id="year-photo-button" class="button-style" onclick="useInput('year-photo-input')">Загурзить фотографию</button>
-            <input type="file" id="year-photo-input" class="photo-input" onchange="saveInputPhoto('year-photo-input')"/>
+            <button id="popup-photo-button" class="button-style" data-key="" onclick="useInput('popup-photo-input', this.dataset.key)">Загурзить фотографию</button>
+            <input type="file" id="popup-photo-input" data-key="" class="photo-input" onchange="saveInputPhoto(this.dataset.key)"/>
         </div>
     </div>
 
