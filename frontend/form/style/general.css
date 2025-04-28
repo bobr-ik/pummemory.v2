@@ -3,6 +3,12 @@
     padding: 0;
 }
 
+@font-face {
+    font-family: 'manual'; 
+    src: url(manual.ttf); 
+}
+
+
 #year-button-block {
     position: absolute;
     width: calc(43vw + 16px);
@@ -517,7 +523,7 @@ textarea {
     width: 90%;
 
     font-size: large;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'manual';
 
     
 }
