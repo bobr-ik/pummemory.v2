@@ -1,3 +1,5 @@
+// Вся ответственность за эту страницу лежит на const name = "Береговой Лев Владимирович"; :)
+
 let GeneralDict = new Map()
 GeneralDict.isInfoAdd = false
 
@@ -410,7 +412,7 @@ async function sendAllInfo() {
     const SendDict = {
         name: name, 
         desc: GeneralDict.generalBiography === undefined ? "" : GeneralDict.generalBiography,
-        avatar: GeneralDict.avatr === 'media/person.jpg' ? "" : GeneralDict.avatar,
+        avatar: GeneralDict.avatar === 'media/person.jpg' ? "" : GeneralDict.avatar,
         photo: GeneralDict.photo.length === 0 ? "" : GeneralDict.photo,
         info: YearDict,
         awards: awards,
