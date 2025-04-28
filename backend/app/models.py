@@ -20,7 +20,8 @@ class Person(BaseModel):
 
 
 class Reward(BaseModel):
-    name: str = Field(..., min_length=3, max_length=60, example="Медаль")
+    name: str = Field(..., min_length=3, max_length=120, example="Медаль")
+    image: str = Field(...)
     # desc: Optional[str] = Field(..., max_length=5000, example="Описание подвига")
 
 

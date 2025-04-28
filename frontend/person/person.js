@@ -298,6 +298,7 @@ function create_avatar_slider(images) {
 async function get_Person(id){
     const response = await fetch(`http://127.0.0.1:8000/user_info?id=${id}`);
     personData = await response.json();
+    console.log(personData)
     return personData
 }
 
@@ -330,11 +331,12 @@ async function initPage() {
     biography_elem.textContent = personData.biography;
 
 
+    console.log(personData.rewards)
     personData.rewards.forEach(reward => {
         const reward_elem = document.createElement('div');
         reward_elem.classList.add('reward');
         console.log(reward.image)
-        reward_elem.innerHTML = `<img src="${reward.image}.jpg" alt="${reward.name}"> <p class="reward_name">${reward.name}</p>`;
+        reward_elem.innerHTML = `<img src="${reward.image}" alt="${reward.name}"> <p class="reward_name">${reward.name}</p>`;
         rewards_elem.appendChild(reward_elem);
     });
 
