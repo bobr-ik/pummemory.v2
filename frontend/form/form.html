@@ -50,21 +50,22 @@
         <div id="person-photo"></div>
 
         <div class="description-title general-title">Общее описание</div>
-        <div class="description general-description" onChange="saveStaticInfo('generalBiography')">
+        <div class="general-description" onChange="saveStaticInfo('generalBiography')">
             <textarea id="generalBiography" placeholder="Общее описание"></textarea>
         </div>
 
         <div class="description-title year-title">События года</div>
-        <div class="description year-description" onChange="saveYearInfo()">
+        <div class="year-description" onChange="saveYearInfo()">
             <textarea id="yearBiography" placeholder="События года"></textarea>
         </div>
 
         <div id="map-block"></div>
 
         <div class="button-block">
+            <button class="button-style" data-view="false" id="share-button" onclick="useLinkPopup()">Поделиться формой</button>
+            <button class="button-style" onclick="usePhotoPopup()">Общие фотографии</button>
             <button class="button-style" onclick="usePhotoPopup()">Фотографии этото года</button>
             <button class="button-style" onclick="sendAllInfo()">Отправить информацию</button>
-            <button class="button-style" data-view="false" id="share-button" onclick="useLinkPopup()">Поделиться формой</button>
         </div>
     </div>
 

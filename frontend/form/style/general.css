@@ -5,12 +5,11 @@
 
 #year-button-block {
     position: absolute;
-    width: 42vw;
+    width: calc(43vw + 16px);
     height: 6vh;
-    left: 52vw;
+    left: 51vw;
     top: calc(1vh + 10px);
-
-    border-radius: 10px;    
+    border-radius: 10px;
     display: flex;
     flex-direction: row;
 }
@@ -53,7 +52,7 @@
     }
 
     &::after {
-        content: '📝';
+        content: '📋';
     }
 }
 
@@ -127,18 +126,16 @@
     z-index: -1;
 }
 
-/* ================================================ Блок стилей полей описания */
+/* ================================================ Ð‘Ð»Ð¾Ðº ÑÑ‚Ð¸Ð»ÐµÐ¹ Ð¿Ð¾Ð»ÐµÐ¹ Ð¾Ð¿Ð¸ÑÐ°Ð½Ð¸Ñ */
 
 .description-title {
     position: absolute;
-    width: 42vw;
+    width: calc(43vw + 16px);
     height: auto;
-
     font-size: x-large;
     font-weight: 600;
     letter-spacing: 4px;
     font-family: Arial;
-
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -146,29 +143,28 @@
 
 .general-title {
     top: 50%;
-    left: calc(1vw + 6px);
+    left: 1vw;
 }
 
 .year-title {
     top: 1vh;
-    left: 50vw;
-}
-
-.description {
-    position: absolute;
-    width: 42vw;
+    left: 49vw;
 }
 
 .general-description {
-    height: 40%;
+    position: absolute;
+    height: calc(35% - 13px);
     top: 55%;
     left: 1vw;
+    width: 43vw;
 }
 
 .year-description {
+    position: absolute;
     height: 20%;
     top: 5vh;
-    left: calc(50vw - 6px);
+    left: 49vw;
+    width: calc(43vw + 3px);
 }
 
 textarea {
@@ -196,37 +192,31 @@ textarea {
     }
 }
 
-/* ================================================ Блок карты */
+/* ================================================ Ð‘Ð»Ð¾Ðº ÐºÐ°Ñ€Ñ‚Ñ‹ */
 
 #map-block {
     position: absolute;
-    width: calc(44vw + 6px);
-    height: 55vh;
+    width: calc(43vw + 16px);
+    height: 60%;
     left: 49vw;
-    top: calc(10vh + 20%);
-
+    top: 30%;
     border-radius: 5px;
-    /* background-color: rgba(120, 120, 120, 0.5); */
-
     cursor: pointer;
     z-index: 0;
 }
 
-/* ================================================ Блок стилей кнопок */
+/* ================================================ Ð‘Ð»Ð¾Ðº ÑÑ‚Ð¸Ð»ÐµÐ¹ ÐºÐ½Ð¾Ð¿Ð¾Ðº */
 
 .year-button {
-    width: calc(7vw - 3px);
+    width: calc(100% / 6);
     height: 100%;
-
     border-radius: 10px;
     border: 3px solid rgb(160, 160, 160);
     background-color: rgb(200, 200, 200);
-
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: 600;
     font-size: 2vh;
@@ -265,9 +255,9 @@ textarea {
 
 .button-block {
     position: absolute;
-    width: 50%;
-    left: 71vw;
-    transform: translateX(-50%);
+    width: 100%;
+    left: 0;
+    /* transform: translateX(-50%); */
     height: 5vh;
     bottom: 1vh;
 
@@ -320,7 +310,7 @@ textarea {
     border-radius: 10px;
 }
 
-/* ================================================ Блок стилизации popup */
+/* ================================================ Ð‘Ð»Ð¾Ðº ÑÑ‚Ð¸Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸ popup */
 
 .close {
     display: none;
@@ -539,7 +529,7 @@ li + li {
     display: none !important;
 }
 
-/* ================================================ Стилизация списка с наградами */
+/* ================================================ Ð¡Ñ‚Ð¸Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ ÑÐ¿Ð¸ÑÐºÐ° Ñ Ð½Ð°Ð³Ñ€Ð°Ð´Ð°Ð¼Ð¸ */
 .awards-title {
     position: absolute;
     left: 50%;
