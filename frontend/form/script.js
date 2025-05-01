@@ -123,7 +123,7 @@ async function startSite() {
         setTimeout(() => startChoices(), 0)
     }
 
-    const response = await fetch(`http://localhost:8000/api/check_token_if_admin?token=${URLParams.token}`);
+    const response = await fetch(`http://pummemory.pumibari.ru/api/check_token_if_admin?token=${URLParams.token}`);
     const isMark = await response.json();
 
     if (isMark) {
@@ -171,13 +171,13 @@ async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
 
     
-    const response = await fetch('http://localhost:8000/api/create_token', {
+    const response = await fetch('http://pummemory.pumibari.ru/api/create_token', {
         method: 'POST'
     });
     const data = await response.json();
     
     const token = encodeURIComponent(data);
-    const url = `http://localhost:8001/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
+    const url = `http://pummemory.pumibari.ru/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
     
     const copyButton = document.getElementById('copy-button');
     copyButton.style.backgroundImage = "url('media/copy-icon.png')";
@@ -327,9 +327,25 @@ addEventListener('load', function () {
         // shadowAnchor : [30,30],
     })
     if (YearDict[URLParams.year]['cord'] === "") {
-        map = L.map('map-block').setView([55.75, 37.61], 8); // Москва, масштаб 10
+        map = L.map('map-block',
+            {
+                maxBounds: [
+                    [-180, -180],
+                    [180, 270]
+                ],
+                maxBoundsViscosity: 0.5
+            }
+        ).setView([55.75, 37.61], 8); // Москва, масштаб 10
     } else {
-        map = L.map('map-block').setView([YearDict[URLParams.year]['cord'].Lat, YearDict[URLParams.year]['cord'].Lng], 8);
+        map = L.map('map-block',
+            {
+                maxBounds: [
+                    [-180, -180],
+                    [180, 270]
+                ],
+                maxBoundsViscosity: 0.5
+            }
+        ).setView([YearDict[URLParams.year]['cord'].Lat, YearDict[URLParams.year]['cord'].Lng], 8);
         marker = L.marker([YearDict[URLParams.year]['cord'].Lat, YearDict[URLParams.year]['cord'].Lng], {icon:icon}).addTo(map);
     }
 

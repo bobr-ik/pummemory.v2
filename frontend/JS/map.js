@@ -8,6 +8,11 @@ let map = L.map('map',{
 	zoom     : 5,
 	maxZoom  : 100,
 	minZoom: 2,
+	maxBounds: [
+		[-180, -180],
+		[180, 270]
+	],
+	maxBoundsViscosity: 0.5
 })
 let markerCluster
 
