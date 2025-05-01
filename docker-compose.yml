@@ -19,11 +19,11 @@ services:
       interval: 5s
       timeout: 10s
       retries: 10
-    environment: #TODO up to .env
-      MYSQL_ROOT_PASSWORD: '200209318Dak()'
-      MYSQL_DATABASE: 'pummemory_test'
-      MYSQL_USER: 'dak'
-      MYSQL_PASSWORD: '200209318Dak()'
+    environment: #TODO upd to .env
+      MYSQL_ROOT_PASSWORD: ${password}
+      MYSQL_DATABASE: ${db}
+      MYSQL_USER: ${user}
+      MYSQL_PASSWORD: ${password}
     ports:
       - "127.0.0.1:3307:3306"
     volumes:
@@ -33,6 +33,17 @@ services:
 
   backend:
     build: ./backend
+    environment:
+      host: ${host}
+      user: ${user}
+      password: ${password}
+      db: ${db}
+      port: ${port}
+      secret: ${secret}
+      API_KEY: ${API_KEY}
+      TOKEN: ${TOKEN}
+      ADMIN_CHAT_ID: ${ADMIN_CHAT_ID}
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
     depends_on:
       db:
         condition: service_healthy

@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 import os
+from dotenv import load_dotenv
 
 
 class Settings(BaseSettings):
@@ -19,7 +20,7 @@ class Settings(BaseSettings):
         return f"mysql+asyncmy://{self.user}:{self.password}@{self.host}:{self.port}/{self.db}"
 
     class Config:
-        env_file = f'{os.path.join(os.path.dirname(__file__), ".env")}'
+        env_file = f'{os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env")}'
 
 
 settings = Settings()
