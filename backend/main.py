@@ -26,11 +26,11 @@ async def lifespan(app: FastAPI):
     while True:
         try:
             conn = await asyncmy.connect(
-                user = 'aavramenk5',
-                database = 'aavramenk5',
-                host= '********',
-                port= 3306,
-                password = '********'
+                host="db",
+                user="dak",
+                password="200209318Dak()",
+                database="pummemory_test",
+                port=3306
             )
             await conn.ensure_closed()
             print("MySQL is ready!")
