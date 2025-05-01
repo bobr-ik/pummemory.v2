@@ -15,12 +15,14 @@ class Person(BaseModel):
     name: str = Field(..., min_length=3, max_length=60, example="Иванов Иван Иванович")
     desc: str | None = Field(max_length=5000, example="Описание", default="")
     avatar: Optional[Union[str, 'Photo']] = Field(default="")
+    general_photos: Optional[Union[list[str], list['Photo']]] = Field(default="")
     rewards: list['Reward'] | None | list['str'] = Field(default=None)
     info: list['Info'] | None = Field(default=None)
 
 
 class Reward(BaseModel):
-    name: str = Field(..., min_length=3, max_length=60, example="Медаль")
+    name: str = Field(..., min_length=3, max_length=120, example="Медаль")
+    image: str = Field(...)
     # desc: Optional[str] = Field(..., max_length=5000, example="Описание подвига")
 
 
@@ -96,6 +98,6 @@ class User_info(BaseModel):
     id: str
     name: str = Field(..., max_length=60, example="Иванов Иван Иванович")
     biography: Optional[str] = Field(default="", max_length=5000, example="Описание")
-    avatar: Optional[str] = Field(default=[], max_length=500, example="https://example.com/avatar.jpg")
+    avatar: Optional[list[str]] = Field(default=[], example=["https://example.com/avatar.jpg"])
     rewards: Optional[list['Reward']] = Field(default=None)
     years: Optional[list['Info_sending']] = Field(default=None)

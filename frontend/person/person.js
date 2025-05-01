@@ -90,11 +90,16 @@ function back_button() {
 
 
 function createMap() {
-    let map = L.map('map',{
-        center   : [50.881176, 30.371177],
-        zoom     : 5,
-        maxZoom  : 100,
-        minZoom  : 2,
+    let map = L.map('map', {
+        center: [50.881176, 30.371177],
+        zoom: 5,
+        maxZoom: 100,
+        minZoom: 2,
+        maxBounds: [
+            [-180, -180],
+            [180, 270]
+        ],
+        maxBoundsViscosity: 0.5
     })
 
     L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=jFVHTIg2WK3xJlt5wfqJ7F41zVI76aPnnsvSD3Pm4pjbR1J2mpnmUEMyUFjWKQY8', {}).addTo(map);
@@ -164,7 +169,12 @@ function create_slider(images) {
 
     slider.innerHTML = '';
     if (images.length == 0) {
-        slider.style.display = 'none';
+        slider_new = document.getElementById('photo_slider_wrapper');
+        slider_new.style.display = 'none';
+
+        description = document.getElementById('year_description');
+        description.style.width = 'auto';
+
         return;
     }
     slider.style.display = 'block';
@@ -298,6 +308,7 @@ function create_avatar_slider(images) {
 async function get_Person(id){
     const response = await fetch(`http://127.0.0.1:8000/user_info?id=${id}`);
     personData = await response.json();
+    console.log(personData)
     return personData
 }
 
@@ -330,11 +341,12 @@ async function initPage() {
     biography_elem.textContent = personData.biography;
 
 
+    console.log(personData.rewards)
     personData.rewards.forEach(reward => {
         const reward_elem = document.createElement('div');
         reward_elem.classList.add('reward');
         console.log(reward.image)
-        reward_elem.innerHTML = `<img src="${reward.image}.jpg" alt="${reward.name}"> <p class="reward_name">${reward.name}</p>`;
+        reward_elem.innerHTML = `<img src="${reward.image}" alt="${reward.name}"> <p class="reward_name">${reward.name}</p>`;
         rewards_elem.appendChild(reward_elem);
     });
 

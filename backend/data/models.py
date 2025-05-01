@@ -46,6 +46,7 @@ class Person(Base):
     description: Mapped[Optional[str]] = mapped_column(Text, default="")
     time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
     avatar: Mapped[Optional[str_256]] = mapped_column(default="")
+    general_photos: Mapped[Optional[list[str_256]]] = mapped_column(JSON, default=list)
     rewards: Mapped[Optional[list["Rewards"]]] = relationship("Rewards", secondary=person_rewards, back_populates="ppl_got")
     info: Mapped[list['Info']] = relationship(back_populates="pers")
     status: Mapped[Status] = mapped_column(Enum(Status), default=Status.new)

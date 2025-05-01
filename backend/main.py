@@ -14,8 +14,6 @@ from app.models import Photo, Points, User_info, Person, Info
 # from config import settings
 from data import settings
 from app.bot import send_to_moderation, bot, dp
-
-
 # async def save_images(image: Photo):
 #     # image_base64 = base64.b64encode(image).decode("utf-8")
 #     # image.img_del = resp.json().data.delete_url
@@ -26,11 +24,11 @@ async def lifespan(app: FastAPI):
     while True:
         try:
             conn = await asyncmy.connect(
-                host="db",
-                user="dak",
-                password="200209318Dak()",
-                database="pummemory_test",
-                port=3306
+                host=settings.host,
+                user=settings.user,
+                password=settings.password,
+                database=settings.db,
+                port=int(settings.port)
             )
             await conn.ensure_closed()
             print("MySQL is ready!")
@@ -108,11 +106,17 @@ async def insert_person(person=Body(...)):
     # pprint(person)
     if data['avatar'] != '':
         avatar = Photo(image=data['avatar']).url
+    person_general_photos = []
+    if data['photo'] != '':
+        for elem in data['photo']:
+            img = Photo(image=elem).url
+            person_general_photos.append(img)
     person = Person(
         name=data['name'],
         description=data['desc'],
         avatar=avatar,
         rewards=data['awards'],
+        general_photos=person_general_photos,
         info=[]
     )
     pprint(data['info'])
@@ -167,13 +171,6 @@ async def insert_person(person=Body(...)):
 async def get_rewards():
     res = await Orm.get_rewards()
     # print(res)
-    return res
-
-
-@app.get('/new_ppl')
-async def get_new_ppl():
-    res = await Orm.get_new_ppl()
-    print(res)
     return res
 
 
