@@ -248,6 +248,7 @@ textarea {
     left: calc(1.5vw - 6px);
     top: calc(40% + 6px + 10px);
     height: 5%;
+    margin: 0;
 }
 
 #popup-photo-button {
@@ -573,10 +574,15 @@ li + li {
     padding: 5px 0 !important;
     max-height: 60px !important;
     overflow: scroll !important;
+    cursor: pointer !important;
 
     &::-webkit-scrollbar {
         display: none;
     }
+}
+
+.choices__input--cloned {
+    display: none !important;
 }
 
 .choices.custom-choices {

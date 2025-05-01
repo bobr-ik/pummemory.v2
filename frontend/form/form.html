@@ -19,12 +19,12 @@
     <div id="year-button-block">
         <!-- ? <div class="year-button" onclick="changeYear('before')">до 1940</div> --> 
 
-        <div class="year-button" onclick="changeYear('1940')">1940</div>
-        <div class="year-button" onclick="changeYear('1941')">1941</div>
-        <div class="year-button" onclick="changeYear('1942')">1942</div>
-        <div class="year-button" onclick="changeYear('1943')">1943</div>
-        <div class="year-button" onclick="changeYear('1944')">1944</div>
-        <div class="year-button" onclick="changeYear('1945')">1945</div>
+        <div class="year-button" id="1940" onclick="changeYear('1940')">1940</div>
+        <div class="year-button" id="1941" onclick="changeYear('1941')">1941</div>
+        <div class="year-button" id="1942" onclick="changeYear('1942')">1942</div>
+        <div class="year-button" id="1943" onclick="changeYear('1943')">1943</div>
+        <div class="year-button" id="1944" onclick="changeYear('1944')">1944</div>
+        <div class="year-button" id="1945" onclick="changeYear('1945')">1945</div>
 
         <!-- ? <div class="year-button" onclick="changeYear('after')">после 1945</div> -->
     </div>
@@ -40,7 +40,7 @@
                 <input class="form-input" type="text" id="thirdName" onChange="saveStaticInfo('thirdName')" placeholder="Отчество">
 
                 <label for="awards" class="awards-title">Награды</label>
-                <select id="awards" class="custom-choices choices" multiple onchange="saveAward()">
+                <select id="awards" class="custom-choices choices" onchange="saveAward()" multiple>
                 </select>
             </form>
         </div>
