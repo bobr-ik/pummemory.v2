@@ -90,11 +90,16 @@ function back_button() {
 
 
 function createMap() {
-    let map = L.map('map',{
-        center   : [50.881176, 30.371177],
-        zoom     : 5,
-        maxZoom  : 100,
-        minZoom  : 2,
+    let map = L.map('map', {
+        center: [50.881176, 30.371177],
+        zoom: 5,
+        maxZoom: 100,
+        minZoom: 2,
+        maxBounds: [
+            [-180, -180],
+            [180, 270]
+        ],
+        maxBoundsViscosity: 0.5
     })
 
     L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=jFVHTIg2WK3xJlt5wfqJ7F41zVI76aPnnsvSD3Pm4pjbR1J2mpnmUEMyUFjWKQY8', {}).addTo(map);
