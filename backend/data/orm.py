@@ -172,6 +172,7 @@ class Orm:
                 Person(
                     id=us_id,
                     avatar=person.avatar,
+                    general_photos=person.general_photos,
                     name=person.name,
                     description=person.desc,
                     time_added=datetime.datetime.now(),
@@ -201,11 +202,15 @@ class Orm:
             #     print(info.photos)
             #     print()
             print(res.avatar)
+            dop = [res.avatar]
+            for el in res.general_photos:
+                dop.append(el)
+            print(dop)
             ans = {
                 'id': res.id,
                 'name': res.name,
                 'biography': res.description,
-                'avatar': res.avatar,
+                'avatar': dop,
                 'rewards': [{'name': reward.title, 'image': reward.img_url} for reward in res.rewards],
                 'years': [
                     {'id': res.id,
@@ -215,7 +220,7 @@ class Orm:
                      'images': [photo.url for photo in info.photos if photo.url is not None]} for info in res.info if any(
                          [info.photos != [] and all([photo.url is not None for photo in info.photos]), info.location != '', info.description != '']
                     )
-                ]
+                ],
             }
             return ans
 

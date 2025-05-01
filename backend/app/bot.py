@@ -34,7 +34,8 @@ def format_message(message: User_info) -> str:
     )
     images = []
     if message.avatar is not None:
-        images.append(message.avatar)
+        for img in message.avatar:
+            images.append(img)
     for info in message.years:
         if info.images != []:
             for elem in info.images:
@@ -44,6 +45,7 @@ def format_message(message: User_info) -> str:
 
 async def send_to_moderation(message: User_info):
     # prit(message)
+    print(message)
     message = User_info(**message)
     u_id = message.id
     message, images = format_message(message)
@@ -61,8 +63,9 @@ async def send_to_moderation(message: User_info):
 @dp.callback_query(User.filter(F.action == 'confirm'))
 async def confirm(callback: CallbackQuery, callback_data: User):
     await bot.send_message(ADMIN_CHAT_ID, 'Подтверждено')
-    await callback.answer()
+    print(callback_data.p_id)
     await Orm.confirm_person(callback_data.p_id)
+    await callback.answer()
 
 
 @dp.callback_query(User.filter(F.action == 'reject'))
