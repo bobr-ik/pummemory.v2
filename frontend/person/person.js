@@ -164,7 +164,12 @@ function create_slider(images) {
 
     slider.innerHTML = '';
     if (images.length == 0) {
-        slider.style.display = 'none';
+        slider_new = document.getElementById('photo_slider_wrapper');
+        slider_new.style.display = 'none';
+
+        description = document.getElementById('year_description');
+        description.style.width = 'auto';
+
         return;
     }
     slider.style.display = 'block';
