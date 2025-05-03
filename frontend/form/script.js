@@ -175,13 +175,13 @@ async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
 
     
-    const response = await fetch('http://pummemory.pumibari.ru/api/create_token', {
+    const response = await fetch('http://localhost:8000/api/create_token', {
         method: 'POST'
     });
     const data = await response.json();
     
     const token = encodeURIComponent(data);
-    const url = `http://pummemory.pumibari.ru/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
+    const url = `http://localhost:8000/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
     
     const copyButton = document.getElementById('copy-button');
     copyButton.style.backgroundImage = "url('media/copy-icon.png')";
@@ -431,12 +431,13 @@ async function sendAllInfo() {
     }
 
     console.log(SendDict);
-    // const response = await fetch(`http://localhost:8000/api/check_token?token=${GeneralDict._token}`);
-    // const data = await response.json();
-    // if (!data) {
-    //     alert('В доступе отказано, проверьте ссылку');
-    // } else {
-    //     const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
-    //     data = await response.json();
-    // }
+    const response = await fetch(`http://localhost:8000/api/check_token?token=${GeneralDict._token}`);
+    const data = await response.json();
+    if (!data) {
+        alert('В доступе отказано, проверьте ссылку');
+    } else {
+        const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
+        data = await response.json();
+    }
+    
 }

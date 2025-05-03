@@ -8,6 +8,7 @@ from aiogram.filters.callback_data import CallbackData
 from data import Orm
 dp = Dispatcher()
 
+print(settings.TOKEN)
 bot = Bot(token=settings.TOKEN)
 ADMIN_CHAT_ID = settings.ADMIN_CHAT_ID
 
@@ -62,7 +63,7 @@ async def send_to_moderation(message: User_info):
 
 @dp.callback_query(User.filter(F.action == 'confirm'))
 async def confirm(callback: CallbackQuery, callback_data: User):
-    await bot.send_message(ADMIN_CHAT_ID, 'Подтверждено')
+    await callback.message.edit_text(text=callback.message.text + '\n✅ Подтверждено', reply_markup=None)
     print(callback_data.p_id)
     await Orm.confirm_person(callback_data.p_id)
     await callback.answer()
@@ -70,7 +71,7 @@ async def confirm(callback: CallbackQuery, callback_data: User):
 
 @dp.callback_query(User.filter(F.action == 'reject'))
 async def reject(callback: CallbackQuery, callback_data: User):
-    await bot.send_message(ADMIN_CHAT_ID, 'Отклонено')
+    await callback.message.edit_text(text=callback.message.text + '\n❌ Отклонено')
     await callback.answer()
     await Orm.reject_person(callback_data.p_id)
 

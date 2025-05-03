@@ -77,6 +77,7 @@ async def check_token(token: str):
 
 @app.get('/check_token_if_admin')
 async def check_token_if_admin(token: str):
+    print(token)
     res = await Orm.check_token_if_admin(token)
     return JSONResponse(status_code=200, content=res)
 
@@ -104,6 +105,7 @@ async def insert_person(person=Body(...)):
     # print(person)
     data = json.loads(person)
     # pprint(person)
+    avatar = ''
     if data['avatar'] != '':
         avatar = Photo(image=data['avatar']).url
     person_general_photos = []
@@ -176,3 +178,4 @@ async def get_rewards():
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
+    
