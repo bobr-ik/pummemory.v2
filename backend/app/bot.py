@@ -8,6 +8,7 @@ from aiogram.filters.callback_data import CallbackData
 from data import Orm
 dp = Dispatcher()
 
+print(settings.TOKEN)
 bot = Bot(token=settings.TOKEN)
 ADMIN_CHAT_ID = settings.ADMIN_CHAT_ID
 
