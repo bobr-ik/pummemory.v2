@@ -49,10 +49,12 @@
         </div>
 
         <input type="file" id="avatar-input" class="photo-input" onchange="saveInputPhoto('avatar-input')"/>
-        <div id="person-photo">
-            <img id="person-img" src="" alt="Фотография">
+        <div class="avatar-photo-block">
+            <div id="person-photo">
+                <img id="person-img" src="" alt="Фотография">
+            </div>
+            <button id="avatar-photo-button" class="button-style" onclick="useInput('avatar-input')">Загурзить фотографию</button>
         </div>
-        <button id="avatar-photo-button" class="button-style" onclick="useInput('avatar-input')">Загурзить фотографию</button>
 
         <div class="description-title general-title">Общее описание</div>
         <div class="general-description" onChange="saveStaticInfo('generalBiography')">
