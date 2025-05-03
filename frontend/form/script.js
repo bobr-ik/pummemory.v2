@@ -55,7 +55,7 @@ async function startSite() {
     console.log("YearDict", YearDict);
 
     const parametrs = new URLSearchParams(window.location.search);
-    GeneralDict._token = parametrs.get('token');
+    GeneralDict._token = parametrs.searchParams.get("token");
 
     const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
     const data = await response_award.json()
