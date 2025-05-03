@@ -198,7 +198,7 @@ textarea {
     }
 }
 
-/* ================================================ Ð‘Ð»Ð¾Ðº ÐºÐ°Ñ€Ñ‚Ñ‹ */
+/* ================================================ Настройка карты */
 
 #map-block {
     position: absolute;
@@ -211,7 +211,11 @@ textarea {
     z-index: 0;
 }
 
-/* ================================================ Ð‘Ð»Ð¾Ðº ÑÑ‚Ð¸Ð»ÐµÐ¹ ÐºÐ½Ð¾Ð¿Ð¾Ðº */
+.leaflet-control-container{
+    display: none !important;
+}
+
+/* ================================================ Блок с настройками кнопок */
 
 .year-button {
     width: calc(100% / 6);
@@ -305,19 +309,30 @@ textarea {
 
 #person-photo {
     position: absolute;
-    width: calc(17vw - 10px);
-    height: calc(40% - 6px);
-    top: 1vh;
+    top: calc(1vh + 10px);
     left: calc(1.5vw - 6px);
 
-    background-size: cover;
-    background-position: top;
-    background-repeat: no-repeat;
+    max-width: calc(17vw - 10px);
+    max-height: calc(40% - 16px);
+
     border: 3px solid rgb(200, 200, 200);
     border-radius: 10px;
+
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
 }
 
-/* ================================================ Ð‘Ð»Ð¾Ðº ÑÑ‚Ð¸Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸ popup */
+#person-photo img {
+    width: auto;
+    height: fit-content;
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* ================================================ Блок с настройкой popup */
 
 .close {
     display: none;
@@ -364,6 +379,13 @@ textarea {
     left: 15vw;
     width: 70vw;
     height: 80vh;
+}
+
+.send-popup {
+    left: 15vw;
+    width: 70vw;
+    top: 10vh;
+    height: 50vh;
 }
 
 #popup-qr {
@@ -533,11 +555,10 @@ li + li {
     margin-top: 15px;
 }
 
-.leaflet-control-container{
-    display: none !important;
-}
 
-/* ================================================ Ð¡Ñ‚Ð¸Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ ÑÐ¿Ð¸ÑÐºÐ° Ñ Ð½Ð°Ð³Ñ€Ð°Ð´Ð°Ð¼Ð¸ */
+
+/* ================================================ Блок с наградами */
+
 .awards-title {
     position: absolute;
     left: 50%;

@@ -55,9 +55,6 @@ async function startSite() {
     console.log("YearDict", YearDict);
 
     const parametrs = new URLSearchParams(window.location.search);
-    // for (const [key, value] of parametrs.entries()) {
-    //     URLParams[key] = value;
-    // }
     GeneralDict._token = parametrs.get('token');
 
     const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
@@ -142,8 +139,6 @@ function prepareInfo() {
 }
 
 function changeYear(year) {
-    // const path = `${window.location.pathname}?token=${URLParams.token}&year=${year}`;
-    // window.location.href = path;
     document.getElementById(GeneralDict._year).classList.remove('active-year');
     document.getElementById(year).classList.add('active-year')
     GeneralDict._year = year
@@ -156,8 +151,8 @@ function changeYear(year) {
 }
 
 function addPhoto(file) {
-    let photo = document.getElementById("person-photo");
-    photo.style.backgroundImage = `url('${file}')`;
+    let photo = document.getElementById("person-img");
+    photo.src = file;
 }
 
 function saveStaticInfo(key) {
@@ -265,8 +260,7 @@ function useInput(id, key=undefined) {
 
 function saveInputPhoto(key) {
     let input;
-    key === 'avatar-input' ? input = document.getElementById(key) : input = document.getElementById('popup-photo-input');
-    key === 'avatar-input' ? input = document.getElementById(key) : input = document.getElementById('popup-photo-input');
+    key === 'avatar-input' ? input = document.getElementById(key) : input = document.getElementById('popup-photo-input');   
     const file = input.files[0];
 
     if (file && file.type.startsWith('image/')) {
@@ -437,12 +431,12 @@ async function sendAllInfo() {
     }
 
     console.log(SendDict);
-    const response = await fetch(`http://localhost:8000/api/check_token?token=${URLParams.token}`);
-    const data = await response.json();
-    if (!data) {
-        alert('В доступе отказано, проверьте ссылку');
-    } else {
-        const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
-        data = await response.json();
-    }
+    // const response = await fetch(`http://localhost:8000/api/check_token?token=${GeneralDict._token}`);
+    // const data = await response.json();
+    // if (!data) {
+    //     alert('В доступе отказано, проверьте ссылку');
+    // } else {
+    //     const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
+    //     data = await response.json();
+    // }
 }

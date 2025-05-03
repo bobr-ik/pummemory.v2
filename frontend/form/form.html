@@ -47,7 +47,9 @@
 
         <button id="avatar-photo-button" class="button-style" onclick="useInput('avatar-input')">Загурзить фотографию</button>
         <input type="file" id="avatar-input" class="photo-input" onchange="saveInputPhoto('avatar-input')"/>
-        <div id="person-photo"></div>
+        <div id="person-photo">
+            <img id="person-img" src="" alt="Фотография">
+        </div>
 
         <div class="description-title general-title">Общее описание</div>
         <div class="general-description" onChange="saveStaticInfo('generalBiography')">
@@ -108,6 +110,12 @@
                 <div id="link"></div>
                 <div id="copy-button" onclick="copyLink()"></div>
             </div>
+        </div>
+    </div>
+
+    <div id="send-popup" class="general-popup close">
+        <div class="popup-content send-popup">
+            <button class="button-style">Отправить информаицю</button>
         </div>
     </div>
 
