@@ -30,6 +30,9 @@
     </div>
 
     <div class="main-content">
+        <div id="phone-main-title">
+            Основная информация
+        </div>
         <div class="form-main-block">
             <div class="form-title">
                 <div>Основная информация</div>
@@ -45,11 +48,11 @@
             </form>
         </div>
 
-        <button id="avatar-photo-button" class="button-style" onclick="useInput('avatar-input')">Загурзить фотографию</button>
         <input type="file" id="avatar-input" class="photo-input" onchange="saveInputPhoto('avatar-input')"/>
         <div id="person-photo">
             <img id="person-img" src="" alt="Фотография">
         </div>
+        <button id="avatar-photo-button" class="button-style" onclick="useInput('avatar-input')">Загурзить фотографию</button>
 
         <div class="description-title general-title">Общее описание</div>
         <div class="general-description" onChange="saveStaticInfo('generalBiography')">
@@ -63,11 +66,11 @@
 
         <div id="map-block"></div>
 
-        <div class="button-block" style="left: 1vw">
+        <div class="button-block left-block">
             <button class="button-style" data-view="false" id="share-button" onclick="useLinkPopup()">Поделиться формой</button>
             <button class="button-style" onclick="usePhotoPopup(0, 'general')">Общие фотографии</button>
         </div>
-        <div class="button-block" style="left: 49vw">
+        <div class="button-block right-block">
             <button class="button-style" onclick="usePhotoPopup(0, 'year')">Фотографии этото года</button>
             <button class="button-style" onclick="sendAllInfo()">Отправить информацию</button>
         </div>

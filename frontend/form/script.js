@@ -55,7 +55,7 @@ async function startSite() {
     console.log("YearDict", YearDict);
 
     const parametrs = new URLSearchParams(window.location.search);
-    GeneralDict._token = parametrs.searchParams.get("token");
+    GeneralDict._token = parametrs.get("token");
 
     const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
     const data = await response_award.json()
@@ -97,7 +97,6 @@ async function startSite() {
 
 function prepareInfo() {
     if (!(GeneralDict.isInfoAdd)) {
-        GeneralDict._token = undefined
         GeneralDict.avatar = "media/person.jpg"
         GeneralDict.secondName = undefined
         GeneralDict.firstName = undefined
@@ -431,6 +430,7 @@ async function sendAllInfo() {
     }
 
     console.log(SendDict);
+    console.log(GeneralDict._token)
     const response = await fetch(`http://localhost:8000/api/check_token?token=${GeneralDict._token}`);
     const data = await response.json();
     if (!data) {
