@@ -180,13 +180,13 @@ async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
 
     
-    const response = await fetch('http://pummemory.pumibari.ru/api/create_token', {
+    const response = await fetch('http://localhost:8000/api/create_token', {
         method: 'POST'
     });
     const data = await response.json();
     
     const token = encodeURIComponent(data);
-    const url = `http://pummemory.pumibari.ru/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
+    const url = `http://localhost:8000/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
     
     const copyButton = document.getElementById('copy-button');
     copyButton.style.backgroundImage = "url('media/copy-icon.png')";

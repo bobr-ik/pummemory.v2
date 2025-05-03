@@ -104,6 +104,7 @@ async def insert_person(person=Body(...)):
     # print(person)
     data = json.loads(person)
     # pprint(person)
+    avatar = ''
     if data['avatar'] != '':
         avatar = Photo(image=data['avatar']).url
     person_general_photos = []
