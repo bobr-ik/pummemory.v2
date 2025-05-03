@@ -36,11 +36,14 @@ def format_message(message: User_info) -> str:
     images = []
     if message.avatar is not None:
         for img in message.avatar:
-            images.append(img)
+            if img != '':
+                images.append(img)
+    print(images)
     for info in message.years:
         if info.images != []:
             for elem in info.images:
-                images.append(elem)
+                if elem is not None:
+                    images.append(elem)
     return res_text, images
 
 
@@ -50,9 +53,12 @@ async def send_to_moderation(message: User_info):
     message = User_info(**message)
     u_id = message.id
     message, images = format_message(message)
-    media_group = [InputMediaPhoto(media=image) for image in images]
+    if images:
+        print(images)
+        media_group = [InputMediaPhoto(media=image) for image in images]
+        await bot.send_media_group(ADMIN_CHAT_ID, media=media_group)
     print(images)
-    await bot.send_media_group(ADMIN_CHAT_ID, media=media_group)
+    
     await bot.send_message(ADMIN_CHAT_ID, message, reply_markup=InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(text='Подтвердить', callback_data=User(action='confirm', p_id=u_id).pack()),
