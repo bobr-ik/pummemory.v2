@@ -84,31 +84,6 @@
 </body>
 </html>
 
-<script>
-	const swiperEl = document.querySelector('swiper-container');
-	const buttonEl = document.querySelector('button');
-	const all_slides = document.getElementsByTagName('swiper-slide')
-  
-	swiperEl.addEventListener('swiper-slidechange', (event) => {
-	  console.log('slide changed');
-  
-	  for(const elem of all_slides){
-		elem.onclick = null;
-	  }
-  
-	  prev = document.getElementsByClassName('swiper-slide-active')[0];
-	  prev.addEventListener('click', () => {
-		swiperEl.swiper.slidePrev();
-		console.log('aaaaa')
-	  });
-  
-	  now = document.getElementsByClassName('swiper-slide-next')[0];
-  
-	  console.log(now.innerHTML)
-	  change_year(now.innerHTML)
-  
-	});
-  </script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> <!-- FONT AWESOME LIB -->
@@ -126,3 +101,44 @@
 	let c = $("."+String(year))[0].getAttribute("class")
 	$("."+String(year))[0].setAttribute("class",c+" choosed")
 </script>
+<script>
+	const swiperEl = document.querySelector('swiper-container');
+	const buttonEl = document.querySelector('button');
+	const all_slides = document.getElementsByTagName('swiper-slide')
+	prev = swiperEl.swiper.slides[swiperEl.swiper.activeIndex];
+	prev.addEventListener('click', () => {
+		swiperEl.swiper.slidePrev();
+		console.log('AAAAAAAAAAAAAAAAAAAAAAA')
+	});
+
+	next = swiperEl.swiper.slides[swiperEl.swiper.activeIndex + 2]
+	console.log(next)
+	next.addEventListener('click', () => {
+		swiperEl.swiper.slideNext();
+	});
+  
+	swiperEl.addEventListener('swiper-slidechange', (event) => {
+	  console.log('slide changed');
+  
+	  for(const elem of all_slides){
+		elem.onclick = null;
+	  }
+  
+	  prev = swiperEl.swiper.slides[swiperEl.swiper.activeIndex];
+	  prev.addEventListener('click', () => {
+		swiperEl.swiper.slidePrev();
+		console.log('AAAAAAAAAAAAAAAAAAAAAAA')
+	  });
+
+	  next = swiperEl.swiper.slides[swiperEl.swiper.activeIndex + 2]
+	  console.log(next)
+	  next.addEventListener('click', () => {
+		swiperEl.swiper.slideNext();
+	  });
+  
+	  currentSlide = swiperEl.swiper.slides[swiperEl.swiper.activeIndex + 1];
+	  console.log('Current slide content:', currentSlide.innerHTML);
+	  change_year(currentSlide.innerHTML);
+  
+	});
+  </script>
