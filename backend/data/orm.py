@@ -102,7 +102,7 @@ class Orm:
         # print(token, 'random_token')
         # получение всех объектов токенов и проверка на существование и валидность
         async with async_session_factory() as session:
-            res = await session.execute(select(Tokens))
+            res = await session.execute(select(Tokens).where(Tokens.is_active))
             res = res.scalars().all()
             for tk in res:
                 if tk.check_token(token):
@@ -286,6 +286,12 @@ class Orm:
         async with async_session_factory() as session:
             await session.execute(update(Person).where(Person.id == id).values(status=Status.active))
             print('yep')
+            await session.commit()
+  
+    @staticmethod
+    async def invalidate_token(token: str):
+        async with async_session_factory() as session:
+            await session.execute(update(Tokens).where(Tokens._token == token).values(is_active=False))
             await session.commit()
 
     @staticmethod
