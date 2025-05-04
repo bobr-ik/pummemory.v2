@@ -143,31 +143,6 @@ async def insert_person(person=Body(...)):
     await send_to_moderation(person)
     return JSONResponse(status_code=200, content={'status': 'ok'})
 
-    # info_list = ['1940', '1940-cord', '1940-photo', '1941', '1941-cord', '1941-photo', '1942', '1942-cord', '1942-photo', '1943', '1943-cord', '1943-photo', '1944', '1944-cord', '1944-photo', '1945', '1945-cord', '1945-photo']
-    # true_info = []
-    # pprint(person['info'])
-    # for i in range(0, len(info_list), 3):
-    #     year_keys = info_list[i:i + 3]
-    #     year_info = {}
-    #     for key in year_keys:
-    # # print()
-    # pprint('true_info', true_info)
-    # print()
-    # # true_rewards = await Orm.get_rewards_from_list(person['awards'])
-    # true_person = Person(
-    #     avatar=person['avatar'],
-    #     name=person['name'],
-    #     description=person['description'] if 'description' in person else '',
-    #     rewards=person['info']['awards'] if 'awards' in person['info'] else [],
-    #     info=true_info
-    # )
-    # # avatar = await save_images(true_person.avatar)
-    # # true_person.avatar = avatar
-    # # for year in true_person.info:
-    # #     year.images = [await save_images(image) for image in year.images]
-    # # print(true_person)
-    # await Orm.insert_person(true_person)
-
 
 @app.get('/get_rewards')
 async def get_rewards():
@@ -178,4 +153,3 @@ async def get_rewards():
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
-    

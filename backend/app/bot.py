@@ -48,17 +48,12 @@ def format_message(message: User_info) -> str:
 
 
 async def send_to_moderation(message: User_info):
-    # prit(message)
-    print(message)
     message = User_info(**message)
     u_id = message.id
     message, images = format_message(message)
     if images:
-        print(images)
         media_group = [InputMediaPhoto(media=image) for image in images]
         await bot.send_media_group(ADMIN_CHAT_ID, media=media_group)
-    print(images)
-    
     await bot.send_message(ADMIN_CHAT_ID, message, reply_markup=InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(text='Подтвердить', callback_data=User(action='confirm', p_id=u_id).pack()),
@@ -69,7 +64,9 @@ async def send_to_moderation(message: User_info):
 
 @dp.callback_query(User.filter(F.action == 'confirm'))
 async def confirm(callback: CallbackQuery, callback_data: User):
-    await callback.message.edit_text(text=callback.message.text + '\n✅ Подтверждено', reply_markup=None)
+    await callback.message.edit_text(text=callback.message.text.replace('\n❌ Отклонено', '') + '\n✅ Подтверждено', reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text='Отклонить', callback_data=User(action='reject', p_id=callback_data.p_id).pack())]
+    ]))
     print(callback_data.p_id)
     await Orm.confirm_person(callback_data.p_id)
     await callback.answer()
@@ -77,7 +74,9 @@ async def confirm(callback: CallbackQuery, callback_data: User):
 
 @dp.callback_query(User.filter(F.action == 'reject'))
 async def reject(callback: CallbackQuery, callback_data: User):
-    await callback.message.edit_text(text=callback.message.text + '\n❌ Отклонено')
+    await callback.message.edit_text(text=callback.message.text.replace('\n✅ Подтверждено', '') + '\n❌ Отклонено', reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text='Подтвердить', callback_data=User(action='confirm', p_id=callback_data.p_id).pack())]
+    ]))
     await callback.answer()
     await Orm.reject_person(callback_data.p_id)
 
