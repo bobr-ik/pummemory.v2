@@ -984,7 +984,7 @@ li + li {
         flex-direction: row;
     
         border-radius: 10px;
-        border: 3px solid rgb(200, 200, 200);
+        border: 2px solid rgb(200, 200, 200);
     
         #link {
             margin: 0px 2%;

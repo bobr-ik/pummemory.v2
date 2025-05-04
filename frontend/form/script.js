@@ -215,10 +215,11 @@ function saveStaticInfo(key) {
     saveInfo("GeneralDict", GeneralDict);
 }
 
-function saveYearInfo(id = undefined) {
-    let info;
-    id === undefined ? indo = document.getElementById('yearBiography') : info = document.getElementById(id);
+function saveYearInfo(id) {
+    let info = document.getElementById(id);
+    // id === undefined ? indo = document.getElementById('yearBiography') : info = document.getElementById(id);
 
+    console.log(info)
     YearDict[GeneralDict._year]['description'] = info.value;
 
     YearDict.isInfoAdd = true
