@@ -109,16 +109,16 @@ function createMap() {
 
 function addMarker(map, location) {
     let icon = L.icon({
-		iconUrl      : '../src/star.svg',
-		shadowUrl    : '../src/shadow.png',
+        iconUrl: '../src/star.svg',
+        shadowUrl: '../src/shadow.png',
 
-		iconSize     : [30,30],
-		iconAnchor   : [15,15],
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
 
-		shadowSize   : [60,60],
-		shadowAnchor : [30,30],
+        shadowSize: [60, 60],
+        shadowAnchor: [30, 30],
     })
-    
+
     if (location == false) {
         document.getElementById('map').style.display = 'none';
         document.getElementById('description_by_years').style.gridTemplateColumns = '1fr';
@@ -130,30 +130,30 @@ function addMarker(map, location) {
 
     }
 
-	
+
     //create marker
-	let marker = L.marker( [location[0], location[1]],{icon:icon} );
-	marker.addTo(map);
+    let marker = L.marker([location[0], location[1]], { icon: icon });
+    marker.addTo(map);
 
-	//connect with shadow
-	if(marker._icon) marker._icon.shadow = marker._shadow;
+    //connect with shadow
+    if (marker._icon) marker._icon.shadow = marker._shadow;
 
-	//remove shadow
-	if(marker._shadow) {
-		marker._shadow.style.opacity    = '0';
-		marker._shadow.style.transition = '.8s';
-	}
+    //remove shadow
+    if (marker._shadow) {
+        marker._shadow.style.opacity = '0';
+        marker._shadow.style.transition = '.8s';
+    }
 
-	setTimeout(() => {
-		if (marker._icon && marker._shadow) {
-			marker._icon.addEventListener("mouseenter", () => {
-				marker._shadow.classList.add('shadow-visible');
-			});
-			marker._icon.addEventListener("mouseleave", () => {
-				marker._shadow.classList.remove('shadow-visible');
-			});
-		}
-	}, 0);
+    setTimeout(() => {
+        if (marker._icon && marker._shadow) {
+            marker._icon.addEventListener("mouseenter", () => {
+                marker._shadow.classList.add('shadow-visible');
+            });
+            marker._icon.addEventListener("mouseleave", () => {
+                marker._shadow.classList.remove('shadow-visible');
+            });
+        }
+    }, 0);
     return marker
 }
 
@@ -305,8 +305,8 @@ function create_avatar_slider(images) {
 
 
 
-async function get_Person(id){
-    const response = await fetch(`http://127.0.0.1:8000/user_info?id=${id}`);
+async function get_Person(id) {
+    const response = await fetch(`http://pummemory.pumibari.ru/api/user_info?id=${id}`);
     personData = await response.json();
     console.log(personData)
     return personData
@@ -316,7 +316,7 @@ async function get_Person(id){
 async function initPage() {
     const { year_from_url } = getUrlParams();
     const { id } = getUrlParams();
-    
+
 
     name_elem = document.getElementById('name');
     avatar_elem = document.getElementById('avatar_slider');
@@ -331,7 +331,7 @@ async function initPage() {
     name_elem.textContent = personData.name;
 
     if (!personData.avatar) personData.avatar = ['../src/no_photo.png'];
-    
+
     if (!Array.isArray(personData.avatar)) {
         personData.avatar = [personData.avatar];
     }
@@ -350,52 +350,52 @@ async function initPage() {
         rewards_elem.appendChild(reward_elem);
     });
 
-    const map = createMap();  
+    const map = createMap();
     year_buttons = []
     let marker = null
 
     personData.years.sort((a, b) => parseInt(a.year) - parseInt(b.year))
         .forEach(year => {
-        const year_button = document.createElement('button');
-        year_button.textContent = year.year;
-        year_button.classList.add('year_button');
-        year_buttons.push(year_button);
-        year.location = year.location.split(" ").map(Number);
-        
+            const year_button = document.createElement('button');
+            year_button.textContent = year.year;
+            year_button.classList.add('year_button');
+            year_buttons.push(year_button);
+            year.location = year.location.split(" ").map(Number);
 
 
-        if (year.year === year_from_url) {
-            activated = year_button
-            marker = addMarker(map, year.location);
-            if (year.location != false) {
-                map.setView( [ year.location[0], year.location[1] ] );
-            }
-            year_button.classList.add('active');
-            year_description_elem.textContent = year.story;
-            create_slider(year.images);
-        }
-        year_button.addEventListener('click', () => {
-            console.log(year)
-            year_button.classList.add('active');
-            year_buttons.forEach(button => {
-                if (button !== year_button) {
-                    button.classList.remove('active');
+
+            if (year.year === year_from_url) {
+                activated = year_button
+                marker = addMarker(map, year.location);
+                if (year.location != false) {
+                    map.setView([year.location[0], year.location[1]]);
                 }
-            })
-            if(marker) marker.remove();
-            marker = addMarker(map, year.location);
-            if (year.location != false) {
-                map.setView( [ year.location[0], year.location[1] ] );
+                year_button.classList.add('active');
+                year_description_elem.textContent = year.story;
+                create_slider(year.images);
             }
-            year_description_elem.textContent = year.story;
-            photo_slider_elem.innerHTML = '';
-            create_slider(year.images);
+            year_button.addEventListener('click', () => {
+                console.log(year)
+                year_button.classList.add('active');
+                year_buttons.forEach(button => {
+                    if (button !== year_button) {
+                        button.classList.remove('active');
+                    }
+                })
+                if (marker) marker.remove();
+                marker = addMarker(map, year.location);
+                if (year.location != false) {
+                    map.setView([year.location[0], year.location[1]]);
+                }
+                year_description_elem.textContent = year.story;
+                photo_slider_elem.innerHTML = '';
+                create_slider(year.images);
+            });
+            timeline_elem.appendChild(year_button);
         });
-        timeline_elem.appendChild(year_button);
-    });
 
 
-    
+
 
 }
 
