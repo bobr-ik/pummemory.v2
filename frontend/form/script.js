@@ -432,12 +432,15 @@ async function sendAllInfo() {
     console.log(SendDict);
     console.log(GeneralDict._token)
     const response = await fetch(`http://localhost:8000/api/check_token?token=${GeneralDict._token}`);
-    const data = await response.json();
+    var data = await response.json();
     if (!data) {
         alert('В доступе отказано, проверьте ссылку');
     } else {
         const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
         data = await response.json();
+    }
+    if (data.status === 'error'){
+        alert(data.message)
     }
     
 }

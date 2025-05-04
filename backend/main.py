@@ -1,6 +1,6 @@
 import json
 from pprint import pprint
-from fastapi import Body, FastAPI
+from fastapi import Body, FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 import uvicorn
@@ -18,6 +18,11 @@ from app.bot import send_to_moderation, bot, dp
 #     # image_base64 = base64.b64encode(image).decode("utf-8")
 #     # image.img_del = resp.json().data.delete_url
 
+
+class MyException(Exception):
+    def __init__(self, status_code: int, message: str):
+        self.status_code = status_code
+        self.message = message
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -53,14 +58,13 @@ app.add_middleware(
 )
 
 
-@app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request, exc):
-    print(exc)
+@app.exception_handler(MyException)
+async def validation_exception_handler(request, exc: MyException):
     return JSONResponse(
         {
             "status": "error",
-            "message": "Ошибка в данных запроса."
-        }, status_code=400)
+            "message": f"{exc.message}"
+        }, status_code=exc.status_code)
 
 
 @app.post('/create_token')
@@ -104,6 +108,8 @@ async def insert_person(person=Body(...)):
     # await Orm.insert_temporary_person(person)
     # print(person)
     data = json.loads(person)
+    if data['name'] == '':
+        raise MyException(status_code=400, message='Необходимо указать имя человека.')
     # pprint(person)
     avatar = ''
     if data['avatar'] != '':
