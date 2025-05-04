@@ -266,6 +266,10 @@ textarea {
     background-color: rgb(220, 220, 220);
 }
 
+#phone-general-photo-button {
+    display: none;
+}
+
 #avatar-photo-button {
     position: static;
 
@@ -733,6 +737,10 @@ li + li {
         align-items: center;
     }
 
+    #main-form input {
+        height: 50px;
+    }
+
     .choices {
         position: static !important;
         left: 0 !important;
@@ -775,7 +783,7 @@ li + li {
         transform: translateX(-10px);
         width: 90%;
         left: 0%;
-        height: 20vh;
+        height: 200px;
         margin: 10px;
     }
 
@@ -803,6 +811,11 @@ li + li {
     /* Блок с годовой ин-фой просто удаляется, все будет подниматься через js */
     .year-description, .year-title, #map-block, #year-button-block {
         display: none;
+    }
+
+    #phone-general-photo-button {
+        display: block;
+        position: static;
     }
 
     .phone-button-block {
@@ -905,10 +918,6 @@ li + li {
     }
 
     /* Блок с popup */    
-    #popup-photo-button {
-        height: 0;
-    }
-
     .link-popup {
         left: 5vw;
         width: 90vw;
