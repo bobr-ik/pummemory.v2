@@ -1,6 +1,6 @@
 .nav-bar {
   padding: 20px;
-  position: absolute;
+  position: relative;
   z-index: 4999 ;
 }
 
@@ -12,6 +12,7 @@
   box-shadow: none;
   transition: .4s ;
   overflow: hidden;
+  position: relative;
 }
 
 .search-box:hover {
@@ -20,7 +21,7 @@
 
 .search-txt {
     border: none;
-    width: 400px;
+    width: calc(100% - 60px);
     padding: 0;
     height: 40px;
     background: white;
@@ -30,13 +31,13 @@
 }
 
 .search-btn {
-    position: relative;
+    position: absolute;
     color: black;
     font-size: 20px;
     width: 40px;
     height: 40px;
     padding: 10px;
-    float: right;
+    right: 0;
     background: white;
     outline: none;
     border: none;
@@ -60,28 +61,54 @@
 /*HINTS*/
 
 .hints {
-    width:100%;
+    width:fit-content !important;
     height:160px;
     overflow-y: scroll;
     overflow-x: hidden ;
     display: none;
+    max-width: 90vw;
+
 }
 
 .hints ul {
     margin:0;
     text-decoration: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .hints ul li {
     list-style-type: none;
     font-size: 17px;
-    padding: 10px 0px;
+    padding: 10px 20px;
     background: white;
-    padding-left: 20px;
+    display: inline-block;
+    justify-self: stretch;
 }
 
 .hints ul li:hover {
     background: rgb( 200,200,200 ) ;
     cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+    .search-box{
+        width: 90vw;
+    }
+
+    .nav-bar{
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100vw;
+    }
+
+    .hints{
+        position: absolute;
+        top: calc(40px + 10px);
+        width: auto;
+        left: 5vw;
+    }
 }

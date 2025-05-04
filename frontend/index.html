@@ -2,21 +2,19 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>ПУМ</title>
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> <!-- LEAFLET STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/style.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/map.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/search-box.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/timeline.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/social-bar.css"> <!-- OUR STYLES -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> <!-- FONT AWESOME LIB -->
-	<script src="./src/jquery.min.js"></script> <!-- JQUERY -->
-	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-	<script src="https://unpkg.com/leaflet-providers@1.13.0/leaflet-providers.js"></script> <!-- LEAFLET MAP LIB -->
+	
 
 	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
-	<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 </head>
 <body>
 	<script>
@@ -24,24 +22,6 @@
 		year_from_url = url_params.get('year')
 
 		year = year_from_url ? Math.min(Math.max(parseInt(year_from_url, 10), 1940), 1945) : 1940
-		
-		// data = [
-        //         {name: 'Тарасова', surname: 'Маргарита', patronymic: 'Викторовна', location: '48.7792833 132.8625016', img_url: './src/photo.jpg', visible: true, id: '5'},
-        //         {name: 'Кондратьев', surname: 'Иван', patronymic: '', location: '48.7792833 132.8625016', img_url: './src/photo.jpg', visible: true, id: '6'}, 
-        //         {name: 'Ширяев', surname: 'Иван', patronymic: 'Иванович', location: '51.4753593 46.0897162', img_url: './src/photo.jpg', visible: true, id: '7'},
-        //         {name: 'Туберозов', surname: 'Никалай', patronymic: 'Ленинград)', location: '59.939226 29.534304', img_url: './src/photo.jpg', visible: true, id: '8'},
-        //         {name: 'Семенов', surname: 'Иван', patronymic: 'Иванович', location: '55.5815245 36.8251381', img_url: './src/photo.jpg', visible: true, id: '9'},
-        //         {name: 'Борисов', surname: 'Семен', patronymic: 'Георгиевич', location: '49.327553 42.0594664', img_url: './src/photo.jpg', visible: true, id: '17'},
-        //         {name: 'Макарова', surname: 'Зоя', patronymic: 'Николаевна', location: '55.1481091 59.6226577', img_url: './src/photo.jpg', visible: true, id: '20'},
-        //         {name: 'Пахомов', surname: 'Александр', patronymic: 'Егорович', location: '55.7539333 37.6186063', img_url: './src/photo.jpg', visible: true, id: '22'},
-        //         {name: 'Орлов', surname: 'Виктор', patronymic: 'Александрович', location: '43.0293616 44.5916733', img_url: './src/photo.jpg', visible: true, id: '24'},
-        //         {name: 'Адикаев', surname: 'Фатих', patronymic: 'Саддыкович', location: '54.2937181 44.9614606', img_url: './src/photo.jpg', visible: true, id: '26'},
-        //         {name: 'Панферов', surname: 'Аким', patronymic: 'Яковлевич', location: '53.4904639 40.4852227', img_url: './src/photo.jpg', visible: true, id: '30'},
-        //         {name: 'Вербицкий', surname: 'Пётр', patronymic: 'Андреевич', location: '44.9442637 42.1594563', img_url: './src/photo.jpg', visible: true, id: '37'},
-        //         {name: 'Муркин', surname: 'Алексей', patronymic: 'Иванович', location: '55.7024151 78.1737926', img_url: './src/photo.jpg', visible: true, id: '39'},
-        //         {name: 'Дунаевский', surname: 'Константин', patronymic: 'Дмитриевич', location: '45.1856351 78.0016422', img_url: './src/photo.jpg', visible: true, id: '42'}
-        //         ]
-		
 	</script>
 
 	<div class="social-bar">
@@ -50,12 +30,6 @@
 		<a target="_blank" href="https://preduniversariy.mai.ru/" class="google"><i class="fab fa-google"></i></a> 
 	</div>
 
-	
-	<script src="./JS/functions.js"></script>
-
-	<script>
-		
-	</script>
 	<div id="main"> <!-- Main group -->
 		<div id="map"></div>
 		<div id="timeline"> <!-- Years below -->
@@ -71,7 +45,7 @@
   				</ul>
 			</div>
 		</div>
-		<script src="./JS/map.js"></script>
+		
 		<div class="nav-bar"> <!-- SEARCH -->
 			<div class="search-box">
 				<input class="search-txt" type="text" placeholder="поиск...">
@@ -83,16 +57,65 @@
 				<ul>
 				</ul>
 			</div>
-			<script src="./JS/search.js"></script>
-			<script src="./JS/bubble_click.js"></script>
+			
 		</div>
 	</div>
+	
+	<swiper-container slides-per-view="3" speed="500" css-mode="true" events-prefix="swiper-" class="mobile_slider">
+		<swiper-slide> </swiper-slide>
+		<swiper-slide>1940</swiper-slide>
+		<swiper-slide>1941</swiper-slide>
+		<swiper-slide>1942</swiper-slide>
+		<swiper-slide>1943</swiper-slide>
+		<swiper-slide>1944</swiper-slide>
+		<swiper-slide>1945</swiper-slide>
+		<swiper-slide> </swiper-slide>
+	</swiper-container>
 
-	<script>
-	    let c = $("."+String(year))[0].getAttribute("class")
-        $("."+String(year))[0].setAttribute("class",c+" choosed")
-	</script>
+	
 
-	<script src="./JS/code.js"></script>
 </body>
 </html>
+
+<script>
+	const swiperEl = document.querySelector('swiper-container');
+	const buttonEl = document.querySelector('button');
+	const all_slides = document.getElementsByTagName('swiper-slide')
+  
+	swiperEl.addEventListener('swiper-slidechange', (event) => {
+	  console.log('slide changed');
+  
+	  for(const elem of all_slides){
+		elem.onclick = null;
+	  }
+  
+	  prev = document.getElementsByClassName('swiper-slide-active')[0];
+	  prev.addEventListener('click', () => {
+		swiperEl.swiper.slidePrev();
+		console.log('aaaaa')
+	  });
+  
+	  now = document.getElementsByClassName('swiper-slide-next')[0];
+  
+	  console.log(now.innerHTML)
+	  change_year(now.innerHTML)
+  
+	});
+  </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> <!-- FONT AWESOME LIB -->
+<script src="./src/jquery.min.js"></script> <!-- JQUERY -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-providers@1.13.0/leaflet-providers.js"></script> <!-- LEAFLET MAP LIB -->
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+<script src="./JS/functions.js"></script>
+<script src="./JS/map.js"></script>
+<script src="./JS/search.js"></script>
+<script src="./JS/bubble_click.js"></script>
+<script src="./JS/code.js"></script>
+<script>
+	let c = $("."+String(year))[0].getAttribute("class")
+	$("."+String(year))[0].setAttribute("class",c+" choosed")
+</script>

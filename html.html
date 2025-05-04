@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
+
+<style>
+  swiper-container{
+    height: 20vh;
+    transform: translateY(-200px);
+  }
+
+  swiper-slide{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+  .swiper-slide-next{
+    font-size: 10rem;
+  }
+
+</style>
+
+  <swiper-container slides-per-view="3" speed="500" css-mode="true" events-prefix="swiper-">
+    <swiper-slide> </swiper-slide>
+    <swiper-slide>1940</swiper-slide>
+    <swiper-slide>1941</swiper-slide>
+    <swiper-slide>1942</swiper-slide>
+    <swiper-slide>1943</swiper-slide>
+    <swiper-slide>1944</swiper-slide>
+    <swiper-slide>1945</swiper-slide>
+    <swiper-slide> </swiper-slide>
+  </swiper-container>
+
+<script>
+  const swiperEl = document.querySelector('swiper-container');
+  const buttonEl = document.querySelector('button');
+  const all_slides = document.getElementsByTagName('swiper-slide')
+
+  swiperEl.addEventListener('swiper-slidechange', (event) => {
+    console.log('slide changed');
+
+    for(const elem of all_slides){
+      elem.onclick = null;
+    }
+
+    prev = document.getElementsByClassName('swiper-slide-active')[0];
+    prev.addEventListener('click', () => {
+      swiperEl.swiper.slidePrev();
+      console.log('aaaaa')
+    });
+
+    now = document.getElementsByClassName('swiper-slide-next')[0];
+
+    console.log(now.innerHTML)
+
+  });
+</script>
