@@ -104,7 +104,7 @@ async def get_user_info(id: str) -> User_info:
 
 
 @app.post('/insert_person')
-async def insert_person(person=Body(...)):
+async def insert_person(person=Body(...), token=Body(...)):
     # await Orm.insert_temporary_person(person)
     # print(person)
     data = json.loads(person)
@@ -145,6 +145,7 @@ async def insert_person(person=Body(...)):
             person.info.append(info)
     print(person)
     pers_id = await Orm.insert_person(person)
+    await Orm.invalidate_token(token)
     person = await Orm.get_person(pers_id)
     await send_to_moderation(person)
     return JSONResponse(status_code=200, content={'status': 'ok'})

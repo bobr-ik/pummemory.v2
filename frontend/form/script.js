@@ -521,7 +521,7 @@ async function sendAllInfo() {
     if (!data) {
         alert('В доступе отказано, проверьте ссылку');
     } else {
-        const response = await fetch('http://pummemory.pumibari.ru/api/insert_person', { method: 'POST', body: JSON.stringify(SendDict) });
+    const response = await fetch('http://pummemory.pumibari.ru/api/insert_person', { method: 'POST', body: JSON.stringify(SendDict) });
         data = await response.json();
     }
     if (data.status === 'error'){
