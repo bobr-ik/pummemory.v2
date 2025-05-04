@@ -83,7 +83,12 @@ async function startSite() {
     const isMark = await response.json();
 
     if (isMark) {
-        document.getElementById('share-button').dataset.view = true;
+        const width = window.screen.availWidth
+        if (width <= 900) {
+            document.getElementById('phone-share-button').dataset.view = true;
+        } else {
+            document.getElementById('share-button').dataset.view = true;
+        }
     }
 
     GeneralDict._year == undefined ? GeneralDict._year = 1940 : GeneralDict._year
@@ -92,11 +97,14 @@ async function startSite() {
 
     prepareInfo();
     addPhoto(GeneralDict.avatar);
-    mapWork();
+    if (window.screen.availWidth > 900) {
+        mapWork();
+    }
 }
 
 function prepareInfo() {
     if (!(GeneralDict.isInfoAdd)) {
+        GeneralDict._open = false
         GeneralDict.avatar = "media/person.jpg"
         GeneralDict.secondName = undefined
         GeneralDict.firstName = undefined
@@ -138,15 +146,60 @@ function prepareInfo() {
 }
 
 function changeYear(year) {
-    document.getElementById(GeneralDict._year).classList.remove('active-year');
-    document.getElementById(year).classList.add('active-year')
-    GeneralDict._year = year
-    saveInfo("GeneralDict", GeneralDict);
+    const width = window.screen.availWidth
+    if (width <= 900) {
+        const lastBlock = document.getElementById(`phone-${GeneralDict._year}`)
+        const children = Array.from(lastBlock.children);
 
-    // Запускаем все функции
-    prepareInfo();
-    addPhoto(GeneralDict.avatar);
-    mapWork();
+        for (let child of children) {
+            child.remove();
+        }
+        
+        if (GeneralDict._year === year && GeneralDict._open) {
+            GeneralDict._open = false;
+            GeneralDict._year = year;
+        } else {
+            GeneralDict._open = true;
+            const mainBlock = document.getElementById(`phone-${year}`);
+
+            const description = document.createElement('textarea');
+            description.classList.add('phone-year-biography');
+            description.id = `description-${year}`;
+            description.onchange = () => saveYearInfo(`description-${year}`);
+            if (YearDict[year]['description'] !== "") {
+                description.value = YearDict[year]['description'];
+            } else {
+                description.placeholder = 'События года'
+            }
+            mainBlock.appendChild(description)
+
+            const map = document.createElement('div')
+            map.classList.add('phone-map')
+            map.id = 'phone-map-block'
+            mainBlock.appendChild(map)
+
+            const button = document.createElement('button')
+            button.classList.add('button-style')
+            button.style = 'margin: 10px 0px'
+            button.innerHTML = 'Фотографии этого года';
+            button.onclick = () => usePhotoPopup(0, 'year');
+            mainBlock.appendChild(button)
+
+            //Подгружаем карту
+            GeneralDict._year = year;
+            mapWork();
+        }
+    } else {
+        document.getElementById(GeneralDict._year).classList.remove('active-year');
+        document.getElementById(year).classList.add('active-year')
+        GeneralDict._year = year
+        saveInfo("GeneralDict", GeneralDict);
+
+        // Запускаем все функции
+        prepareInfo();
+        addPhoto(GeneralDict.avatar);
+        mapWork();
+    }
 }
 
 function addPhoto(file) {
@@ -162,8 +215,10 @@ function saveStaticInfo(key) {
     saveInfo("GeneralDict", GeneralDict);
 }
 
-function saveYearInfo() {
-    const info = document.getElementById('yearBiography');
+function saveYearInfo(id = undefined) {
+    let info;
+    id === undefined ? indo = document.getElementById('yearBiography') : info = document.getElementById(id);
+
     YearDict[GeneralDict._year]['description'] = info.value;
 
     YearDict.isInfoAdd = true
@@ -172,7 +227,6 @@ function saveYearInfo() {
 
 async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
-
     
     const response = await fetch('http://localhost:8000/api/create_token', {
         method: 'POST'
@@ -332,9 +386,10 @@ function mapWork() {
 
     const coordsToUse = hasCoords ? [parseFloat(currentCoords.Lat), parseFloat(currentCoords.Lng)] : defaultCoords;
 
-    if (!map) {
-        map = L.map('map-block').setView(coordsToUse, zoom);
 
+    const width = window.screen.availWidth
+    if (width <= 900) {
+        map = L.map('phone-map-block').setView(coordsToUse, zoom)
         L.tileLayer(
             'https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=jFVHTIg2WK3xJlt5wfqJ7F41zVI76aPnnsvSD3Pm4pjbR1J2mpnmUEMyUFjWKQY8',
             {}
@@ -359,12 +414,40 @@ function mapWork() {
             saveInfo("YearDict", YearDict);
         });
     } else {
-        if (marker) {
-            map.removeLayer(marker);
-            marker = null;
-        }
+        if (!map) {
+            map = L.map('map-block').setView(coordsToUse, zoom);
 
-        map.setView(coordsToUse, zoom);
+            L.tileLayer(
+                'https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=jFVHTIg2WK3xJlt5wfqJ7F41zVI76aPnnsvSD3Pm4pjbR1J2mpnmUEMyUFjWKQY8',
+                {}
+            ).addTo(map);
+
+            map.on('click', function (e) {
+                const { lat, lng } = e.latlng;
+
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+
+                marker = L.marker([lat, lng], { icon }).addTo(map);
+
+                const Lat = lat.toFixed(2);
+                const Lng = lng.toFixed(2);
+
+                selectedCoords = { Lat, Lng };
+                YearDict[GeneralDict._year].cord = selectedCoords;
+
+                YearDict.isInfoAdd = true;
+                saveInfo("YearDict", YearDict);
+            });
+        } else {
+            if (marker) {
+                map.removeLayer(marker);
+                marker = null;
+            }
+
+            map.setView(coordsToUse, zoom);
+        }
     }
     if (hasCoords) {
         marker = L.marker(coordsToUse, { icon }).addTo(map);

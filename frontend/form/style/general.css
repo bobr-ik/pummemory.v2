@@ -8,6 +8,11 @@
     src: url(manual.ttf); 
 }
 
+@font-face {
+    font-family: 'phone-year';
+    src: url(phone-year.ttf);
+}
+
 #year-button-block {
     position: absolute;
     width: calc(43vw + 16px);
@@ -17,6 +22,10 @@
     border-radius: 10px;
     display: flex;
     flex-direction: row;
+}
+
+.phone-year-mainblock {
+    display: none;
 }
 
 #manual {
@@ -87,7 +96,7 @@
 .form-title {
     position: absolute;
     width: 100%;
-    top: 1vh;
+    top: 0.5vh;
     font-size: larger;
 
     font-family: Arial;
@@ -179,6 +188,10 @@
     top: 5vh;
     left: 49vw;
     width: calc(43vw + 3px);
+}
+
+input, textarea {
+    cursor: pointer;
 }
 
 textarea {
@@ -286,6 +299,10 @@ textarea {
     gap: 5px;
 }
 
+.phone-button-block {
+    display: none;
+}
+
 .left-block {
     left: 1vw;
 }
@@ -325,7 +342,7 @@ textarea {
 
 .avatar-photo-block {
     position: absolute;
-    top: calc(1vh + 10px);
+    top: calc(0.5vh + 10px);
     left: calc(1.5vw - 6px);
     width: calc(17vw - 10px);
     max-height: 45%;
@@ -365,6 +382,7 @@ textarea {
 
 .general-popup {
     position: fixed;
+    z-index: 10;
     top: 0;
     left: 0;
     width: 100vw;
@@ -779,6 +797,7 @@ li + li {
         width: 90%;
         height: auto;
         padding: 15px 0px;
+        margin: 5px 0px;
     }
 
     /* Блок с годовой ин-фой просто удаляется, все будет подниматься через js */
@@ -786,7 +805,7 @@ li + li {
         display: none;
     }
 
-    .button-block {
+    .phone-button-block {
         position: static;
         width: 100%;
         height: auto;
@@ -794,7 +813,11 @@ li + li {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        align-items: center
+        align-items: center;
+    }
+
+    .button-block {
+        display: none;
     }
 
     .left-block {
@@ -805,23 +828,103 @@ li + li {
         left: 1vw;
     }
 
+    /* Стилизация новых блоков для годов */
+    .phone-year-mainblock {
+        /* display: none; */
+        position: static;
+        width: 100%;
+        height: auto;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .phone-year-block {
+        position: relative;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .phone-year-content {
+        position: static;
+        width: 96%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .phone-year-button {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        width: 100%;
+        height: auto;
+        padding: 10px 0px;
+        text-align: center;
+
+        background-color: rgb(180, 180, 180);
+        color: white;
+        font-size: larger;
+        font-family: 'phone-year';
+        letter-spacing: 3px;
+
+        &:active {
+            opacity: 0.8;
+            transition: opacity 0.1s;
+        }
+    }
+
+    .phone-year-biography {
+        margin-top: 10px;
+        position: static;
+        width: 90%;
+        padding-top: 10px;
+        padding-left: 10px;
+        height: 100px;
+
+        border: 2px solid rgb(200, 200, 200);
+    }
+
+    .phone-map {
+        position: static;
+        width: 90%;
+        height: 300px;
+        z-index: 1;
+
+        border-radius: 10px;
+        border: 3px solid rgb(200, 200, 200);
+    }
+
     /* Блок с popup */    
+    #popup-photo-button {
+        height: 0;
+    }
+
     .link-popup {
         left: 5vw;
         width: 90vw;
-        height: 80vh;
+        height: 70vh;
     }
     
     .photo-popup {
         left: 5vw;
         width: 90vw;
-        height: 90vh;
+        height: 70vh;
     }
     
     .manual-popup {
         left: 10vw;
         width: 80vw;
-        height: 80vh;
+        height: 70vh;
     }
     
     .send-popup {
@@ -839,8 +942,8 @@ li + li {
         height: 50vw;
         border-radius: 5px;
         text-align: center;
-        display: flex
-;
+        display: flex;
+
         flex-direction: column;
         justify-content: center;
     }
@@ -995,5 +1098,9 @@ li + li {
     
     li + li {
         margin-top: 15px;
+    }
+
+    .choices__list--dropdown, .choices__list[aria-expanded] {
+        left: 0.1px !important;
     }
 }

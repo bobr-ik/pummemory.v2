@@ -61,6 +61,33 @@
             <textarea id="generalBiography" placeholder="Общее описание"></textarea>
         </div>
 
+        <div class="phone-year-mainblock">
+            <div class="phone-year-block">
+                <div class="phone-year-button" onclick="changeYear('1940')">1940</div>
+                <div class="phone-year-content" id="phone-1940"></div>
+            </div>
+            <div class="phone-year-block">
+                <div class="phone-year-button" onclick="changeYear('1941')">1941</div>
+                <div class="phone-year-content" id="phone-1941"></div>
+            </div>
+            <div class="phone-year-block">
+                <div class="phone-year-button" onclick="changeYear('1942')">1942</div>
+                <div class="phone-year-content" id="phone-1942"></div>
+            </div>
+            <div class="phone-year-block">
+                <div class="phone-year-button" onclick="changeYear('1943')">1943</div>
+                <div class="phone-year-content" id="phone-1943"></div>
+            </div>
+            <div class="phone-year-block">
+                <div class="phone-year-button" onclick="changeYear('1944')">1944</div>
+                <div class="phone-year-content" id="phone-1944"></div>
+            </div>
+            <div class="phone-year-block">
+                <div class="phone-year-button" onclick="changeYear('1945')">1945</div>
+                <div class="phone-year-content" id="phone-1945"></div>
+            </div>
+        </div>
+
         <div class="description-title year-title">События года</div>
         <div class="year-description" onChange="saveYearInfo()">
             <textarea id="yearBiography" placeholder="События года"></textarea>
@@ -74,6 +101,11 @@
         </div>
         <div class="button-block right-block">
             <button class="button-style" onclick="usePhotoPopup(0, 'year')">Фотографии этото года</button>
+            <button class="button-style" onclick="sendAllInfo()">Отправить информацию</button>
+        </div>
+
+        <div class="phone-button-block">
+            <button class="button-style" data-view="false" id="phone-share-button" onclick="useLinkPopup()">Поделиться формой</button>
             <button class="button-style" onclick="sendAllInfo()">Отправить информацию</button>
         </div>
     </div>
