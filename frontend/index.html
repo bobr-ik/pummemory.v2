@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="./CSS/timeline.css"> <!-- OUR STYLES -->
 	<link rel="stylesheet" type="text/css" href="./CSS/social-bar.css"> <!-- OUR STYLES -->
 	
+	
 
 	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
@@ -23,6 +24,12 @@
 
 		year = year_from_url ? Math.min(Math.max(parseInt(year_from_url, 10), 1940), 1945) : 1940
 	</script>
+
+	<style>
+		body {
+			padding-bottom: env(safe-area-inset-bottom); /* Автоматический отступ */
+		}
+	</style>
 
 	<div class="social-bar">
 		<a target="_blank" href="https://vk.com/preduniversariymai" class="facebook"><i class="fab fa-vk"></i></a> 

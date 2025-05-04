@@ -64,7 +64,7 @@ body, html {
 
 swiper-container{
 	height: 15vh;
-	transform: translateY(-100%);
+	transform: translateY(calc(-100% - env(safe-area-inset-bottom)));
 	z-index: 1000;
 }
 
