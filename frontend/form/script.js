@@ -57,7 +57,7 @@ async function startSite() {
     const parametrs = new URLSearchParams(window.location.search);
     GeneralDict._token = parametrs.get("token");
 
-    const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
+    const response_award = await fetch(`http://pummemory.pumibari.ru/api/get_rewards`)
     const data = await response_award.json()
 
     const award = document.getElementById('awards');
@@ -79,7 +79,7 @@ async function startSite() {
         setTimeout(() => startChoices(), 0)
     }
 
-    const response = await fetch(`http://localhost:8000/api/check_token_if_admin?token=${GeneralDict._token}`);
+    const response = await fetch(`http://pummemory.pumibari.ru/api/check_token_if_admin?token=${GeneralDict._token}`);
     const isMark = await response.json();
 
     if (isMark) {
@@ -106,13 +106,13 @@ function prepareInfo() {
         GeneralDict.awards = []
         GeneralDict.photo = []
         saveInfo("GeneralDict", GeneralDict)
-    } 
+    }
     else {
         addPhoto(GeneralDict.avatar)
 
         document.querySelectorAll('#main-form input').forEach((input, index) => {
             const nameList = ['secondName', 'firstName', 'thirdName']
-            const nameDict = {secondName: 'Фамилия', firstName: 'Имя', thirdName: 'Отчество'}
+            const nameDict = { secondName: 'Фамилия', firstName: 'Имя', thirdName: 'Отчество' }
             GeneralDict[nameList[index]] === undefined ? input.placeholder = nameDict[nameList[index]] : input.value = GeneralDict[nameList[index]]
         });
 
@@ -173,15 +173,15 @@ function saveYearInfo() {
 async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
 
-    
-    const response = await fetch('http://localhost:8000/api/create_token', {
+
+    const response = await fetch('http://pummemory.pumibari.ru/api/create_token', {
         method: 'POST'
     });
     const data = await response.json();
-    
+
     const token = encodeURIComponent(data);
-    const url = `http://localhost:8000/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
-    
+    const url = `http://pummemory.pumibari.ru/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
+
     const copyButton = document.getElementById('copy-button');
     copyButton.style.backgroundImage = "url('media/copy-icon.png')";
 
@@ -191,7 +191,7 @@ async function useLinkPopup() {
     link.href = url;
     link.textContent = url;
     link.id = 'copy-link'
-    
+
     if (document.getElementById('copy-link') == undefined) {
         document.getElementById('link').appendChild(link);
     }
@@ -249,7 +249,7 @@ function closePopup(id) {
     }
 }
 
-function useInput(id, key=undefined) {
+function useInput(id, key = undefined) {
     const input = document.getElementById(id);
     if (key !== undefined) {
         input.dataset.key = key
@@ -259,12 +259,12 @@ function useInput(id, key=undefined) {
 
 function saveInputPhoto(key) {
     let input;
-    key === 'avatar-input' ? input = document.getElementById(key) : input = document.getElementById('popup-photo-input');   
+    key === 'avatar-input' ? input = document.getElementById(key) : input = document.getElementById('popup-photo-input');
     const file = input.files[0];
 
     if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
-        
+
         reader.onload = function (e) {
             adress = e.target.result
 
@@ -295,7 +295,7 @@ function saveInputPhoto(key) {
                 usePhotoPopup(1, key)
             }
         };
-        
+
         reader.readAsDataURL(file);
     }
 }
@@ -421,7 +421,7 @@ async function sendAllInfo() {
     delete YearDict['isInfoAdd'];
 
     const SendDict = {
-        name: name, 
+        name: name,
         desc: GeneralDict.generalBiography === undefined ? "" : GeneralDict.generalBiography,
         avatar: GeneralDict.avatar === 'media/person.jpg' ? "" : GeneralDict.avatar,
         photo: GeneralDict.photo.length === 0 ? "" : GeneralDict.photo,
@@ -431,12 +431,12 @@ async function sendAllInfo() {
 
     console.log(SendDict);
     console.log(GeneralDict._token)
-    const response = await fetch(`http://localhost:8000/api/check_token?token=${GeneralDict._token}`);
-    var data = await response.json();
+    const response = await fetch(`http://pummemory.pumibari.ru/api/check_token?token=${GeneralDict._token}`);
+    const data = await response.json();
     if (!data) {
         alert('В доступе отказано, проверьте ссылку');
     } else {
-        const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
+        const response = await fetch('http://pummemory.pumibari.ru/api/insert_person', { method: 'POST', body: JSON.stringify(SendDict) });
         data = await response.json();
     }
     if (data.status === 'error'){
