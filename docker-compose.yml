@@ -1,35 +1,35 @@
 services:
-  nginx:
-    image: nginx:stable-alpine
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf  # Путь к конфигурации для проксирования
-    depends_on:
-      - backend
-    networks:
-      - dev
+  # nginx:
+  #   image: nginx:stable-alpine
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf  # Путь к конфигурации для проксирования
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - dev
   
-  db:
-    image: mysql:8.0
-    container_name: db
-    restart: always
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 10s
-      retries: 10
-    environment: #TODO upd to .env
-      MYSQL_ROOT_PASSWORD: ${password}
-      MYSQL_DATABASE: ${db}
-      MYSQL_USER: ${user}
-      MYSQL_PASSWORD: ${password}
-    ports:
-      - "127.0.0.1:3307:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - dev
+  # db:
+  #   image: mysql:8.0
+  #   container_name: db
+  #   restart: always
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+  #     interval: 5s
+  #     timeout: 10s
+  #     retries: 10
+  #   environment: #TODO upd to .env
+  #     MYSQL_ROOT_PASSWORD: ${password}
+  #     MYSQL_DATABASE: ${db}
+  #     MYSQL_USER: ${user}
+  #     MYSQL_PASSWORD: ${password}
+  #   ports:
+  #     - "127.0.0.1:3307:3306"
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #   networks:
+  #     - dev
 
   backend:
     build: ./backend
@@ -45,11 +45,8 @@ services:
       TOKEN: ${TOKEN}
       ADMIN_CHAT_ID: ${ADMIN_CHAT_ID}
       ADMIN_TOKEN: ${ADMIN_TOKEN}
-    depends_on:
-      db:
-        condition: service_healthy
     ports:
-      - "127.0.0.1:8000:8000"
+      - "8000:8000"
     networks: 
       - dev
 
@@ -59,7 +56,7 @@ services:
     restart: always
     build: ./frontend
     ports:
-      - "127.0.0.1:8001:8001"
+      - "8001:8001"
     networks:
       - dev
 
@@ -67,5 +64,3 @@ networks:
   dev:
     driver: bridge
 
-volumes:
-  mysql-data:
