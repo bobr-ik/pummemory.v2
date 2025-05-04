@@ -64,7 +64,7 @@ body, html {
 
 swiper-container{
 	height: 15vh;
-	transform: translateY(calc(-200% - env(safe-area-inset-bottom)));
+	transform: translateY(calc(-150% - env(safe-area-inset-bottom)));
 	z-index: 1000;
 }
 
@@ -73,7 +73,8 @@ swiper-slide{
 	align-items: center;
 	justify-content: center;
 	font-size: 5vw;
-	color: rgb(207, 207, 207)
+	color: rgb(207, 207, 207);
+	font-weight: bold;
 	
 }
 .swiper-slide-next{
