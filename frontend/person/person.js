@@ -168,16 +168,16 @@ function create_slider(images) {
     const nextBtn = document.getElementById('nextBtn');
 
     slider.innerHTML = '';
+    slider_new = document.getElementById('photo_slider_wrapper');
+    description = document.getElementById('year_description');
+    
     if (images.length == 0) {
-        slider_new = document.getElementById('photo_slider_wrapper');
         slider_new.style.display = 'none';
-
-        description = document.getElementById('year_description');
         description.style.width = 'auto';
-
         return;
     }
-    slider.style.display = 'block';
+    slider_new.style.display = 'block';
+    description.style.width = '60%';
 
 
     // Добавляем изображения в слайдер
