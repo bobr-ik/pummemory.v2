@@ -241,11 +241,11 @@ function create_avatar_slider(images) {
     const prevBtn = document.getElementById('prevBtn_avatar');
     const nextBtn = document.getElementById('nextBtn_avatar');
 
-    slider.innerHTML = '';
     if (images.length == 0) {
-        slider.style.display = 'none';
+        // slider.style.display = 'none';
         return;
     }
+    slider.innerHTML = '';
     slider.style.display = 'block';
 
 
