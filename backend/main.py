@@ -14,6 +14,7 @@ from app.models import Photo, Points, User_info, Person, Info
 # from config import settings
 from data import settings
 from app.bot import send_to_moderation, bot, dp
+from pydantic import BaseModel
 # async def save_images(image: Photo):
 #     # image_base64 = base64.b64encode(image).decode("utf-8")
 #     # image.img_del = resp.json().data.delete_url
@@ -23,6 +24,7 @@ class MyException(Exception):
     def __init__(self, status_code: int, message: str):
         self.status_code = status_code
         self.message = message
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -104,10 +106,11 @@ async def get_user_info(id: str) -> User_info:
 
 
 @app.post('/insert_person')
-async def insert_person(person=Body(...), token=Body(...)):
+async def insert_person(person):
     # await Orm.insert_temporary_person(person)
     # print(person)
     data = json.loads(person)
+    token = data['token']
     if data['name'] == '':
         raise MyException(status_code=400, message='Необходимо указать имя человека.')
     # pprint(person)

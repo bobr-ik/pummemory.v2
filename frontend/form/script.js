@@ -511,6 +511,7 @@ async function sendAllInfo() {
         photo: GeneralDict.photo.length === 0 ? "" : GeneralDict.photo,
         info: YearDict,
         awards: awards,
+        token: GeneralDict._token
     }
 
     console.log(SendDict);
@@ -520,7 +521,7 @@ async function sendAllInfo() {
     if (!data) {
         alert('В доступе отказано, проверьте ссылку');
     } else {
-    const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify({'person': SendDict, 'token': GeneralDict._token})});
+    const response = await fetch('http://localhost:8000/api/insert_person', {method: 'POST', body: JSON.stringify(SendDict)});
         data = await response.json();
     }
     if (data.status === 'error'){
