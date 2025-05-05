@@ -512,6 +512,7 @@ async function sendAllInfo() {
         photo: GeneralDict.photo.length === 0 ? "" : GeneralDict.photo,
         info: YearDict,
         awards: awards,
+        token: GeneralDict._token
     }
 
     console.log(SendDict);
