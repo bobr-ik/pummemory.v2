@@ -287,11 +287,15 @@ class Orm:
             await session.execute(update(Person).where(Person.id == id).values(status=Status.active))
             print('yep')
             await session.commit()
-  
+
     @staticmethod
     async def invalidate_token(token: str):
         async with async_session_factory() as session:
-            await session.execute(update(Tokens).where(Tokens._token == token).values(is_active=False))
+            res = await session.execute(select(Tokens).where(Tokens.is_active))
+            res = res.scalars().all()
+            for tk in res:
+                if tk.check_token(token) and not tk.is_admin:
+                    tk.is_active = False
             await session.commit()
 
     @staticmethod
