@@ -106,7 +106,7 @@ async def get_user_info(id: str) -> User_info:
 
 
 @app.post('/insert_person')
-async def insert_person(person):
+async def insert_person(person=Body(...)):
     # await Orm.insert_temporary_person(person)
     # print(person)
     data = json.loads(person)
