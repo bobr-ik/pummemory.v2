@@ -154,7 +154,7 @@ function changeYear(year) {
         for (let child of children) {
             child.remove();
         }
-
+        
         if (GeneralDict._year === year && GeneralDict._open) {
             GeneralDict._open = false;
             GeneralDict._year = year;
@@ -228,7 +228,6 @@ function saveYearInfo(id) {
 
 async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
-    const BASE_URL = 'https://pummemory.pumibari.ru'; // Без порта!
 
 
     const response = await fetch('https://pummemory.pumibari.ru/api/create_token', {
@@ -237,7 +236,7 @@ async function useLinkPopup() {
     const data = await response.json();
 
     const token = encodeURIComponent(data);
-    const url = `${BASE_URL}/form?token=${token}&year=1940`;; //TODO заменить на домен и добавить qr
+    const url = `https://pummemory.pumibari.ru/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
 
     const copyButton = document.getElementById('copy-button');
     copyButton.style.backgroundImage = "url('media/copy-icon.png')";
@@ -526,8 +525,8 @@ async function sendAllInfo() {
         const response = await fetch('https://pummemory.pumibari.ru/api/insert_person', { method: 'POST', body: JSON.stringify(SendDict) });
         data = await response.json();
     }
-    if (data.status === 'error') {
+    if (data.status === 'error'){
         alert(data.message)
     }
-
+    
 }
