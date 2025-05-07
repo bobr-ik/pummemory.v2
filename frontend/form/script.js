@@ -46,6 +46,10 @@ document.getElementById('manual').addEventListener('click', () => {
     document.getElementById('manual-popup').classList.toggle('close');
 });
 
+document.getElementById('author').addEventListener('change', (event) => {
+    GeneralDict.author = event.target.value
+})
+
 // ================================================ Блок функций
 
 async function startSite() {
@@ -110,6 +114,7 @@ function prepareInfo() {
         GeneralDict.firstName = undefined
         GeneralDict.thirdName = undefined
         GeneralDict.generalBiography = undefined
+        GeneralDict.author = ""
         GeneralDict.yearBiography = undefined
         GeneralDict.awards = []
         GeneralDict.photo = []
@@ -492,6 +497,7 @@ async function sendAllInfo() {
         }
     }
     let name = ''
+    let author;
     if (GeneralDict.secondName != undefined) {
         name += GeneralDict.secondName
     }
@@ -505,6 +511,7 @@ async function sendAllInfo() {
     delete YearDict['isInfoAdd'];
 
     const SendDict = {
+        author: GeneralDict.author,
         name: name, 
         desc: GeneralDict.generalBiography === undefined ? "" : GeneralDict.generalBiography,
         avatar: GeneralDict.avatar === 'media/person.jpg' ? "" : GeneralDict.avatar,
@@ -526,6 +533,5 @@ async function sendAllInfo() {
     }
     if (data.status === 'error'){
         alert(data.message)
-    }
-    
+    }   
 }
