@@ -50,6 +50,7 @@ class Person(Base):
     rewards: Mapped[Optional[list["Rewards"]]] = relationship("Rewards", secondary=person_rewards, back_populates="ppl_got")
     info: Mapped[list['Info']] = relationship(back_populates="pers")
     status: Mapped[Status] = mapped_column(Enum(Status), default=Status.new)
+    sender_name = Mapped[str_256] = mapped_column(default="")
 
 
 class Rewards(Base):

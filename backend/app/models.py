@@ -18,6 +18,7 @@ class Person(BaseModel):
     general_photos: Optional[Union[list[str], list['Photo']]] = Field(default="")
     rewards: list['Reward'] | None | list['str'] = Field(default=None)
     info: list['Info'] | None = Field(default=None)
+    sender_name: Optional[str] = Field(default=None)
 
 
 class Reward(BaseModel):

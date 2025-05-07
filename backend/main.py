@@ -128,7 +128,8 @@ async def insert_person(person=Body(...)):
         avatar=avatar,
         rewards=data['awards'],
         general_photos=person_general_photos,
-        info=[]
+        info=[],
+        sender_name=data['sender_name']
     )
     pprint(data['info'])
     for year in data['info']:

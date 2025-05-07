@@ -178,6 +178,7 @@ class Orm:
                     time_added=datetime.datetime.now(),
                     rewards=rew,
                     info=info_list,
+                    sender_name=person.sender_name
                 )
             )
             await session.commit()
@@ -208,6 +209,7 @@ class Orm:
             print(dop)
             ans = {
                 'id': res.id,
+                'sender_name': res.sender_name,
                 'name': res.name,
                 'biography': res.description,
                 'avatar': dop,
