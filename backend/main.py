@@ -53,7 +53,7 @@ app = FastAPI(lifespan=lifespan, root_path='/api')
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Разрешает все домены, можно указать список доменов, например: ["http://localhost:3000"]
+    allow_origins=["*"],  # Разрешает все домены, можно указать список доменов, например: ["https://localhost:3000"]
     allow_credentials=True,
     allow_methods=["*"],  # Разрешены все методы HTTP
     allow_headers=["*"],  # Разрешены все заголовки

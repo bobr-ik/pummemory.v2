@@ -57,7 +57,7 @@ async function startSite() {
     const parametrs = new URLSearchParams(window.location.search);
     GeneralDict._token = parametrs.get("token");
 
-    const response_award = await fetch(`http://pummemory.pumibari.ru/api/get_rewards`)
+    const response_award = await fetch(`https://pummemory.pumibari.ru/api/get_rewards`)
     const data = await response_award.json()
 
     const award = document.getElementById('awards');
@@ -79,7 +79,7 @@ async function startSite() {
         setTimeout(() => startChoices(), 0)
     }
 
-    const response = await fetch(`http://pummemory.pumibari.ru/api/check_token_if_admin?token=${GeneralDict._token}`);
+    const response = await fetch(`https://pummemory.pumibari.ru/api/check_token_if_admin?token=${GeneralDict._token}`);
     const isMark = await response.json();
 
     if (isMark) {
@@ -154,7 +154,7 @@ function changeYear(year) {
         for (let child of children) {
             child.remove();
         }
-        
+
         if (GeneralDict._year === year && GeneralDict._open) {
             GeneralDict._open = false;
             GeneralDict._year = year;
@@ -230,13 +230,13 @@ async function useLinkPopup() {
     document.getElementById('link-popup').classList.toggle('close');
 
 
-    const response = await fetch('http://pummemory.pumibari.ru/api/create_token', {
+    const response = await fetch('https://pummemory.pumibari.ru/api/create_token', {
         method: 'POST'
     });
     const data = await response.json();
 
     const token = encodeURIComponent(data);
-    const url = `http://pummemory.pumibari.ru/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
+    const url = `https://pummemory.pumibari.ru/form?token=${token}&year=1940`; //TODO заменить на домен и добавить qr
 
     const copyButton = document.getElementById('copy-button');
     copyButton.style.backgroundImage = "url('media/copy-icon.png')";
@@ -517,16 +517,16 @@ async function sendAllInfo() {
 
     console.log(SendDict);
     console.log(GeneralDict._token)
-    const response = await fetch(`http://pummemory.pumibari.ru/api/check_token?token=${GeneralDict._token}`);
+    const response = await fetch(`https://pummemory.pumibari.ru/api/check_token?token=${GeneralDict._token}`);
     const data = await response.json();
     if (!data) {
         alert('В доступе отказано, проверьте ссылку');
     } else {
-    const response = await fetch('http://pummemory.pumibari.ru/api/insert_person', { method: 'POST', body: JSON.stringify(SendDict) });
+        const response = await fetch('https://pummemory.pumibari.ru/api/insert_person', { method: 'POST', body: JSON.stringify(SendDict) });
         data = await response.json();
     }
-    if (data.status === 'error'){
+    if (data.status === 'error') {
         alert(data.message)
     }
-    
+
 }
