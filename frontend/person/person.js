@@ -170,7 +170,7 @@ function create_slider(images) {
     slider.innerHTML = '';
     slider_new = document.getElementById('photo_slider_wrapper');
     description = document.getElementById('year_description');
-    
+
     if (images.length == 0) {
         slider_new.style.display = 'none';
         description.style.width = 'auto';
@@ -306,7 +306,7 @@ function create_avatar_slider(images) {
 
 
 async function get_Person(id) {
-    const response = await fetch(`http://pummemory.pumibari.ru/api/user_info?id=${id}`);
+    const response = await fetch(`http://backend/api/user_info?id=${id}`);
     personData = await response.json();
     console.log(personData)
     return personData

@@ -1,5 +1,5 @@
 async function get_points(year) {
-	res = await fetch('http://pummemory.pumibari.ru/api/get_points?year=' + year);
+	res = await fetch('http://backend/api/get_points?year=' + year);
 	data = await res.json();
 	console.log(data);
 	return data

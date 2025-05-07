@@ -3,7 +3,7 @@ async function get_points() {
 	year_from_url = url_params.get('year')
 
 	year = year_from_url ? Math.min(Math.max(parseInt(year_from_url, 10), 1940), 1945) : 1940
-	res = await fetch('http://pummemory.pumibari.ru/api/get_points?year=' + year);
+	res = await fetch('http://backend/api/get_points?year=' + year);
 	data = await res.json();
 	console.log(data);
 	return data
