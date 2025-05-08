@@ -102,3 +102,4 @@ class User_info(BaseModel):
     avatar: Optional[list[str]] = Field(default=[], example=["https://example.com/avatar.jpg"])
     rewards: Optional[list['Reward']] = Field(default=None)
     years: Optional[list['Info_sending']] = Field(default=None)
+    sender_name: Optional[str] = Field(default='')

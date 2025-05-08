@@ -26,7 +26,8 @@ def format_message(message: User_info) -> str:
     print(message)
     res_text = (
         f'''
-Имя: {message.name}
+Автор: {message.sender_name}
+Имя человека: {message.name}
 Биография: {message.biography}
 Награды: {''.join([reward.name + ', ' for reward in message.rewards])}
 ===ИНФОРМАЦИЯ===
