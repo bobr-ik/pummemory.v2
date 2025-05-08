@@ -511,7 +511,7 @@ async function sendAllInfo() {
     delete YearDict['isInfoAdd'];
 
     const SendDict = {
-        author: GeneralDict.author,
+        sender_name: GeneralDict.author,
         name: name, 
         desc: GeneralDict.generalBiography === undefined ? "" : GeneralDict.generalBiography,
         avatar: GeneralDict.avatar === 'media/person.jpg' ? "" : GeneralDict.avatar,
