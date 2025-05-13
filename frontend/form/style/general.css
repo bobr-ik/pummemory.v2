@@ -856,6 +856,10 @@ li + li {
         padding: 15px 0px;
     }
 
+    #popup-photo-button {
+        height: auto;
+    }
+
     .button-style:not([data-view="false"]) {
         left: 5%;
         width: 90%;

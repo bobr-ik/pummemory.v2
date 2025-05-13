@@ -522,7 +522,6 @@ async function sendAllInfo() {
     }
 
     console.log(SendDict);
-    console.log(GeneralDict._token)
     const response = await fetch(`http://localhost:8000/api/check_token?token=${GeneralDict._token}`);
     var data = await response.json();
     if (!data) {
