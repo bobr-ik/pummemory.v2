@@ -57,7 +57,7 @@ class Orm:
     async def create_all():
         async with async_engine.begin() as conn:
             print('create_all')
-            await conn.run_sync(Base.metadata.drop_all)  # сброс всех данных в бд
+            # await conn.run_sync(Base.metadata.drop_all)  # сброс всех данных в бд
             await conn.run_sync(Base.metadata.create_all)  # создание всех таблиц
             await Orm.insert_or_upd_rewards()  # вставка списка наград
             await Orm.create_old_table()  # создание таблицы со старыми данными
