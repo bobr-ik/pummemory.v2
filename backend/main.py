@@ -124,7 +124,7 @@ async def insert_person(person=Body(...)):
             person_general_photos.append(img)
     person = Person(
         name=data['name'],
-        description=data['desc'],
+        desc=data['desc'],
         avatar=avatar,
         rewards=data['awards'],
         general_photos=person_general_photos,
