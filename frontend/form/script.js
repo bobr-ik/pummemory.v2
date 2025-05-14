@@ -46,6 +46,10 @@ document.getElementById('manual').addEventListener('click', () => {
     document.getElementById('manual-popup').classList.toggle('close');
 });
 
+document.getElementById('phone-manual').addEventListener('click', () => {
+    document.getElementById('manual-popup').classList.toggle('close');
+});
+
 document.getElementById('author').addEventListener('change', (event) => {
     GeneralDict.author = event.target.value
 })

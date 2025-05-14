@@ -634,7 +634,7 @@ textarea {
     width: 90%;
 
     font-size: large;
-    font-family: 'manual';
+    font-family: 'manual' Arial;
 
     
 }
@@ -869,7 +869,7 @@ li + li {
     }
 
     /* Блок с годовой ин-фой просто удаляется, все будет подниматься через js */
-    .year-description, .year-title, #map-block, #year-button-block {
+    .year-description, .year-title, #map-block, #year-button-block, #manual {
         display: none;
     }
 
@@ -947,7 +947,7 @@ li + li {
         background-color: rgb(180, 180, 180);
         color: white;
         font-size: larger;
-        font-family: 'phone-year';
+        font-family: 'phone-year', Arial;
         letter-spacing: 3px;
 
         &:active {
@@ -1147,22 +1147,22 @@ li + li {
     .manual-title {
         position: absolute;
         top: 3%;
-        left: 5%;
+        left: 0;
         font-size: xx-large;
         font-family: Arial;
         font-weight: 600;
+        text-align: center;
     }
     
     .manual-list {
         position: absolute;
-        top: 12%;
-        left: 5%;
-        width: 90%;
+        top: 18%;
+        left: 15%;
+        width: 80%;
     
         font-size: large;
-        font-family: 'manual';
-    
-        
+        font-family: 'manual', Arial;
+        text-align: justify;
     }
     
     li + li {
