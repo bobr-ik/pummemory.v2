@@ -306,7 +306,7 @@ function create_avatar_slider(images) {
 
 
 async function get_Person(id){
-    const response = await fetch(`http://127.0.0.1:8000/user_info?id=${id}`);
+    const response = await fetch(`https://pummemory.pumibari.ru/api/user_info?id=${id}`);
     personData = await response.json();
     console.log(personData)
     return personData
