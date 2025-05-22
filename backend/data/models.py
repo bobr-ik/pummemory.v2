@@ -47,8 +47,17 @@ class Person(Base):
     time_added: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
     avatar: Mapped[Optional[str_256]] = mapped_column(default="")
     general_photos: Mapped[Optional[list[str_256]]] = mapped_column(JSON, default=list)
-    rewards: Mapped[Optional[list["Rewards"]]] = relationship("Rewards", secondary=person_rewards, back_populates="ppl_got")
-    info: Mapped[list['Info']] = relationship(back_populates="pers")
+    rewards: Mapped[Optional[list["Rewards"]]] = relationship(
+        "Rewards", 
+        secondary=person_rewards, 
+        back_populates="ppl_got",
+        cascade="save-update, merge"  # не удаляет награды, только разрывает связь
+    )
+    info: Mapped[list['Info']] = relationship(
+        back_populates="pers",
+        cascade="all, delete-orphan",  # удаляет все связанные `Info` при удалении `Person`
+        passive_deletes=True  # ускоряет удаление
+    )
     status: Mapped[Status] = mapped_column(Enum(Status), default=Status.new)
     sender_name: Mapped[str_256] = mapped_column(default="")
 
@@ -58,27 +67,35 @@ class Rewards(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str_256]
     img_url: Mapped[str_256] = mapped_column(default="")
-    ppl_got: Mapped[list["Person"]] = relationship("Person", secondary=person_rewards, back_populates="rewards")
+    ppl_got: Mapped[list["Person"]] = relationship(
+        "Person", 
+        secondary=person_rewards, 
+        back_populates="rewards",
+        cascade="save-update, merge"  # не удаляет людей, только разрывает связь
+    )
 
 
 class Info(Base):
     __tablename__ = "info"
     id: Mapped[str_256] = mapped_column(primary_key=True)
     year: Mapped[Year] = mapped_column(Enum(Year))
-    pers_id: Mapped[int] = mapped_column(ForeignKey("person.id"))
+    pers_id: Mapped[int] = mapped_column(ForeignKey("person.id", ondelete="CASCADE"))  # каскад на уровне БД
     pers: Mapped["Person"] = relationship(back_populates="info")
-    location: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None)  # TODO может не сработать тк туплы криво передаются
+    location: Mapped[Optional[Coordinates]] = mapped_column(JSON, default=None)
     description: Mapped[Optional[str]] = mapped_column(Text, default="")
-    photos: Mapped[Optional[list["Photo"]]] = relationship(back_populates="info")
+    photos: Mapped[Optional[list["Photo"]]] = relationship(
+        back_populates="info",
+        cascade="all, delete-orphan",  # удаляет все связанные `Photo` при удалении `Info`
+        passive_deletes=True
+    )
 
 
 class Photo(Base):
     __tablename__ = "photos"
     id: Mapped[int] = mapped_column(primary_key=True)
     url: Mapped[Optional[str_256]] = mapped_column(default=None)
-    # url_delete: Mapped[Optional[str_256]] = mapped_column(default=None)
     info: Mapped['Info'] = relationship(back_populates="photos")
-    info_id: Mapped[int] = mapped_column(ForeignKey("info.id"))
+    info_id: Mapped[int] = mapped_column(ForeignKey("info.id", ondelete="CASCADE"))  # каскад на уровне БД
 
 
 class Tokens(Base):
