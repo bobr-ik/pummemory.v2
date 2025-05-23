@@ -60,8 +60,8 @@ class Orm:
             # await conn.run_sync(Base.metadata.drop_all)  # сброс всех данных в бд
             await conn.run_sync(Base.metadata.create_all)  # создание всех таблиц
             await Orm.insert_or_upd_rewards()  # вставка списка наград
-            await Orm.create_old_table()  # создание таблицы со старыми данными
-            await Orm.insert_old_ppl()  # добавление старых данных в новые таблицы
+            # await Orm.create_old_table()  # создание таблицы со старыми данными
+            # await Orm.insert_old_ppl()  # добавление старых данных в новые таблицы
             await Orm.add_admin_token()  # вставка админского токена
 
     # @staticmethod
