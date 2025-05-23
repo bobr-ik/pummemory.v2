@@ -27,7 +27,7 @@ services:
     ports:
       - "127.0.0.2:3306:3306"
     volumes:
-      - ./data/db:/var/lib/mysql
+      - ./db_data/db:/var/lib/mysql
     networks:
       - dev
 
