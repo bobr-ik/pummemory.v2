@@ -10,26 +10,26 @@ services:
   #   networks:
   #     - dev
   
-  db:
-    image: mysql:8.0
-    container_name: db
-    restart: always
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 10s
-      retries: 10
-    environment: #TODO upd to .env
-      MYSQL_ROOT_PASSWORD: ${password}
-      MYSQL_DATABASE: ${db}
-      MYSQL_USER: ${user}
-      MYSQL_PASSWORD: ${password}
-    ports:
-      - "127.0.0.2:3306:3306"
-    volumes:
-      - ./db_data/db:/var/lib/mysql
-    networks:
-      - dev
+  # db:
+  #   image: mysql:8.0
+  #   container_name: db
+  #   restart: always
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+  #     interval: 5s
+  #     timeout: 10s
+  #     retries: 10
+  #   environment: #TODO upd to .env
+  #     MYSQL_ROOT_PASSWORD: ${password}
+  #     MYSQL_DATABASE: ${db}
+  #     MYSQL_USER: ${user}
+  #     MYSQL_PASSWORD: ${password}
+  #   ports:
+  #     - "127.0.0.2:3306:3306"
+  #   volumes:
+  #     - ./db_data/db:/var/lib/mysql
+  #   networks:
+  #     - dev
 
   backend:
     build: ./backend
@@ -45,9 +45,9 @@ services:
       TOKEN: ${TOKEN}
       ADMIN_CHAT_ID: ${ADMIN_CHAT_ID}
       ADMIN_TOKEN: ${ADMIN_TOKEN}
-    depends_on:
-      db:
-        condition: service_healthy
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
     ports:
       - "127.0.0.2:8000:8000"
     networks: 
