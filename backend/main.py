@@ -83,7 +83,7 @@ async def check_token(token: str):
 
 @app.get('/check_token_if_admin')
 async def check_token_if_admin(token: str):
-    print(token)
+    # print(token)
     res = await Orm.check_token_if_admin(token)
     return JSONResponse(status_code=200, content=res)
 
@@ -93,7 +93,7 @@ async def get_points(year: Year) -> list[Points]:
     # Принимает год
     # имя фамилия отчество одним полем - name, координаты - location - cтрока черех пробел , строка, путь к изображению - аве - img_url, айдишник - id
     res = await Orm.get_points(year)
-    print(res)
+    # print(res)
     return res
 
 
@@ -101,7 +101,7 @@ async def get_points(year: Year) -> list[Points]:
 async def get_user_info(id: str) -> User_info:
     # фио - name, описание - buiography, avatar - фото профиля, rewards - медали, years : [{year: enum story: images:list[str] location:}]
     pers = await Orm.get_person(id)
-    pprint(pers)
+    # pprint(pers)
     return pers
 
 
@@ -131,9 +131,9 @@ async def insert_person(person=Body(...)):
         info=[],
         sender_name=data['sender_name']
     )
-    pprint(data['info'])
+    # pprint(data['info'])
     for year in data['info']:
-        print(data['info'][year])
+        # print(data['info'][year])
         if type(data['info'][year]) is not bool:
             info = Info(
                 year=year,
@@ -147,7 +147,7 @@ async def insert_person(person=Body(...)):
                     img = Photo(image=img).url
                     info.images.append(img)
             person.info.append(info)
-    print(person)
+    # print(person)
     pers_id = await Orm.insert_person(person)
     await Orm.invalidate_token(token)
     person = await Orm.get_person(pers_id)

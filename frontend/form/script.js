@@ -65,7 +65,7 @@ async function startSite() {
     const parametrs = new URLSearchParams(window.location.search);
     GeneralDict._token = parametrs.get("token");
 
-    const response_award = await fetch(`http://localhost:8000/api/get_rewards`)
+    const response_award = await fetch(`/api/get_rewards`)
     const data = await response_award.json()
 
     const award = document.getElementById('awards');
