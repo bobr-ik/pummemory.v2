@@ -102,8 +102,13 @@ function createMap() {
         maxBoundsViscosity: 0.5
     })
 
-    L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token=jFVHTIg2WK3xJlt5wfqJ7F41zVI76aPnnsvSD3Pm4pjbR1J2mpnmUEMyUFjWKQY8', {}).addTo(map);
+   var darkMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap, © CartoDB',
+        maxZoom: 20
+    }).addTo(map);
 
+    // Добавляем CSS фильтр для увеличения яркости
+    darkMap.getContainer().style.filter = 'brightness(1.5) contrast(0.75)';
     return map
 }
 
