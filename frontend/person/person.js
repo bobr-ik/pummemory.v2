@@ -311,7 +311,7 @@ function create_avatar_slider(images) {
 
 
 async function get_Person(id){
-    const response = await fetch(`https://bestgreen.ru:35901/api/user_info?id=${id}`);
+    const response = await fetch(`/api/user_info?id=${id}`);
     personData = await response.json();
     console.log(personData)
     return personData
