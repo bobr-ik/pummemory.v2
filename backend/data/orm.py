@@ -60,10 +60,10 @@ class Orm:
             print('create_all')
             # await conn.run_sync(Base.metadata.drop_all)  # сброс всех данных в бд
             await conn.run_sync(Base.metadata.create_all)  # создание всех таблиц
-            await Orm.insert_or_upd_rewards()  # вставка списка наград
-            await Orm.create_old_table()  # создание таблицы со старыми данными
-            await Orm.insert_old_ppl()  # добавление старых данных в новые таблицы
-            await Orm.add_admin_token()  # вставка админского токена
+            # await Orm.insert_or_upd_rewards()  # вставка списка наград
+            # await Orm.create_old_table()  # создание таблицы со старыми данными
+            # await Orm.insert_old_ppl()  # добавление старых данных в новые таблицы
+            # await Orm.add_admin_token()  # вставка админского токена
 
     # @staticmethod
     # async def create_token(data: str = ''.join([str(random.randint(0, 100)) for _ in range(30)])):
