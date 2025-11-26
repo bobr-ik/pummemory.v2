@@ -1,0 +1,54 @@
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+--
+-- Host: 77.222.32.225    Database: aavramenk5
+-- ------------------------------------------------------
+-- Server version	8.0.43-0ubuntu0.24.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `person_rewards`
+--
+
+DROP TABLE IF EXISTS `person_rewards`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `person_rewards` (
+  `person_id` varchar(256) NOT NULL,
+  `reward_id` int NOT NULL,
+  PRIMARY KEY (`person_id`,`reward_id`),
+  KEY `reward_id` (`reward_id`),
+  CONSTRAINT `person_rewards_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
+  CONSTRAINT `person_rewards_ibfk_2` FOREIGN KEY (`reward_id`) REFERENCES `rewards` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `person_rewards`
+--
+
+LOCK TABLES `person_rewards` WRITE;
+/*!40000 ALTER TABLE `person_rewards` DISABLE KEYS */;
+INSERT INTO `person_rewards` VALUES ('14f3d6a2-d1ef-4723-a904-93162594b8d1',3),('1da37bec-6822-42ee-9ef4-22dc005392bd',7),('1da37bec-6822-42ee-9ef4-22dc005392bd',9),('3c1f0c29-e61a-410d-81a4-7a2525566091',9),('5f753c3d-0777-4139-988a-bff9d91330c4',9),('61beb919-7338-45cf-82b8-37354ca1eefe',9),('68f48e8f-7631-4493-8c9c-0e94439b0a42',9),('6b04276e-e816-42b3-ba6d-0ec11f633ed0',9),('6cec2833-38c2-4e42-a59c-73447df0ca23',9),('3c1f0c29-e61a-410d-81a4-7a2525566091',10),('1da37bec-6822-42ee-9ef4-22dc005392bd',12),('3c1f0c29-e61a-410d-81a4-7a2525566091',14),('1da37bec-6822-42ee-9ef4-22dc005392bd',17),('3c1f0c29-e61a-410d-81a4-7a2525566091',17),('68f48e8f-7631-4493-8c9c-0e94439b0a42',17),('6cec2833-38c2-4e42-a59c-73447df0ca23',17),('001ec118-983e-4095-b54d-a67402d1a6bd',18),('18e7957f-9873-4687-806e-87827e8f9ccc',18),('5e324ae7-4c4a-4214-81a3-ac12c83374af',18),('68f48e8f-7631-4493-8c9c-0e94439b0a42',18),('865f7a94-6552-41de-ac35-9c3e2ad7802b',18),('5f753c3d-0777-4139-988a-bff9d91330c4',19),('42f5069b-0b7e-49e9-b9c0-7ab90b9563ab',21),('5f753c3d-0777-4139-988a-bff9d91330c4',21),('1da37bec-6822-42ee-9ef4-22dc005392bd',22),('3c1f0c29-e61a-410d-81a4-7a2525566091',22),('42f5069b-0b7e-49e9-b9c0-7ab90b9563ab',22),('5e324ae7-4c4a-4214-81a3-ac12c83374af',22),('68f48e8f-7631-4493-8c9c-0e94439b0a42',22),('5f753c3d-0777-4139-988a-bff9d91330c4',24),('1da37bec-6822-42ee-9ef4-22dc005392bd',27),('3c1f0c29-e61a-410d-81a4-7a2525566091',27),('57ce25cf-39a3-4f6b-b982-f868e37d2291',27),('68f48e8f-7631-4493-8c9c-0e94439b0a42',27),('865f7a94-6552-41de-ac35-9c3e2ad7802b',27),('57ce25cf-39a3-4f6b-b982-f868e37d2291',29),('5e324ae7-4c4a-4214-81a3-ac12c83374af',29),('865f7a94-6552-41de-ac35-9c3e2ad7802b',33);
+/*!40000 ALTER TABLE `person_rewards` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-08-28 19:19:06
